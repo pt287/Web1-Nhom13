@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sản phẩm - Đăng Đại Bakery</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-danger fs-3" href="index.html">
+      <i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Bakery
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+        <li class="nav-item"><a class="nav-link active" href="product.html">Sản phẩm</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
+        <li class="nav-item ms-3">
+          <a class="btn btn-danger rounded-pill px-3" href="cart.html">🛒 Giỏ hàng</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== CONTENT ===== -->
+<section class="pt-5 mt-5">
+  <div class="container">
+    <h2 class="fw-bold text-center mb-4" data-aos="fade-up">Tất cả sản phẩm</h2>
+
+    <!-- Filter Buttons -->
+    <div class="d-flex justify-content-center mb-4 flex-wrap gap-2">
+      <button class="btn btn-outline-danger filter-btn active" data-category="all">Tất cả</button>
+      <button class="btn btn-outline-danger filter-btn" data-category="bonglan">Bông lan</button>
+      <button class="btn btn-outline-danger filter-btn" data-category="cookies">Cookies</button>
+      <button class="btn btn-outline-danger filter-btn" data-category="donut">Donut</button>
+      <button class="btn btn-outline-danger filter-btn" data-category="macaron">Macaron</button>
+      <button class="btn btn-outline-danger filter-btn" data-category="tiramisu">Tiramisu</button>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="row g-4" id="product-list">
+      <!-- sản phẩm render bằng JS -->
+    </div>
+
+    <!-- Pagination -->
+    <nav class="mt-5 d-flex justify-content-center">
+      <ul class="pagination" id="pagination"></ul>
+    </nav>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-dark text-white py-4 mt-5">
+  <div class="container text-center">
+    <p class="mb-0">🍰 Đăng Đại Bakery © 2025 - Ngọt ngào mỗi ngày</p>
+  </div>
+</footer>
+
+<!-- ===== Back to top ===== -->
+<button id="backToTop" class="btn btn-danger rounded-circle">↑</button>
+
+<!-- Hotline -->
+<!-- <div class="hotline-container">
+  <div class="hotline-btn" onclick="toggleHotline()">☎</div>
+  <div class="hotline-content" id="hotlineContent">
+    <a href="tel:0909123456" class="text-white text-decoration-none fw-bold">
+      📞 0909 123 456
+    </a>
+  </div>
+</div> -->
+<div class="hotline-fixed">
+  <i class="fa fa-phone"></i>
+  <span>Gọi 0909 109 343</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

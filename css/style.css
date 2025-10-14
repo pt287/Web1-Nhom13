@@ -1,0 +1,172 @@
+/* Smooth scrolling */
+body {
+  scroll-behavior: smooth;
+}
+/*logo*/
+.navbar-brand img {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+  transform: scale(1.1);
+}
+
+/* Filter button */
+.filter-btn.active {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Product card */
+.product-card img {
+  transition: transform 0.3s ease;
+  object-fit: cover;
+  height: 200px;
+}
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Back to top */
+#backToTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: none;
+  z-index: 1000;
+  font-size: 20px;
+  width: 45px;
+  height: 45px;
+}
+
+/* Hotline Container */
+/* .hotline-container {
+  position: fixed;
+  bottom: 20px;          /* sát mép dưới */
+  /* right: 20px;           /* sát mép phải */
+  /* z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+} */
+
+/* Nút Hotline
+.hotline-btn {
+  background: #dc3545;
+  color: #fff;
+  font-size: 22px;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.hotline-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Nội dung Hotline */
+/*.hotline-content {
+  background: #dc3545;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 25px 0 0 25px;
+  margin-right: 10px;
+  font-size: 16px;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateX(120%);
+  transition: transform 0.4s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.hotline-content.show {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+} */
+
+.hotline-fixed {
+  position: fixed;
+  right: -70px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  background-color: #e53935;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s;
+  z-index: 1000;
+}
+
+.hotline-fixed i {
+  transform: rotate(90deg);
+}
+
+.hotline-fixed span {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.hotline-fixed:hover {
+  background-color: #c62828;
+}
+
+/* Banner hero */
+.hero-banner {
+  background: url('assets/images/banner.jpg') center/cover no-repeat;
+  color: white;
+  text-align: center;
+  padding: 120px 20px;
+}
+
+.hero-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-banner .hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Hero text */
+
+.hero-banner h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.hero-banner p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  background-color: #e53935;
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: #c62828;
+}

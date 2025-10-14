@@ -1,0 +1,24 @@
+/* admin-style.css */
+:root{
+  --accent:#dc3545;
+  --muted:#6c757d;
+}
+body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f8f9fa; }
+#wrapper { min-height:100vh; }
+#sidebar-wrapper { width:240px; }
+#page-content-wrapper { flex:1; }
+.sidebar-heading { font-size:1.1rem; }
+.list-group-item { border:0; }
+.list-group-item.active { background: linear-gradient(90deg,var(--accent),#b02a37); color:#fff; font-weight:600; }
+.avatar { width:36px; height:36px; }
+.login-card { width:380px; border-radius:12px; }
+.table img { width:56px; height:56px; object-fit:cover; border-radius:8px; }
+.btn-outline-danger { border-radius:999px; }
+.card { border-radius:12px; }
+.badge-status { padding:0.55em 0.7em; border-radius:12px; font-size:0.8rem; }
+
+/* responsive */
+@media (max-width:768px){
+  #sidebar-wrapper { display:none; }
+  #page-content-wrapper { padding:0.5rem; }
+}
