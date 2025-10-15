@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sản phẩm - Đăng Đại Bakery</title>
+  <title>Trang chủ - Đăng Đại Bakery</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
@@ -21,8 +21,8 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav align-items-center">
-        <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
-        <li class="nav-item"><a class="nav-link active" href="product.html">Sản phẩm</a></li>
+        <li class="nav-item"><a class="nav-link active" href="index.html">Trang chủ</a></li>
+        <li class="nav-item"><a class="nav-link" href="product.html">Sản phẩm</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
         <li class="nav-item ms-3">
           <a class="btn btn-danger rounded-pill px-3" href="cart.html">🛒 Giỏ hàng</a>
@@ -32,30 +32,54 @@
   </div>
 </nav>
 
-<!-- ===== CONTENT ===== -->
-<section class="pt-5 mt-5">
+<!-- ===== HERO BANNER ===== -->
+<section class="hero-banner d-flex align-items-center justify-content-center text-center">
+  <div class="hero-content" data-aos="fade-up">
+    <h1>Chào mừng đến với Đăng Đại Bakery 🍰</h1>
+    <p>Ngọt ngào mỗi ngày với những chiếc bánh thơm ngon & tươi mới</p>
+    <a href="product.html" class="btn btn-primary">Khám phá sản phẩm</a>
+  </div>
+</section>
+
+<!-- ===== BEST SELLER SECTION ===== -->
+<section class="py-5">
   <div class="container">
-    <h2 class="fw-bold text-center mb-4" data-aos="fade-up">Tất cả sản phẩm</h2>
+    <h2 class="fw-bold text-center mb-4" data-aos="fade-up">Sản phẩm nổi bật</h2>
+    <div class="row g-4">
+      <!-- Product item -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="card product-card h-100">
+          <img src="assets/images/sp1.jpg" class="card-img-top" alt="Bánh kem">
+          <div class="card-body text-center">
+            <h5 class="card-title fw-bold">Bánh Kem Dâu</h5>
+            <p class="text-danger fw-bold mb-2">150.000₫</p>
+            <a href="product.html" class="btn btn-outline-danger">Xem thêm</a>
+          </div>
+        </div>
+      </div>
 
-    <!-- Filter Buttons -->
-    <div class="d-flex justify-content-center mb-4 flex-wrap gap-2">
-      <button class="btn btn-outline-danger filter-btn active" data-category="all">Tất cả</button>
-      <button class="btn btn-outline-danger filter-btn" data-category="bonglan">Bông lan</button>
-      <button class="btn btn-outline-danger filter-btn" data-category="cookies">Cookies</button>
-      <button class="btn btn-outline-danger filter-btn" data-category="donut">Donut</button>
-      <button class="btn btn-outline-danger filter-btn" data-category="macaron">Macaron</button>
-      <button class="btn btn-outline-danger filter-btn" data-category="tiramisu">Tiramisu</button>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="card product-card h-100">
+          <img src="assets/images/sp2.jpg" class="card-img-top" alt="Bông lan">
+          <div class="card-body text-center">
+            <h5 class="card-title fw-bold">Bông Lan Phô Mai</h5>
+            <p class="text-danger fw-bold mb-2">120.000₫</p>
+            <a href="product.html" class="btn btn-outline-danger">Xem thêm</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="card product-card h-100">
+          <img src="assets/images/sp3.jpg" class="card-img-top" alt="Tiramisu">
+          <div class="card-body text-center">
+            <h5 class="card-title fw-bold">Tiramisu</h5>
+            <p class="text-danger fw-bold mb-2">180.000₫</p>
+            <a href="product.html" class="btn btn-outline-danger">Xem thêm</a>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <!-- Product Grid -->
-    <div class="row g-4" id="product-list">
-      <!-- sản phẩm render bằng JS -->
-    </div>
-
-    <!-- Pagination -->
-    <nav class="mt-5 d-flex justify-content-center">
-      <ul class="pagination" id="pagination"></ul>
-    </nav>
   </div>
 </section>
 
@@ -69,15 +93,7 @@
 <!-- ===== Back to top ===== -->
 <button id="backToTop" class="btn btn-danger rounded-circle">↑</button>
 
-<!-- Hotline -->
-<!-- <div class="hotline-container">
-  <div class="hotline-btn" onclick="toggleHotline()">☎</div>
-  <div class="hotline-content" id="hotlineContent">
-    <a href="tel:0909123456" class="text-white text-decoration-none fw-bold">
-      📞 0909 123 456
-    </a>
-  </div>
-</div> -->
+<!-- ===== Hotline ===== -->
 <div class="hotline-fixed">
   <i class="fa fa-phone"></i>
   <span>Gọi 0909 109 343</span>
@@ -86,6 +102,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+<script>
+  AOS.init();
+</script>
 <script src="js/script.js"></script>
 </body>
 </html>

@@ -170,3 +170,12 @@ body {
 .btn-primary:hover {
   background-color: #c62828;
 }
+
+/* Body background switch */
+body.index-page { background-color: #fffaf5; }
+body.product-page { background-color: #ffffff; }
+
+/* Product sort */
+#sort {
+  min-width: 180px;
+}
