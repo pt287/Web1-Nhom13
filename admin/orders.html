@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quản lý đơn hàng - Đăng Đại Bakery</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin_style.css">
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="brand"><i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Admin</div>
+    <a href="dashboard.html"><i class="fa-solid fa-chart-line me-2"></i>Dashboard</a>
+    <a href="products.html"><i class="fa-solid fa-bread-slice me-2"></i>Sản phẩm</a>
+    <a href="orders.html" class="active"><i class="fa-solid fa-box me-2"></i>Đơn hàng</a>
+    <a href="users.html"><i class="fa-solid fa-users me-2"></i>Khách hàng</a>
+    <a href="inventory.html"><i class="fa-solid fa-warehouse me-2"></i>Tồn kho</a>
+    <a href="login.html" class="text-danger"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="navbar mb-4">
+      <h5 class="fw-bold text-danger mb-0"><i class="fa-solid fa-box me-2"></i>Quản lý đơn hàng</h5>
+      <div class="d-flex align-items-center gap-3">
+        <button id="themeToggle" class="theme-toggle" title="Chuyển chế độ">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <span class="text-muted small">Xin chào, <b>Admin</b></span>
+        <img src="https://i.pravatar.cc/40?img=54" class="rounded-circle" alt="Admin">
+      </div>
+    </div>
+
+    <div class="container-fluid" data-aos="fade-up">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <button class="btn btn-outline-danger" id="addOrderBtn"><i class="fa-solid fa-plus"></i> Tạo đơn hàng</button>
+          <button class="btn btn-outline-secondary" id="refreshOrders"><i class="fa-solid fa-rotate"></i> Tải lại</button>
+        </div>
+        <div class="d-flex gap-2">
+          <input id="searchOrder" class="form-control" placeholder="🔍 Tìm theo mã / khách hàng...">
+          <select id="filterStatus" class="form-select w-auto">
+            <option value="">Tất cả trạng thái</option>
+            <option>Đang xử lý</option>
+            <option>Đã giao</option>
+            <option>Hoàn tất</option>
+            <option>Đã hủy</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+              <thead class="table-light">
+                <tr>
+                  <th>Mã đơn</th>
+                  <th>Khách hàng</th>
+                  <th>Ngày</th>
+                  <th>Tổng tiền</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="orderTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal chi tiết đơn hàng -->
+    <div class="modal fade" id="orderModal" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold">Chi tiết đơn hàng</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body" id="orderDetailsBody"></div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="mt-5 small text-center">© 2025 Đăng Đại Bakery Admin</footer>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init();
+
+/* ========== DARK MODE ========== */
+const themeBtn = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  document.body.classList.add('dark');
+  themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+}
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  themeBtn.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+
+/* ========== DỮ LIỆU DEMO ========== */
+const defaultOrders = [
+  { id: 'DH001', name: 'Nguyễn Văn A', date: '15/10/2025', total: 150000, status: 'Hoàn tất', items: [
+    { name: 'Bông lan phô mai', qty: 2, price: 25000 },
+    { name: 'Donut socola', qty: 1, price: 25000 }
+  ]},
+  { id: 'DH002', name: 'Trần Thị B', date: '14/10/2025', total: 320000, status: 'Đã giao', items: [
+    { name: 'Cookies chocolate', qty: 5, price: 20000 },
+    { name: 'Macaron mix', qty: 2, price: 30000 }
+  ]},
+  { id: 'DH003', name: 'Phạm Văn C', date: '14/10/2025', total: 270000, status: 'Đang xử lý', items: [
+    { name: 'Tiramisu mini', qty: 3, price: 45000 },
+    { name: 'Bông lan phô mai', qty: 2, price: 25000 }
+  ]}
+];
+let orders = JSON.parse(localStorage.getItem('orders')) || defaultOrders;
+
+/* ========== HIỂN THỊ BẢNG ========== */
+const tbody = document.getElementById('orderTableBody');
+function renderOrders(data) {
+  tbody.innerHTML = '';
+  data.forEach((o, i) => {
+    const color =
+      o.status === 'Hoàn tất' ? 'success' :
+      o.status === 'Đã giao' ? 'info' :
+      o.status === 'Đang xử lý' ? 'warning text-dark' :
+      'danger';
+    tbody.innerHTML += `
+      <tr>
+        <td>${o.id}</td>
+        <td>${o.name}</td>
+        <td>${o.date}</td>
+        <td>${o.total.toLocaleString()} ₫</td>
+        <td><span class="badge bg-${color}">${o.status}</span></td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-1 view-btn" data-index="${i}">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+          <button class="btn btn-sm btn-outline-danger delete-btn" data-index="${i}">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+}
+renderOrders(orders);
+
+/* ========== LƯU DỮ LIỆU ========== */
+function saveData() {
+  localStorage.setItem('orders', JSON.stringify(orders));
+}
+
+/* ========== XEM CHI TIẾT ========== */
+const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.view-btn');
+  if (!btn) return;
+  const index = btn.dataset.index;
+  const o = orders[index];
+  let html = `
+    <p><b>Mã đơn:</b> ${o.id}</p>
+    <p><b>Khách hàng:</b> ${o.name}</p>
+    <p><b>Ngày đặt:</b> ${o.date}</p>
+    <p><b>Trạng thái:</b> <span class="badge bg-secondary">${o.status}</span></p>
+    <hr>
+    <h6 class="fw-bold mb-2">Chi tiết sản phẩm</h6>
+    <ul class="list-group mb-3">
+      ${o.items.map(i => `<li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+        <span>${i.name} × ${i.qty}</span><b>${(i.qty * i.price).toLocaleString()} ₫</b>
+      </li>`).join('')}
+    </ul>
+    <h6 class="text-end">Tổng cộng: <b class="text-danger">${o.total.toLocaleString()} ₫</b></h6>
+  `;
+  document.getElementById('orderDetailsBody').innerHTML = html;
+  orderModal.show();
+});
+
+/* ========== XÓA ĐƠN ========== */
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.delete-btn');
+  if (!btn) return;
+  const index = btn.dataset.index;
+  const o = orders[index];
+  if (confirm(`Bạn có chắc muốn xóa đơn "${o.id}" của ${o.name}?`)) {
+    orders.splice(index, 1);
+    saveData();
+    renderOrders(orders);
+  }
+});
+
+/* ========== TÌM KIẾM / LỌC ========== */
+document.getElementById('searchOrder').addEventListener('input', filterOrders);
+document.getElementById('filterStatus').addEventListener('change', filterOrders);
+
+function filterOrders() {
+  const keyword = document.getElementById('searchOrder').value.toLowerCase();
+  const status = document.getElementById('filterStatus').value;
+  const filtered = orders.filter(o =>
+    (o.name.toLowerCase().includes(keyword) || o.id.toLowerCase().includes(keyword)) &&
+    (status === '' || o.status === status)
+  );
+  renderOrders(filtered);
+}
+
+/* ========== NÚT TẢI LẠI ========== */
+document.getElementById('refreshOrders').addEventListener('click', () => {
+  localStorage.removeItem('orders');
+  orders = [...defaultOrders];
+  renderOrders(orders);
+});
+</script>
+</body>
+</html>

@@ -1,148 +1,322 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Quản lý sản phẩm - Admin</title>
+  <title>Quản lý sản phẩm - Đăng Đại Bakery</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/admin-style.css">
+  <link rel="stylesheet" href="../css/admin_style.css">
 </head>
+
 <body>
-  <div class="d-flex" id="wrapper">
-    <!-- Sidebar (same as dashboard) -->
-    <div class="bg-white border-end" id="sidebar-wrapper">
-      <div class="sidebar-heading text-center py-4 fw-bold text-danger">Đăng Đại Bakery</div>
-      <div class="list-group list-group-flush">
-        <a href="dashboard.html" class="list-group-item list-group-item-action">Dashboard</a>
-        <a href="products.html" class="list-group-item list-group-item-action active">Quản lý sản phẩm</a>
-        <a href="users.html" class="list-group-item list-group-item-action">Quản lý khách hàng</a>
-        <a href="import.html" class="list-group-item list-group-item-action">Phiếu nhập</a>
-        <a href="pricing.html" class="list-group-item list-group-item-action">Quản lý giá</a>
-        <a href="orders.html" class="list-group-item list-group-item-action">Đơn hàng</a>
-        <a href="inventory.html" class="list-group-item list-group-item-action">Tồn kho</a>
-      </div>
-    </div>
-
-    <div id="page-content-wrapper" class="w-100">
-      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-        <div class="container-fluid">
-          <button class="btn btn-sm btn-outline-secondary" id="sidebarToggle">☰</button>
-          <div class="ms-auto d-flex align-items-center">
-            <div class="me-3 small text-muted">Admin</div>
-            <div class="avatar bg-danger text-white rounded-circle d-flex align-items-center justify-content-center">ĐĐ</div>
-          </div>
-        </div>
-      </nav>
-
-      <div class="container-fluid p-4" data-aos="fade-up">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="fw-bold">Quản lý sản phẩm</h4>
-          <div>
-            <button class="btn btn-outline-danger" id="openAddModal">+ Thêm sản phẩm</button>
-            <button class="btn btn-outline-secondary" id="refreshProducts">Tải lại</button>
-          </div>
-        </div>
-
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <div class="mb-3 d-flex gap-2">
-              <input id="searchProduct" class="form-control" placeholder="Tìm theo tên hoặc mã...">
-              <select id="filterCategory" class="form-select w-auto">
-                <option value="">Tất cả loại</option>
-                <option>Bông lan</option><option>Cookies</option><option>Donut</option><option>Macaron</option><option>Tiramisu</option>
-              </select>
-            </div>
-
-            <div class="table-responsive">
-              <table class="table table-hover align-middle">
-                <thead class="table-light">
-                  <tr>
-                    <th>Mã</th><th>Ảnh</th><th>Tên</th><th>Loại</th><th>Giá bán</th><th>Tồn</th><th>Hành động</th>
-                  </tr>
-                </thead>
-                <tbody id="productTableBody">
-                  <!-- JS render -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- Add/Edit Modal -->
-        <div class="modal fade" id="productModal" tabindex="-1">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="productModalTitle">Thêm sản phẩm</h5>
-                <button class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              <div class="modal-body">
-                <form id="productForm">
-                  <div class="row g-3">
-                    <div class="col-md-6">
-                      <label class="form-label">Mã sản phẩm</label>
-                      <input id="p_code" class="form-control" required>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label">Tên</label>
-                      <input id="p_name" class="form-control" required>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label">Loại</label>
-                      <select id="p_category" class="form-select">
-                        <option>Bông lan</option><option>Cookies</option><option>Donut</option><option>Macaron</option><option>Tiramisu</option>
-                      </select>
-                    </div>
-                    <div class="col-md-3">
-                      <label class="form-label">Giá vốn</label>
-                      <input id="p_cost" type="number" class="form-control" required>
-                    </div>
-                    <div class="col-md-3">
-                      <label class="form-label">Giá bán</label>
-                      <input id="p_price" type="number" class="form-control" required>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">Số lượng</label>
-                      <input id="p_qty" type="number" class="form-control" value="10" required>
-                    </div>
-                    <div class="col-md-8">
-                      <label class="form-label">Ảnh (link)</label>
-                      <input id="p_image" class="form-control" placeholder="assets/images/xxx.jpg">
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label">Mô tả</label>
-                      <textarea id="p_desc" class="form-control" rows="3"></textarea>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button class="btn btn-danger" id="saveProduct">Lưu</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="brand"><i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Admin</div>
+    <a href="dashboard.html"><i class="fa-solid fa-chart-line me-2"></i>Dashboard</a>
+    <a href="products.html" class="active"><i class="fa-solid fa-bread-slice me-2"></i>Sản phẩm</a>
+    <a href="orders.html"><i class="fa-solid fa-box me-2"></i>Đơn hàng</a>
+    <a href="users.html"><i class="fa-solid fa-users me-2"></i>Khách hàng</a>
+    <a href="inventory.html"><i class="fa-solid fa-warehouse me-2"></i>Tồn kho</a>
+    <a href="login.html" class="text-danger"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a>
   </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="js/admin-script.js"></script>
-<script>
-  AOS.init();
-  // sample products array (demo state)
-  const demoProducts = [
-    {code:'P001', name:'Bông lan phô mai', category:'Bông lan', cost:12000, price:25000, qty:15, image:'../assets/images/bonglan.jpg'},
-    {code:'P002', name:'Cookies chocolate', category:'Cookies', cost:8000, price:20000, qty:30, image:'../assets/images/cookies.jpg'},
-    {code:'P003', name:'Donut socola', category:'Donut', cost:7000, price:25000, qty:20, image:'../assets/images/donut1.jpg'},
-    {code:'P004', name:'Macaron mix', category:'Macaron', cost:9000, price:30000, qty:12, image:'../assets/images/macaron.jpg'},
-    {code:'P005', name:'Tiramisu mini', category:'Tiramisu', cost:15000, price:45000, qty:8, image:'../assets/images/tiramisu.jpg'}
-  ];
-  window.demoProducts = demoProducts; // expose to admin-script
-</script>
-</body>
-</html>
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="navbar mb-4">
+      <h5 class="fw-bold text-danger mb-0"><i class="fa-solid fa-bread-slice me-2"></i>Quản lý sản phẩm</h5>
+      <div class="d-flex align-items-center gap-3">
+        <button id="themeToggle" class="theme-toggle" title="Chuyển chế độ">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <span class="text-muted small">Xin chào, <b>Admin</b></span>
+        <img src="https://i.pravatar.cc/40?img=54" class="rounded-circle" alt="Admin">
+      </div>
+    </div>
+
+    <div class="container-fluid" data-aos="fade-up">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <button class="btn btn-outline-danger" id="openAddModal"><i class="fa-solid fa-plus"></i> Thêm sản
+            phẩm</button>
+          <button class="btn btn-outline-secondary" id="refreshProducts"><i class="fa-solid fa-rotate"></i> Tải
+            lại</button>
+        </div>
+        <div class="d-flex gap-2">
+          <input id="searchProduct" class="form-control" placeholder="🔍 Tìm sản phẩm...">
+          <select id="filterCategory" class="form-select w-auto">
+            <option value="">Tất cả loại</option>
+            <option>Bông lan</option>
+            <option>Cookies</option>
+            <option>Donut</option>
+            <option>Macaron</option>
+            <option>Tiramisu</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+              <thead class="table-light">
+                <tr>
+                  <th>Mã</th>
+                  <th>Ảnh</th>
+                  <th>Tên</th>
+                  <th>Loại</th>
+                  <th>Giá bán</th>
+                  <th>Tồn</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="productTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal thêm/sửa -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="productModalTitle">Thêm sản phẩm</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <form id="productForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Mã sản phẩm</label>
+                  <input id="p_code" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Tên sản phẩm</label>
+                  <input id="p_name" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Loại</label>
+                  <select id="p_category" class="form-select">
+                    <option>Bông lan</option>
+                    <option>Cookies</option>
+                    <option>Donut</option>
+                    <option>Macaron</option>
+                    <option>Tiramisu</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Giá vốn</label>
+                  <input id="p_cost" type="number" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Giá bán</label>
+                  <input id="p_price" type="number" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Số lượng</label>
+                  <input id="p_qty" type="number" class="form-control" value="10" required>
+                </div>
+                <div class="col-md-8">
+                  <label class="form-label">Ảnh sản phẩm</label>
+                  <input id="p_image" type="file" accept="image/*" class="form-control">
+                  <div class="mt-2 text-center">
+                    <img id="previewImage" src="../assets/images/noimg.png" alt="Preview" class="rounded-3"
+                      style="max-height: 120px; object-fit: cover;">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Mô tả</label>
+                  <textarea id="p_desc" class="form-control" rows="3"></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button class="btn btn-danger" id="saveProduct">Lưu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="mt-5 small text-center">© 2025 Đăng Đại Bakery Admin</footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    /* ========== DARK MODE ========== */
+    const themeBtn = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark');
+      themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    }
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      themeBtn.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    /* ========== DỮ LIỆU DEMO BAN ĐẦU ========== */
+    const defaultProducts = [
+      { code: 'P001', name: 'Bông lan phô mai', category: 'Bông lan', cost: 12000, price: 25000, qty: 15, image: '../assets/images/bonglan.jpg', desc: 'Ngon, mềm mịn, phô mai thơm béo' },
+      { code: 'P002', name: 'Cookies chocolate', category: 'Cookies', cost: 8000, price: 20000, qty: 30, image: '../assets/images/cookies.jpg', desc: 'Cookies giòn tan, vị chocolate' },
+      { code: 'P003', name: 'Donut socola', category: 'Donut', cost: 7000, price: 25000, qty: 20, image: '../assets/images/donut1.jpg', desc: 'Donut mềm xốp, phủ socola' },
+      { code: 'P004', name: 'Macaron mix', category: 'Macaron', cost: 9000, price: 30000, qty: 12, image: '../assets/images/macaron.jpg', desc: 'Macaron 5 vị đặc trưng' },
+      { code: 'P005', name: 'Tiramisu mini', category: 'Tiramisu', cost: 15000, price: 45000, qty: 8, image: '../assets/images/tiramisu.jpg', desc: 'Tiramisu mini thơm cà phê Ý' }
+    ];
+    let products = JSON.parse(localStorage.getItem('products')) || defaultProducts;
+
+    /* ========== HÀM HIỂN THỊ BẢNG ========== */
+    const tbody = document.getElementById('productTableBody');
+    function renderTable(data) {
+      tbody.innerHTML = '';
+      data.forEach((p, i) => {
+        tbody.innerHTML += `
+      <tr>
+        <td>${p.code}</td>
+        <td><img src="${p.image}" width="60" height="60" class="rounded-2" style="object-fit:cover"></td>
+        <td>${p.name}</td>
+        <td>${p.category}</td>
+        <td>${p.price.toLocaleString()} ₫</td>
+        <td>${p.qty}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-index="${i}"><i class="fa-solid fa-pen"></i></button>
+          <button class="btn btn-sm btn-outline-danger delete-btn" data-index="${i}"><i class="fa-solid fa-trash"></i></button>
+        </td>
+      </tr>`;
+      });
+    }
+    renderTable(products);
+
+    /* ========== LƯU DỮ LIỆU ========== */
+    function saveData() {
+      localStorage.setItem('products', JSON.stringify(products));
+    }
+
+    /* ========== MỞ MODAL ========== */
+    const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+    const openAddModalBtn = document.getElementById('openAddModal');
+    const modalTitle = document.getElementById('productModalTitle');
+    const saveBtn = document.getElementById('saveProduct');
+    let editIndex = null;
+
+    /* ========== UPLOAD ẢNH + PREVIEW ========== */
+    const imageInput = document.getElementById('p_image');
+    const previewImg = document.getElementById('previewImage');
+
+    imageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          previewImg.src = event.target.result;
+          previewImg.dataset.uploaded = event.target.result; // lưu tạm base64
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    openAddModalBtn.addEventListener('click', () => {
+      modalTitle.textContent = 'Thêm sản phẩm';
+      document.getElementById('productForm').reset();
+      editIndex = null;
+      productModal.show();
+    });
+
+    /* ========== THÊM / CẬP NHẬT SẢN PHẨM ========== */
+    saveBtn.addEventListener('click', () => {
+      const p = {
+        code: document.getElementById('p_code').value.trim(),
+        name: document.getElementById('p_name').value.trim(),
+        category: document.getElementById('p_category').value,
+        cost: parseFloat(document.getElementById('p_cost').value) || 0,
+        price: parseFloat(document.getElementById('p_price').value) || 0,
+        qty: parseInt(document.getElementById('p_qty').value) || 0,
+        image: previewImg.dataset.uploaded || '../assets/images/noimg.png',
+        desc: document.getElementById('p_desc').value.trim()
+      };
+
+      if (!p.code || !p.name) {
+        alert('Vui lòng nhập mã và tên sản phẩm.');
+        return;
+      }
+
+      if (editIndex !== null) {
+        products[editIndex] = p;
+      } else {
+        products.push(p);
+      }
+      saveData();
+      renderTable(products);
+      productModal.hide();
+    });
+
+    /* ========== NÚT CHỈNH SỬA (FIXED) ========== */
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.edit-btn');
+      if (!btn) return; // không bấm vào nút edit thì bỏ qua
+      const index = parseInt(btn.dataset.index);
+      const p = products[index];
+      if (!p) return;
+
+      modalTitle.textContent = 'Chỉnh sửa sản phẩm';
+      document.getElementById('p_code').value = p.code;
+      document.getElementById('p_name').value = p.name;
+      document.getElementById('p_category').value = p.category;
+      document.getElementById('p_cost').value = p.cost;
+      document.getElementById('p_price').value = p.price;
+      document.getElementById('p_qty').value = p.qty;
+      document.getElementById('p_desc').value = p.desc || '';
+
+      // reset file input
+      document.getElementById('p_image').value = '';
+      previewImg.src = p.image || '../assets/images/noimg.png';
+      previewImg.dataset.uploaded = p.image;
+
+      editIndex = index;
+      productModal.show();
+    });
+
+    /* ========== NÚT XÓA ========== */
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.delete-btn')) {
+        const index = e.target.closest('.delete-btn').dataset.index;
+        const p = products[index];
+        if (confirm(`Bạn có chắc muốn xóa "${p.name}"?`)) {
+          products.splice(index, 1);
+          saveData();
+          renderTable(products);
+        }
+      }
+    });
+
+    /* ========== TÌM KIẾM & LỌC ========== */
+    document.getElementById('searchProduct').addEventListener('input', filterProducts);
+    document.getElementById('filterCategory').addEventListener('change', filterProducts);
+
+    function filterProducts() {
+      const keyword = document.getElementById('searchProduct').value.toLowerCase();
+      const category = document.getElementById('filterCategory').value;
+      const filtered = products.filter(p =>
+        (p.name.toLowerCase().includes(keyword) || p.code.toLowerCase().includes(keyword)) &&
+        (category === '' || p.category === category)
+      );
+      renderTable(filtered);
+    }
+
+    /* ========== NÚT TẢI LẠI ========== */
+    document.getElementById('refreshProducts').addEventListener('click', () => {
+      localStorage.removeItem('products');
+      products = [...defaultProducts];
+      renderTable(products);
+    });
+  </script>
