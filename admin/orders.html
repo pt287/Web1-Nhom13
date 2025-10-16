@@ -8,6 +8,11 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/admin_style.css">
+  <style>
+    body.dark .modal-content { background: #2b2b3a; color: #f5f5f5; }
+    body.dark .form-control, body.dark .form-select { background-color: #1e1e2d; color: #f5f5f5; border-color: #444; }
+    body.dark .list-group-item { background: transparent; color: #fff; border-color: #444; }
+  </style>
 </head>
 
 <body>
@@ -22,14 +27,12 @@
     <a href="login.html" class="text-danger"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a>
   </div>
 
-  <!-- Main Content -->
+  <!-- Main -->
   <div class="main-content">
     <div class="navbar mb-4">
       <h5 class="fw-bold text-danger mb-0"><i class="fa-solid fa-box me-2"></i>Quản lý đơn hàng</h5>
       <div class="d-flex align-items-center gap-3">
-        <button id="themeToggle" class="theme-toggle" title="Chuyển chế độ">
-          <i class="fa-solid fa-moon"></i>
-        </button>
+        <button id="themeToggle" class="theme-toggle" title="Chuyển chế độ"><i class="fa-solid fa-moon"></i></button>
         <span class="text-muted small">Xin chào, <b>Admin</b></span>
         <img src="https://i.pravatar.cc/40?img=54" class="rounded-circle" alt="Admin">
       </div>
@@ -59,12 +62,7 @@
             <table class="table table-hover align-middle text-center">
               <thead class="table-light">
                 <tr>
-                  <th>Mã đơn</th>
-                  <th>Khách hàng</th>
-                  <th>Ngày</th>
-                  <th>Tổng tiền</th>
-                  <th>Trạng thái</th>
-                  <th>Hành động</th>
+                  <th>Mã đơn</th><th>Khách hàng</th><th>Ngày</th><th>Tổng tiền</th><th>Trạng thái</th><th>Hành động</th>
                 </tr>
               </thead>
               <tbody id="orderTableBody"></tbody>
@@ -74,18 +72,42 @@
       </div>
     </div>
 
-    <!-- Modal chi tiết đơn hàng -->
+    <!-- Modal chi tiết -->
     <div class="modal fade" id="orderModal" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title fw-bold">Chi tiết đơn hàng</h5>
-            <button class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
+          <div class="modal-header"><h5 class="modal-title fw-bold">Chi tiết đơn hàng</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
           <div class="modal-body" id="orderDetailsBody"></div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal tạo đơn -->
+    <div class="modal fade" id="createOrderModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header"><h5 class="modal-title fw-bold">Tạo đơn hàng mới</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+          <div class="modal-body">
+            <form id="createOrderForm">
+              <div class="row g-3">
+                <div class="col-md-6"><label class="form-label">Tên khách hàng</label><input id="orderName" class="form-control" required></div>
+                <div class="col-md-6"><label class="form-label">Ngày đặt</label><input type="date" id="orderDate" class="form-control" required></div>
+                <div class="col-md-6"><label class="form-label">Trạng thái</label>
+                  <select id="orderStatus" class="form-select">
+                    <option>Đang xử lý</option><option>Đã giao</option><option>Hoàn tất</option><option>Đã hủy</option>
+                  </select>
+                </div>
+              </div>
+              <hr>
+              <h6 class="fw-bold mb-2">Sản phẩm</h6>
+              <div id="orderItems"></div>
+              <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="addItemBtn"><i class="fa-solid fa-plus"></i> Thêm sản phẩm</button>
+            </form>
+            <hr>
+            <h6 class="text-end">Tổng cộng: <b class="text-danger" id="orderTotal">0 ₫</b></h6>
           </div>
+          <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button><button class="btn btn-danger" id="saveOrder">Lưu đơn hàng</button></div>
         </div>
       </div>
     </div>
@@ -93,136 +115,150 @@
     <footer class="mt-5 small text-center">© 2025 Đăng Đại Bakery Admin</footer>
   </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-AOS.init();
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+  AOS.init();
 
-/* ========== DARK MODE ========== */
-const themeBtn = document.getElementById('themeToggle');
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-  document.body.classList.add('dark');
-  themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-}
-themeBtn.addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-  const isDark = document.body.classList.contains('dark');
-  themeBtn.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-});
+  /* 🌙 DARK MODE */
+  const themeBtn = document.getElementById('themeToggle');
+  if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark'); themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>'; }
+  themeBtn.onclick = () => {
+    document.body.classList.toggle('dark');
+    const dark = document.body.classList.contains('dark');
+    themeBtn.innerHTML = dark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  };
 
-/* ========== DỮ LIỆU DEMO ========== */
-const defaultOrders = [
-  { id: 'DH001', name: 'Nguyễn Văn A', date: '15/10/2025', total: 150000, status: 'Hoàn tất', items: [
-    { name: 'Bông lan phô mai', qty: 2, price: 25000 },
-    { name: 'Donut socola', qty: 1, price: 25000 }
-  ]},
-  { id: 'DH002', name: 'Trần Thị B', date: '14/10/2025', total: 320000, status: 'Đã giao', items: [
-    { name: 'Cookies chocolate', qty: 5, price: 20000 },
-    { name: 'Macaron mix', qty: 2, price: 30000 }
-  ]},
-  { id: 'DH003', name: 'Phạm Văn C', date: '14/10/2025', total: 270000, status: 'Đang xử lý', items: [
-    { name: 'Tiramisu mini', qty: 3, price: 45000 },
-    { name: 'Bông lan phô mai', qty: 2, price: 25000 }
-  ]}
-];
-let orders = JSON.parse(localStorage.getItem('orders')) || defaultOrders;
+  /* 🧾 DỮ LIỆU MẶC ĐỊNH */
+  const defaultOrders = [
+    { id: 'DH001', name: 'Nguyễn Văn A', date: '2025-10-15', total: 150000, status: 'Hoàn tất', items: [{ name: 'Bông lan phô mai', qty: 2, price: 25000 }] },
+    { id: 'DH002', name: 'Trần Thị B', date: '2025-10-14', total: 320000, status: 'Đang xử lý', items: [{ name: 'Cookies chocolate', qty: 4, price: 20000 }] }
+  ];
+  let orders = JSON.parse(localStorage.getItem('orders')) || defaultOrders;
+  const saveOrders = () => localStorage.setItem('orders', JSON.stringify(orders));
 
-/* ========== HIỂN THỊ BẢNG ========== */
-const tbody = document.getElementById('orderTableBody');
-function renderOrders(data) {
-  tbody.innerHTML = '';
-  data.forEach((o, i) => {
-    const color =
-      o.status === 'Hoàn tất' ? 'success' :
-      o.status === 'Đã giao' ? 'info' :
-      o.status === 'Đang xử lý' ? 'warning text-dark' :
-      'danger';
-    tbody.innerHTML += `
-      <tr>
-        <td>${o.id}</td>
-        <td>${o.name}</td>
-        <td>${o.date}</td>
+  /* 🧁 TỰ ĐỘNG LẤY DANH SÁCH SẢN PHẨM */
+  let products = [];
+  async function loadProducts() {
+    const cats = ['bonglan', 'cookies', 'donut', 'macaron', 'tiramisu'];
+    const tasks = cats.map(async c => {
+      try {
+        const res = await fetch(`../cakes/${c}.html`);
+        const html = await res.text();
+        const tmp = document.createElement('div'); tmp.innerHTML = html;
+        tmp.querySelectorAll('.product-item').forEach(p => {
+          products.push({
+            name: p.querySelector('.card-title').textContent.trim(),
+            price: parseInt(p.dataset.price)
+          });
+        });
+      } catch { console.warn('Không tải được', c); }
+    });
+    await Promise.all(tasks);
+  }
+
+  /* 🧾 HIỂN THỊ BẢNG */
+  const tbody = document.getElementById('orderTableBody');
+  function renderOrders(data) {
+    tbody.innerHTML = '';
+    data.forEach((o, i) => {
+      const color = o.status === 'Hoàn tất' ? 'success' : o.status === 'Đã giao' ? 'info' : o.status === 'Đang xử lý' ? 'warning text-dark' : 'danger';
+      tbody.innerHTML += `<tr>
+        <td>${o.id}</td><td>${o.name}</td><td>${o.date}</td>
         <td>${o.total.toLocaleString()} ₫</td>
         <td><span class="badge bg-${color}">${o.status}</span></td>
         <td>
-          <button class="btn btn-sm btn-outline-primary me-1 view-btn" data-index="${i}">
-            <i class="fa-solid fa-eye"></i>
-          </button>
-          <button class="btn btn-sm btn-outline-danger delete-btn" data-index="${i}">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </td>
-      </tr>
-    `;
-  });
-}
-renderOrders(orders);
-
-/* ========== LƯU DỮ LIỆU ========== */
-function saveData() {
-  localStorage.setItem('orders', JSON.stringify(orders));
-}
-
-/* ========== XEM CHI TIẾT ========== */
-const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.view-btn');
-  if (!btn) return;
-  const index = btn.dataset.index;
-  const o = orders[index];
-  let html = `
-    <p><b>Mã đơn:</b> ${o.id}</p>
-    <p><b>Khách hàng:</b> ${o.name}</p>
-    <p><b>Ngày đặt:</b> ${o.date}</p>
-    <p><b>Trạng thái:</b> <span class="badge bg-secondary">${o.status}</span></p>
-    <hr>
-    <h6 class="fw-bold mb-2">Chi tiết sản phẩm</h6>
-    <ul class="list-group mb-3">
-      ${o.items.map(i => `<li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-        <span>${i.name} × ${i.qty}</span><b>${(i.qty * i.price).toLocaleString()} ₫</b>
-      </li>`).join('')}
-    </ul>
-    <h6 class="text-end">Tổng cộng: <b class="text-danger">${o.total.toLocaleString()} ₫</b></h6>
-  `;
-  document.getElementById('orderDetailsBody').innerHTML = html;
-  orderModal.show();
-});
-
-/* ========== XÓA ĐƠN ========== */
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.delete-btn');
-  if (!btn) return;
-  const index = btn.dataset.index;
-  const o = orders[index];
-  if (confirm(`Bạn có chắc muốn xóa đơn "${o.id}" của ${o.name}?`)) {
-    orders.splice(index, 1);
-    saveData();
-    renderOrders(orders);
+          <button class="btn btn-sm btn-outline-primary me-1 view-btn" data-index="${i}"><i class="fa-solid fa-eye"></i></button>
+          <button class="btn btn-sm btn-outline-danger delete-btn" data-index="${i}"><i class="fa-solid fa-trash"></i></button>
+        </td></tr>`;
+    });
   }
-});
-
-/* ========== TÌM KIẾM / LỌC ========== */
-document.getElementById('searchOrder').addEventListener('input', filterOrders);
-document.getElementById('filterStatus').addEventListener('change', filterOrders);
-
-function filterOrders() {
-  const keyword = document.getElementById('searchOrder').value.toLowerCase();
-  const status = document.getElementById('filterStatus').value;
-  const filtered = orders.filter(o =>
-    (o.name.toLowerCase().includes(keyword) || o.id.toLowerCase().includes(keyword)) &&
-    (status === '' || o.status === status)
-  );
-  renderOrders(filtered);
-}
-
-/* ========== NÚT TẢI LẠI ========== */
-document.getElementById('refreshOrders').addEventListener('click', () => {
-  localStorage.removeItem('orders');
-  orders = [...defaultOrders];
   renderOrders(orders);
-});
-</script>
+
+  /* 🔍 XEM CHI TIẾT */
+  const orderModal = new bootstrap.Modal('#orderModal');
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.view-btn'); if (!btn) return;
+    const o = orders[btn.dataset.index];
+    const sList = ['Đang xử lý', 'Đã giao', 'Hoàn tất', 'Đã hủy'];
+    const html = `
+      <p><b>Mã đơn:</b> ${o.id}</p><p><b>Khách hàng:</b> ${o.name}</p><p><b>Ngày đặt:</b> ${o.date}</p>
+      <label class="form-label fw-bold">Cập nhật trạng thái:</label>
+      <select class="form-select mb-3" id="statusSelect">${sList.map(s => `<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select>
+      <h6 class="fw-bold mb-2">Chi tiết sản phẩm</h6>
+      <ul class="list-group mb-3">${o.items.map(i=>`<li class="list-group-item d-flex justify-content-between"><span>${i.name} × ${i.qty}</span><b>${(i.qty*i.price).toLocaleString()} ₫</b></li>`).join('')}</ul>
+      <h6 class="text-end">Tổng cộng: <b class="text-danger">${o.total.toLocaleString()} ₫</b></h6>`;
+    document.getElementById('orderDetailsBody').innerHTML = html;
+    orderModal.show();
+    document.getElementById('statusSelect').onchange = e => { o.status = e.target.value; saveOrders(); renderOrders(orders); };
+  });
+
+  /* ❌ XÓA ĐƠN */
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.delete-btn'); if (!btn) return;
+    const i = btn.dataset.index;
+    if (confirm('Xóa đơn ' + orders[i].id + '?')) { orders.splice(i,1); saveOrders(); renderOrders(orders); }
+  });
+
+  /* 🧾 TẠO ĐƠN HÀNG */
+  const createModal = new bootstrap.Modal('#createOrderModal');
+  document.getElementById('addOrderBtn').onclick = async () => {
+    if (products.length === 0) await loadProducts();
+    document.getElementById('createOrderForm').reset();
+    document.getElementById('orderItems').innerHTML = '';
+    document.getElementById('orderTotal').textContent = '0 ₫';
+    createModal.show();
+  };
+
+  document.getElementById('addItemBtn').onclick = () => {
+    const c = document.getElementById('orderItems');
+    const div = document.createElement('div'); div.className='row g-2 align-items-center mt-2';
+    div.innerHTML = `
+      <div class="col-md-5"><select class="form-select item-name">${products.map(p=>`<option value="${p.name}" data-price="${p.price}">${p.name} - ${p.price.toLocaleString()} ₫</option>`).join('')}</select></div>
+      <div class="col-md-3"><input type="number" class="form-control item-qty" value="1" min="1"></div>
+      <div class="col-md-3"><input type="text" class="form-control item-price" readonly></div>
+      <div class="col-md-1 text-center"><button class="btn btn-sm btn-outline-danger remove-item"><i class="fa-solid fa-xmark"></i></button></div>`;
+    c.appendChild(div);
+    const s = div.querySelector('.item-name'), p = div.querySelector('.item-price');
+    s.onchange = () => { p.value = parseInt(s.selectedOptions[0].dataset.price).toLocaleString()+' ₫'; updateTotal(); };
+    s.dispatchEvent(new Event('change'));
+  };
+
+  document.addEventListener('input', e => { if(e.target.classList.contains('item-qty')) updateTotal(); });
+  document.addEventListener('click', e => { if(e.target.closest('.remove-item')){ e.target.closest('.row').remove(); updateTotal(); }});
+
+  function updateTotal(){
+    let t=0;
+    document.querySelectorAll('#orderItems .row').forEach(r=>{
+      const s=r.querySelector('.item-name'), q=parseInt(r.querySelector('.item-qty').value)||0, p=parseInt(s.selectedOptions[0].dataset.price)||0;
+      t+=q*p;
+    });
+    document.getElementById('orderTotal').textContent=t.toLocaleString()+' ₫';
+  }
+
+  document.getElementById('saveOrder').onclick=()=>{
+    const name=document.getElementById('orderName').value.trim(), date=document.getElementById('orderDate').value, status=document.getElementById('orderStatus').value;
+    if(!name||!date) return alert('Vui lòng nhập đủ thông tin.');
+    const items=[]; let total=0;
+    document.querySelectorAll('#orderItems .row').forEach(r=>{
+      const s=r.querySelector('.item-name'), q=parseInt(r.querySelector('.item-qty').value)||0, n=s.value, p=parseInt(s.selectedOptions[0].dataset.price);
+      if(q>0){ items.push({name:n,qty:q,price:p}); total+=q*p; }
+    });
+    const newOrder={ id:'DH'+(Math.floor(Math.random()*900)+100), name,date,total,status,items };
+    orders.unshift(newOrder); saveOrders(); renderOrders(orders); createModal.hide();
+  };
+
+  /* 🔍 TÌM KIẾM */
+  document.getElementById('searchOrder').oninput = filter;
+  document.getElementById('filterStatus').onchange = filter;
+  function filter(){
+    const k=document.getElementById('searchOrder').value.toLowerCase(), s=document.getElementById('filterStatus').value;
+    renderOrders(orders.filter(o=>(o.name.toLowerCase().includes(k)||o.id.toLowerCase().includes(k))&&(s===''||o.status===s)));
+  }
+
+  /* 🔁 TẢI LẠI */
+  document.getElementById('refreshOrders').onclick=()=>{ localStorage.removeItem('orders'); orders=[...defaultOrders]; renderOrders(orders); };
+  </script>
 </body>
 </html>

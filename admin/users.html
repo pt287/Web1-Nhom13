@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quản lý khách hàng - Đăng Đại Bakery</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin_style.css">
+  <style>
+    body.dark .modal-content { background: #2b2b3a; color: #f5f5f5; }
+    body.dark .form-control, body.dark .form-select { background-color: #1e1e2d; color: #f5f5f5; border-color: #444; }
+    body.dark .list-group-item { background: transparent; color: #fff; border-color: #444; }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="brand"><i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Admin</div>
+    <a href="dashboard.html"><i class="fa-solid fa-chart-line me-2"></i>Dashboard</a>
+    <a href="products.html"><i class="fa-solid fa-bread-slice me-2"></i>Sản phẩm</a>
+    <a href="orders.html"><i class="fa-solid fa-box me-2"></i>Đơn hàng</a>
+    <a href="users.html" class="active"><i class="fa-solid fa-users me-2"></i>Khách hàng</a>
+    <a href="inventory.html"><i class="fa-solid fa-warehouse me-2"></i>Tồn kho</a>
+    <a href="login.html" class="text-danger"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a>
+  </div>
+
+  <!-- Main -->
+  <div class="main-content">
+    <div class="navbar mb-4">
+      <h5 class="fw-bold text-danger mb-0"><i class="fa-solid fa-users me-2"></i>Quản lý khách hàng</h5>
+      <div class="d-flex align-items-center gap-3">
+        <button id="themeToggle" class="theme-toggle" title="Chuyển chế độ"><i class="fa-solid fa-moon"></i></button>
+        <span class="text-muted small">Xin chào, <b>Admin</b></span>
+        <img src="https://i.pravatar.cc/40?img=54" class="rounded-circle" alt="Admin">
+      </div>
+    </div>
+
+    <div class="container-fluid" data-aos="fade-up">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <button class="btn btn-outline-danger" id="addUserBtn"><i class="fa-solid fa-user-plus"></i> Thêm khách hàng</button>
+          <button class="btn btn-outline-secondary" id="refreshUsers"><i class="fa-solid fa-rotate"></i> Tải lại</button>
+        </div>
+        <div class="d-flex gap-2">
+          <input id="searchUser" class="form-control" placeholder="🔍 Tìm theo tên / email / ID...">
+          <select id="filterStatus" class="form-select w-auto">
+            <option value="">Tất cả trạng thái</option>
+            <option value="active">Hoạt động</option>
+            <option value="locked">Đã khóa</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+              <thead class="table-light">
+                <tr><th>ID</th><th>Họ tên</th><th>Email</th><th>Điện thoại</th><th>Trạng thái</th><th>Hành động</th></tr>
+              </thead>
+              <tbody id="userTableBody"></tbody>
+            </table>
+          </div>
+          <nav class="mt-3">
+            <ul class="pagination justify-content-center" id="pagination"></ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal thêm/sửa khách hàng -->
+    <div class="modal fade" id="userModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header"><h5 class="modal-title fw-bold">Thêm khách hàng</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+          <div class="modal-body">
+            <form id="userForm">
+              <input type="hidden" id="userId">
+              <div class="mb-3"><label class="form-label">Họ tên</label><input id="userName" class="form-control" required></div>
+              <div class="mb-3"><label class="form-label">Email</label><input id="userEmail" type="email" class="form-control" required></div>
+              <div class="mb-3"><label class="form-label">Số điện thoại</label><input id="userPhone" class="form-control" required></div>
+              <div class="form-check form-switch mb-3"><input class="form-check-input" type="checkbox" id="userLocked"><label for="userLocked" class="form-check-label">Khóa tài khoản</label></div>
+            </form>
+          </div>
+          <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button><button class="btn btn-danger" id="saveUser">Lưu</button></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="mt-5 small text-center">© 2025 Đăng Đại Bakery Admin</footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+  AOS.init();
+
+  /* 🌙 DARK MODE */
+  const themeBtn=document.getElementById('themeToggle');
+  if(localStorage.getItem('theme')==='dark'){document.body.classList.add('dark');themeBtn.innerHTML='<i class="fa-solid fa-sun"></i>';}
+  themeBtn.onclick=()=>{document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');themeBtn.innerHTML=dark?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>';localStorage.setItem('theme',dark?'dark':'light');};
+
+  /* 👥 DỮ LIỆU MẪU */
+  let users = JSON.parse(localStorage.getItem('users')) || [
+    {id:'KH001',name:'Nguyễn Văn A',email:'a@example.com',phone:'0909123456',locked:false},
+    {id:'KH002',name:'Trần Thị B',email:'b@example.com',phone:'0912345678',locked:true},
+    {id:'KH003',name:'Lê Văn C',email:'c@example.com',phone:'0987654321',locked:false},
+    {id:'KH004',name:'Phạm D',email:'d@example.com',phone:'0977777777',locked:false},
+    {id:'KH005',name:'Võ E',email:'e@example.com',phone:'0999999999',locked:true}
+  ];
+  const saveUsers = ()=>localStorage.setItem('users',JSON.stringify(users));
+
+  const tbody=document.getElementById('userTableBody');
+  const pagination=document.getElementById('pagination');
+  let currentPage=1, perPage=5;
+
+  function renderUsers(list){
+    tbody.innerHTML='';
+    const start=(currentPage-1)*perPage, pageData=list.slice(start,start+perPage);
+    pageData.forEach((u,i)=>{
+      tbody.innerHTML+=`
+      <tr>
+        <td>${u.id}</td>
+        <td>${u.name}</td>
+        <td>${u.email}</td>
+        <td>${u.phone}</td>
+        <td><span class="badge ${u.locked?'bg-secondary':'bg-success'}">${u.locked?'Đã khóa':'Hoạt động'}</span></td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-index="${users.indexOf(u)}"><i class="fa-solid fa-pen"></i></button>
+          <button class="btn btn-sm btn-outline-danger delete-btn" data-index="${users.indexOf(u)}"><i class="fa-solid fa-trash"></i></button>
+        </td>
+      </tr>`;
+    });
+    renderPagination(list);
+  }
+
+  function renderPagination(list){
+    const totalPages=Math.ceil(list.length/perPage);
+    pagination.innerHTML='';
+    for(let i=1;i<=totalPages;i++){
+      pagination.innerHTML+=`<li class="page-item ${i===currentPage?'active':''}">
+        <button class="page-link">${i}</button></li>`;
+    }
+    pagination.querySelectorAll('button').forEach((btn,idx)=>{
+      btn.onclick=()=>{currentPage=idx+1;renderUsers(filterUsers());};
+    });
+  }
+
+  function filterUsers(){
+    const key=document.getElementById('searchUser').value.toLowerCase();
+    const st=document.getElementById('filterStatus').value;
+    return users.filter(u=>
+      (u.name.toLowerCase().includes(key)||u.email.toLowerCase().includes(key)||u.id.toLowerCase().includes(key)) &&
+      (st===''||(st==='active'&&!u.locked)||(st==='locked'&&u.locked))
+    );
+  }
+
+  document.getElementById('searchUser').oninput=()=>{currentPage=1;renderUsers(filterUsers());};
+  document.getElementById('filterStatus').onchange=()=>{currentPage=1;renderUsers(filterUsers());};
+  document.getElementById('refreshUsers').onclick=()=>{localStorage.removeItem('users');location.reload();};
+
+  /* 🧍 CRUD */
+  const userModal=new bootstrap.Modal('#userModal');
+  document.getElementById('addUserBtn').onclick=()=>{
+    document.querySelector('#userModal .modal-title').textContent='Thêm khách hàng';
+    document.getElementById('userForm').reset();
+    document.getElementById('userId').value='';
+    userModal.show();
+  };
+
+  document.addEventListener('click',e=>{
+    const edit=e.target.closest('.edit-btn'),del=e.target.closest('.delete-btn');
+    if(edit){
+      const u=users[edit.dataset.index];
+      document.querySelector('#userModal .modal-title').textContent='Chỉnh sửa khách hàng';
+      document.getElementById('userId').value=u.id;
+      document.getElementById('userName').value=u.name;
+      document.getElementById('userEmail').value=u.email;
+      document.getElementById('userPhone').value=u.phone;
+      document.getElementById('userLocked').checked=u.locked;
+      userModal.show();
+    }
+    if(del){
+      if(confirm('Xóa khách hàng này?')){
+        users.splice(del.dataset.index,1);
+        saveUsers(); renderUsers(filterUsers());
+      }
+    }
+  });
+
+  document.getElementById('saveUser').onclick=()=>{
+    const id=document.getElementById('userId').value||'KH'+String(Date.now()).slice(-4);
+    const newUser={
+      id,
+      name:document.getElementById('userName').value.trim(),
+      email:document.getElementById('userEmail').value.trim(),
+      phone:document.getElementById('userPhone').value.trim(),
+      locked:document.getElementById('userLocked').checked
+    };
+    if(!newUser.name||!newUser.email) return alert('Vui lòng nhập đầy đủ thông tin!');
+    const idx=users.findIndex(u=>u.id===id);
+    if(idx>-1) users[idx]=newUser; else users.unshift(newUser);
+    saveUsers(); userModal.hide(); renderUsers(filterUsers());
+  };
+
+  renderUsers(users);
+  </script>
+</body>
+</html>
