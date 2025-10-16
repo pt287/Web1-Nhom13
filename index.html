@@ -1,29 +1,48 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trang chủ - Đăng Đại Bakery</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <!-- Font Awesome CSS (đảm bảo icon luôn hiện) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-<!-- ===== HEADER ===== -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+  <!-- ===== HEADER ===== -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
   <div class="container">
     <a class="navbar-brand fw-bold text-danger fs-3" href="index.html">
       <i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Bakery
     </a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav align-items-center">
         <li class="nav-item"><a class="nav-link active" href="index.html">Trang chủ</a></li>
         <li class="nav-item"><a class="nav-link" href="product.html">Sản phẩm</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
+
+        <!-- 🔹 ICON USER DROPDOWN -->
+        <li class="nav-item dropdown user-menu ms-3">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button">
+            <i class="fa-solid fa-user-circle fa-lg me-1 text-danger"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="login.html"><i class="fa-solid fa-right-to-bracket me-2 text-danger"></i>Đăng nhập</a></li>
+            <li><a class="dropdown-item" href="register.html"><i class="fa-solid fa-user-plus me-2 text-danger"></i>Đăng ký</a></li>
+          </ul>
+        </li>
+
+        <!-- 🔹 GIỎ HÀNG -->
         <li class="nav-item ms-3">
           <a class="btn btn-danger rounded-pill px-3" href="cart.html">🛒 Giỏ hàng</a>
         </li>
@@ -32,79 +51,127 @@
   </div>
 </nav>
 
-<!-- ===== HERO BANNER ===== -->
-<section class="hero-banner d-flex align-items-center justify-content-center text-center">
-  <div class="hero-content" data-aos="fade-up">
-    <h1>Chào mừng đến với Đăng Đại Bakery 🍰</h1>
-    <p>Ngọt ngào mỗi ngày với những chiếc bánh thơm ngon & tươi mới</p>
-    <a href="product.html" class="btn btn-primary">Khám phá sản phẩm</a>
-  </div>
-</section>
+  <!-- ===== HERO BANNER (updated) ===== -->
+  <section class="hero-banner d-flex align-items-center justify-content-center text-center text-white">
+    <div class="container hero-inner" data-aos="fade-up">
+      <h1 class="display-4 fw-bold">Chào mừng đến với Đăng Đại Bakery 🍰</h1>
+      <p class="lead mb-4">Ngọt ngào mỗi ngày — bánh tươi, nguyên liệu chuẩn, yêu thương gửi trọn.</p>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="product.html" class="btn btn-lg btn-primary hero-btn">Khám phá sản phẩm</a>
+        <a href="contact.html" class="btn btn-lg btn-outline-light hero-ghost">Liên hệ đặt hàng</a>
+      </div>
+    </div>
+  </section>
 
-<!-- ===== BEST SELLER SECTION ===== -->
-<section class="py-5">
-  <div class="container">
-    <h2 class="fw-bold text-center mb-4" data-aos="fade-up">Sản phẩm nổi bật</h2>
-    <div class="row g-4">
-      <!-- Product item -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-        <div class="card product-card h-100">
-          <img src="assets/images/sp1.jpg" class="card-img-top" alt="Bánh kem">
-          <div class="card-body text-center">
-            <h5 class="card-title fw-bold">Bánh Kem Dâu</h5>
-            <p class="text-danger fw-bold mb-2">150.000₫</p>
-            <a href="product.html" class="btn btn-outline-danger">Xem thêm</a>
-          </div>
+
+  <!-- ===== ABOUT SECTION ===== -->
+  <section class="py-5 bg-light about-section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <!-- Ảnh -->
+        <div class="col-md-6" data-aos="fade-right">
+          <img src="../images/about.png" alt="Đăng Đại Bakery" class="img-fluid rounded shadow-sm">
+        </div>
+
+        <!-- Nội dung -->
+        <div class="col-md-6" data-aos="fade-left">
+          <h2 class="fw-bold text-danger mb-3">Về Đăng Đại Bakery</h2>
+          <p class="lead text-secondary">
+            Từ những nguyên liệu tự nhiên tinh chọn, chúng tôi tạo nên những chiếc bánh không chỉ ngon miệng
+            mà còn mang lại niềm vui cho mọi khoảnh khắc của bạn.
+          </p>
+          <p>
+            <strong>Đăng Đại Bakery</strong> tự hào là thương hiệu bánh ngọt Việt mang đậm phong cách châu Âu,
+            luôn chú trọng đến chất lượng, vệ sinh an toàn thực phẩm và sự sáng tạo trong từng hương vị.
+            Mỗi chiếc bánh là tâm huyết, là tình yêu mà chúng tôi muốn gửi đến khách hàng thân thương.
+          </p>
+          <ul class="list-unstyled mt-3">
+            <li>🍪 Bánh tươi mỗi ngày, không chất bảo quản</li>
+            <li>🎂 Nhận đặt bánh sinh nhật, sự kiện, cưới hỏi</li>
+            <li>☕ Không gian ấm cúng, hương thơm ngọt ngào</li>
+          </ul>
+          <a href="product.html" class="btn btn-danger mt-3">Đặt bánh ngay</a>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-        <div class="card product-card h-100">
-          <img src="assets/images/sp2.jpg" class="card-img-top" alt="Bông lan">
-          <div class="card-body text-center">
-            <h5 class="card-title fw-bold">Bông Lan Phô Mai</h5>
-            <p class="text-danger fw-bold mb-2">120.000₫</p>
-            <a href="product.html" class="btn btn-outline-danger">Xem thêm</a>
+  <!-- ===== BEST SELLER SECTION ===== -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="fw-bold text-center mb-4" data-aos="fade-up">Sản phẩm nổi bật</h2>
+      <div class="row g-4">
+        <!-- Product item -->
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="card product-card h-100">
+            <img src="assets/images/sp1.jpg" class="card-img-top" alt="Bánh kem">
+            <div class="card-body text-center">
+              <h5 class="card-title fw-bold">Bánh Kem Dâu</h5>
+              <p class="text-danger fw-bold mb-2">150.000₫</p>
+              <a href="product.html" class="btn btn-outline-danger">Xem thêm</a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-        <div class="card product-card h-100">
-          <img src="assets/images/sp3.jpg" class="card-img-top" alt="Tiramisu">
-          <div class="card-body text-center">
-            <h5 class="card-title fw-bold">Tiramisu</h5>
-            <p class="text-danger fw-bold mb-2">180.000₫</p>
-            <a href="product.html" class="btn btn-outline-danger">Xem thêm</a>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="card product-card h-100">
+            <img src="assets/images/sp2.jpg" class="card-img-top" alt="Bông lan">
+            <div class="card-body text-center">
+              <h5 class="card-title fw-bold">Bông Lan Phô Mai</h5>
+              <p class="text-danger fw-bold mb-2">120.000₫</p>
+              <a href="product.html" class="btn btn-outline-danger">Xem thêm</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+          <div class="card product-card h-100">
+            <img src="assets/images/sp3.jpg" class="card-img-top" alt="Tiramisu">
+            <div class="card-body text-center">
+              <h5 class="card-title fw-bold">Tiramisu</h5>
+              <p class="text-danger fw-bold mb-2">180.000₫</p>
+              <a href="product.html" class="btn btn-outline-danger">Xem thêm</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </section>
+
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="mt-5 pt-5 pb-3">
+    <div class="container text-center">
+      <h5 class="fw-bold text-uppercase mb-3">Đăng Đại Bakery</h5>
+      <p>Ngọt ngào mỗi ngày — nơi những chiếc bánh được làm từ tình yêu & niềm đam mê 🍰</p>
+
+      <div class="footer-social mb-3">
+        <a target="_blank" href="https://facebook.com"><i class="fa-brands fa-facebook"></i></a>
+        <a target="_blank" href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
+        <a target="_blank" href="https://tiktok.com"><i class="fa-brands fa-tiktok"></i></a>
+      </div>
+
+      <p class="small mb-0">📍 123 Nguyễn Văn Cừ, Quận 5, TP.HCM | 📞 0909 109 343 | ✉️ lienhe@dangdaibakery.vn</p>
+      <hr class="my-3" style="opacity:0.2;">
+      <p class="mb-0 small">© 2025 Đăng Đại Bakery - All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ===== Back to top ===== -->
+  <button id="backToTop" class="btn btn-danger rounded-circle">↑</button>
+
+  <!-- ===== Hotline ===== -->
+  <div class="hotline-fixed">
+    <i class="fa fa-phone"></i>
+    <span>Gọi 0909 109 343</span>
   </div>
-</section>
 
-<!-- ===== FOOTER ===== -->
-<footer class="bg-dark text-white py-4 mt-5">
-  <div class="container text-center">
-    <p class="mb-0">🍰 Đăng Đại Bakery © 2025 - Ngọt ngào mỗi ngày</p>
-  </div>
-</footer>
-
-<!-- ===== Back to top ===== -->
-<button id="backToTop" class="btn btn-danger rounded-circle">↑</button>
-
-<!-- ===== Hotline ===== -->
-<div class="hotline-fixed">
-  <i class="fa fa-phone"></i>
-  <span>Gọi 0909 109 343</span>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-<script>
-  AOS.init();
-</script>
-<script src="js/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+  <script src="js/script.js"></script>
 </body>
+
 </html>

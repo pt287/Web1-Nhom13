@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liên hệ - Đăng Đại Bakery</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <!-- ===== HEADER ===== -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-danger fs-3" href="index.html">
+        <i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Bakery
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+          <li class="nav-item"><a class="nav-link" href="product.html">Sản phẩm</a></li>
+          <li class="nav-item"><a class="nav-link active" href="contact.html">Liên hệ</a></li>
+          <li class="nav-item ms-3">
+            <a class="btn btn-danger rounded-pill px-3" href="cart.html">🛒 Giỏ hàng</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO BANNER ===== -->
+  <section class="hero-banner-contact d-flex align-items-center justify-content-center text-center text-white">
+    <div data-aos="fade-up">
+      <h1 class="fw-bold display-5">Liên hệ với Đăng Đại Bakery 🍰</h1>
+      <p class="lead">Chúng tôi luôn sẵn sàng lắng nghe và phục vụ bạn</p>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT SECTION ===== -->
+  <section class="pt-5 contact-section">
+    <div class="container py-5">
+      <h2 class="fw-bold text-center mb-5" data-aos="fade-up">Thông tin liên hệ</h2>
+
+      <div class="row g-5">
+        <!-- Thông tin liên hệ -->
+        <div class="col-md-5" data-aos="fade-right">
+          <div class="bg-light p-4 rounded shadow-sm h-100">
+            <h5 class="fw-bold mb-3">📍 Địa chỉ & Liên hệ</h5>
+            <p><i class="fa-solid fa-location-dot text-danger me-2"></i>123 Nguyễn Văn Cừ, Quận 5, TP.HCM</p>
+            <p><i class="fa-solid fa-phone text-danger me-2"></i>0909 109 343</p>
+            <p><i class="fa-solid fa-envelope text-danger me-2"></i>lienhe@dangdaibakery.vn</p>
+            <p><i class="fa-solid fa-clock text-danger me-2"></i>Mở cửa: 7:00 - 21:00 (T2 - CN)</p>
+            <hr>
+            <h6 class="fw-semibold">Theo dõi chúng tôi:</h6>
+            <div class="d-flex gap-3 fs-4 mt-2">
+              <a href="#" class="text-danger"><i class="fa-brands fa-facebook"></i></a>
+              <a href="#" class="text-danger"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" class="text-danger"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form liên hệ -->
+        <div class="col-md-7" data-aos="fade-left">
+          <div class="bg-white p-4 rounded shadow-sm">
+            <h5 class="fw-bold mb-3">📩 Gửi tin nhắn cho Đăng Đại Bakery</h5>
+            <form id="contactForm">
+              <div class="mb-3">
+                <label for="name" class="form-label">Họ và tên</label>
+                <input type="text" id="name" class="form-control" placeholder="Nhập họ tên của bạn" required>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" placeholder="example@gmail.com" required>
+              </div>
+              <div class="mb-3">
+                <label for="message" class="form-label">Nội dung</label>
+                <textarea id="message" rows="4" class="form-control" placeholder="Nhập nội dung bạn muốn gửi..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-danger px-4">Gửi liên hệ</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Map -->
+      <div class="mt-5" data-aos="fade-up">
+        <h5 class="fw-bold mb-3">📌 Vị trí cửa hàng</h5>
+        <div class="ratio ratio-16x9 shadow-sm rounded overflow-hidden">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.685678424897!2d106.6821217748046!3d10.759925289390325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f271c55b1a3%3A0xa8b3d7ea93b4f4c5!2zTmd1eeG7hW4gVsSDbiBDw7Q!5e0!3m2!1svi!2s!4v1697275336903!5m2!1svi!2s"
+            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-dark text-white py-4 mt-5">
+    <div class="container text-center">
+      <p class="mb-0">🍰 Đăng Đại Bakery © 2025 - Ngọt ngào mỗi ngày</p>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button id="backToTop" class="btn btn-danger rounded-circle">↑</button>
+
+  <!-- Hotline -->
+  <div class="hotline-fixed">
+    <i class="fa fa-phone"></i>
+    <span>Gọi 0909 109 343</span>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <script>
+    AOS.init();
+
+    document.getElementById("contactForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("🎉 Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất.");
+      e.target.reset();
+    });
+  </script>
+</body>
+
+</html>
