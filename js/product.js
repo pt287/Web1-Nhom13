@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const sortSelect = document.getElementById("sort");
   const pagination = document.getElementById("pagination");
-  const perPage = 5;
+  const perPage = 8;
   let items = [], filtered = [];
   let currentPage = 1, currentCategory = "all";
   const basePath = "cakes"; // 📁 thư mục chứa các file sản phẩm
@@ -102,15 +102,20 @@ document.addEventListener("DOMContentLoaded", function () {
       btn.addEventListener("click", () => {
         currentPage = idx + 1;
         renderPage();
+        window.scrollTo({ top: 0, behavior: "smooth" }); // ✅ cuộn lên đầu mỗi khi đổi trang
       });
     });
   }
 
   // --- Gán sự kiện ---
-  document.getElementById("btnSearch").addEventListener("click", applyFilters);
-  document.getElementById("btnReset").addEventListener("click", () => {
-    ["searchName", "minPrice", "maxPrice"].forEach(id => document.getElementById(id).value = "");
-    document.getElementById("searchCategory").value = "all";
+  document.getElementById("btnSearch")?.addEventListener("click", applyFilters);
+  document.getElementById("btnReset")?.addEventListener("click", () => {
+    ["searchName", "minPrice", "maxPrice"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = "";
+    });
+    const catSelect = document.getElementById("searchCategory");
+    if (catSelect) catSelect.value = "all";
     sortSelect.value = "default";
     loadCategory("all");
   });

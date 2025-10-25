@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const sortSelect = document.getElementById("sort");
   const pagination = document.getElementById("pagination");
-  const perPage = 5;
+  const perPage = 8;
 
   let items = [];
   let filtered = [];
