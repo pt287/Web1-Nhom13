@@ -19,18 +19,16 @@
         <form id="loginForm" class="mt-4">
           <div class="mb-3">
             <label class="form-label">Tài khoản</label>
-            <input id="username" class="form-control" required placeholder="admin@dangdai.local">
+            <input type="text" id="username" class="form-control" required placeholder="Tài khoản">
           </div>
           <div class="mb-3">
             <label class="form-label">Mật khẩu</label>
-            <input id="password" type="password" class="form-control" required placeholder="mật khẩu">
+            <input type="password" id="password" class="form-control" required placeholder="Mật khẩu">
           </div>
           <div class="d-grid">
-            <button class="btn btn-danger btn-lg" type="submit">Đăng nhập</button>
+            <button class="btn btn-danger btn-lg" type="button" onclick="login()">Đăng nhập</button>
           </div>
         </form>
-
-        <div class="mt-3 text-center small text-muted">Tài khoản demo: <b>admin</b> / mật khẩu: <b>123456</b></div>
       </div>
     </div>
   </div>
@@ -40,17 +38,17 @@
 <script src="js/admin-script.js"></script>
 <script>
   AOS.init();
-  // Login demo
-  document.getElementById('loginForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    const u = document.getElementById('username').value.trim();
-    const p = document.getElementById('password').value.trim();
-    if((u === 'admin' || u === 'admin@dangdai.local') && p === '123456'){
-      window.location.href = 'dashboard.html';
+
+  function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    if (username === '' || password === '') {
+      alert('Vui lòng không để trống các trường!');
     } else {
-      alert('Sai tài khoản hoặc mật khẩu (dùng admin / 123456 để vào demo).');
+      window.location.href = 'dashboard.html';
     }
-  });
+  }
 </script>
 </body>
 </html>
