@@ -9,9 +9,25 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/admin_style.css">
+  <style>
+    /* Ẩn các chức năng hiển thị trong chế độ tĩnh */
+    .sim-alert {
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: fit-content;
+      z-index: 1060;
+      min-width: 300px;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Thông báo mô phỏng -->
+  <div id="simulatedMessage" class="sim-alert alert" style="display: none;"></div>
+
   <!-- Sidebar -->
   <div class="sidebar">
     <div class="brand"><i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Admin</div>
@@ -72,7 +88,9 @@
                   <th>Hành động</th>
                 </tr>
               </thead>
-              <tbody id="productTableBody"></tbody>
+              <tbody id="productTableBody">
+                <!-- Nội dung sẽ được điền bằng JavaScript -->
+              </tbody>
             </table>
           </div>
         </div>
@@ -88,15 +106,16 @@
             <button class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
+            <!-- Form này được pre-fill bằng JS khi nhấn nút Sửa -->
             <form id="productForm">
               <div class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label">Mã sản phẩm</label>
-                  <input id="p_code" class="form-control" required>
+                  <input id="p_code" class="form-control" value="" readonly>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Tên sản phẩm</label>
-                  <input id="p_name" class="form-control" required>
+                  <input id="p_name" class="form-control" value="">
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Loại</label>
@@ -110,15 +129,15 @@
                 </div>
                 <div class="col-md-3">
                   <label class="form-label">Giá vốn</label>
-                  <input id="p_cost" type="number" class="form-control" required>
+                  <input id="p_cost" type="number" class="form-control" value="">
                 </div>
                 <div class="col-md-3">
                   <label class="form-label">Giá bán</label>
-                  <input id="p_price" type="number" class="form-control" required>
+                  <input id="p_price" type="number" class="form-control" value="">
                 </div>
                 <div class="col-md-4">
                   <label class="form-label">Số lượng</label>
-                  <input id="p_qty" type="number" class="form-control" value="10" required>
+                  <input id="p_qty" type="number" class="form-control" value="">
                 </div>
                 <div class="col-md-8">
                   <label class="form-label">Ảnh sản phẩm</label>
@@ -150,7 +169,191 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init();
+    
+    // Dữ liệu sản phẩm đầy đủ (Đã thêm đầy đủ cost và desc)
+    const fullStaticProducts = [
+        { code: 'BL1', name: 'Bông lan Trứng Muối', category: 'Bông lan', cost: 75000, price: 150000, qty: 18, image: '../images/BongLan/bonglan2.png', desc: 'Bánh bông lan mềm xốp kèm trứng muối béo ngậy' },
+        { code: 'BL2', name: 'Bông lan Phô Mai Tươi', category: 'Bông lan', cost: 85000, price: 170000, qty: 15, image: '../images/BongLan/bonglan2.png', desc: 'Hương vị phô mai tươi mát, tan chảy' },
+        { code: 'BL3', name: 'Bông lan Socola Chip', category: 'Bông lan', cost: 60000, price: 120000, qty: 22, image: '../images/BongLan/bonglan3.png', desc: 'Bông lan truyền thống rắc hạt socola' },
+        { code: 'BL4', name: 'Bông lan Dâu Kem', category: 'Bông lan', cost: 80000, price: 160000, qty: 11, image: '../images/BongLan/bonglan1.png', desc: 'Sự kết hợp hoàn hảo của dâu tươi và lớp kem mượt mà' },
+        { code: 'BL5', name: 'Bông lan Trà Xanh', category: 'Bông lan', cost: 65000, price: 130000, qty: 14, image: '../images/BongLan/bonglan5.png', desc: 'Hương trà xanh thơm nhẹ, không gây ngán' },
+        { code: 'CK1', name: 'Cookies Bơ Truyền Thống', category: 'Cookies', cost: 45000, price: 90000, qty: 25, image: '../images/Cookies/cookie1.png', desc: 'Cookies giòn rụm với hương bơ thơm lừng' },
+        { code: 'CK2', name: 'Cookies Socola Chip', category: 'Cookies', cost: 40000, price: 80000, qty: 30, image: '../images/Cookies/cookie2.png', desc: 'Món ăn vặt kinh điển với socola chip hảo hạng' },
+        { code: 'CK3', name: 'Cookies Trà Xanh', category: 'Cookies', cost: 57500, price: 115000, qty: 19, image: '../images/Cookies/cookie3.png', desc: 'Vị trà xanh thanh mát, phù hợp cho người ăn kiêng' },
+        { code: 'CK4', name: 'Cookies Bơ Đậu Phộng', category: 'Cookies', cost: 50000, price: 100000, qty: 21, image: '../images/Cookies/cookie4.png', desc: 'Thơm béo vị đậu phộng rang' },
+        { code: 'CK5', name: 'Cookies Yến Mạch', category: 'Cookies', cost: 42500, price: 85000, qty: 28, image: '../images/Cookies/cookie5.png', desc: 'Cookies yến mạch giàu dinh dưỡng và chất xơ' },
+        { code: 'DN2', name: 'Donut Socola', category: 'Donut', cost: 40000, price: 80000, qty: 17, image: '../images/Donut/donut2.png', desc: 'Donut truyền thống phủ lớp socola mịn' },
+        { code: 'DN4', name: 'Donut Dừa', category: 'Donut', cost: 35000, price: 70000, qty: 16, image: '../images/Donut/donut4.png', desc: 'Donut phủ dừa sấy khô, thơm ngậy' },
+        { code: 'DN5', name: 'Donut Phô Mai', category: 'Donut', cost: 45000, price: 90000, qty: 10, image: '../images/Donut/donut5.png', desc: 'Donut nhân phô mai tan chảy' },
+        { code: 'DN15', name: 'Donut Nhân Mứt Việt Quất', category: 'Donut', cost: 32500, price: 65000, qty: 20, image: '../images/Donut/donut15.png', desc: 'Donut mềm với nhân mứt việt quất chua ngọt' },
+        { code: 'DN10', name: 'Donut Kem Sữa', category: 'Donut', cost: 47500, price: 95000, qty: 12, image: '../images/Donut/donut10.png', desc: 'Donut béo ngậy với nhân kem sữa tươi' },
+        { code: 'MC1', name: 'Macaron Dâu Tây', category: 'Macaron', cost: 60000, price: 120000, qty: 13, image: '../images/Macaron/macaron1.png', desc: 'Macaron màu hồng với nhân kem dâu tây' },
+        { code: 'MC2', name: 'Macaron Socola Đen', category: 'Macaron', cost: 70000, price: 140000, qty: 9, image: '../images/Macaron/macaron2.png', desc: 'Vị socola đen đậm đà và vỏ giòn tan' },
+        { code: 'MC4', name: 'Macaron Vani Kem Sữa', category: 'Macaron', cost: 62500, price: 125000, qty: 17, image: '../images/Macaron/macaron4.png', desc: 'Vị vani tinh tế và nhân kem sữa béo nhẹ' },
+        { code: 'MC9', name: 'Macaron Hạt Dẻ', category: 'Macaron', cost: 75000, price: 150000, qty: 8, image: '../images/Macaron/macaron9.png', desc: 'Macaron cao cấp với nhân hạt dẻ rang thơm' },
+        { code: 'MC14', name: 'Macaron Kem Bạc Hà', category: 'Macaron', cost: 50000, price: 100000, qty: 15, image: '../images/Macaron/macaron14.png', desc: 'Hương bạc hà the mát, độc đáo' },
+        { code: 'TM1', name: 'Tiramisu Cổ Điển', category: 'Tiramisu', cost: 75000, price: 150000, qty: 10, image: '../images/Tiramisu/tiramisu1.png', desc: 'Tiramisu kiểu Ý truyền thống, vị cà phê đậm đà' },
+        { code: 'TM2', name: 'Tiramisu Socola Đen', category: 'Tiramisu', cost: 90000, price: 180000, qty: 7, image: '../images/Tiramisu/tiramisu2.png', desc: 'Lớp socola đen nguyên chất, đắng nhẹ, ngọt thanh' },
+        { code: 'TM4', name: 'Tiramisu Dâu Tây', category: 'Tiramisu', cost: 65000, price: 130000, qty: 14, image: '../images/Tiramisu/tiramisu4.png', desc: 'Phiên bản Tiramisu tươi mát với dâu tây' },
+        { code: 'TM7', name: 'Tiramisu Caramel Muối', category: 'Tiramisu', cost: 87500, price: 175000, qty: 9, image: '../images/Tiramisu/tiramisu7.png', desc: 'Vị caramel muối độc đáo, cân bằng hoàn hảo' },
+        { code: 'TM15', name: 'Tiramisu Cacao Đậm Vị', category: 'Tiramisu', cost: 97500, price: 195000, qty: 5, image: '../images/Tiramisu/tiramisu15.png', desc: 'Tiramisu với lượng cacao cao, hương vị cực kỳ đậm đà' }
+    ];
 
+    // Sản phẩm mặc định dùng làm kết quả tìm kiếm/lọc (TẤT CẢ Donut)
+    const defaultSearchResults = fullStaticProducts.filter(p => p.category === 'Donut');
+
+    /* ========== CÁC BIẾN DOM ========== */
+    const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+    const modalTitle = document.getElementById('productModalTitle');
+    const simMessage = document.getElementById('simulatedMessage');
+    const tbody = document.getElementById('productTableBody');
+
+    /* ========== HÀM MÔ PHỎNG THÔNG BÁO ========== */
+    function showSimulatedMessage(message, type = 'success') {
+      simMessage.textContent = message;
+      simMessage.className = `sim-alert alert alert-${type}`;
+      simMessage.style.display = 'block';
+      setTimeout(() => {
+        simMessage.style.display = 'none';
+      }, 3000);
+    }
+
+    /* ========== HÀM RENDER BẢNG (MỚI) ========== */
+    function renderTable(data) {
+        tbody.innerHTML = '';
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-muted">Không tìm thấy sản phẩm nào.</td></tr>';
+            return;
+        }
+        data.forEach((p) => {
+            // Đảm bảo nút Sửa/Xóa có data-product-code/name chính xác
+            tbody.innerHTML += `
+            <tr>
+                <td>${p.code}</td>
+                <td><img src="${p.image}" width="60" height="60" class="rounded-2" style="object-fit:cover" onerror="this.onerror=null;this.src='../assets/images/noimg.png';" alt="${p.name}"></td>
+                <td>${p.name}</td>
+                <td>${p.category}</td>
+                <td>${p.price.toLocaleString()} ₫</td>
+                <td>${p.qty}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-product-code="${p.code}"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn btn-sm btn-outline-danger delete-btn" data-product-name="${p.name}"><i class="fa-solid fa-trash"></i></button>
+                </td>
+            </tr>`;
+        });
+    }
+
+    // Hiển thị toàn bộ sản phẩm khi tải trang
+    renderTable(fullStaticProducts);
+    
+
+    /* ========== MODAL THÊM SẢN PHẨM ========== */
+    document.getElementById('openAddModal').addEventListener('click', () => {
+      modalTitle.textContent = 'Thêm sản phẩm mới';
+      document.getElementById('productForm').reset();
+      document.getElementById('p_code').value = 'NEW_P00X'; // Mã giả
+      document.getElementById('p_code').readOnly = false;
+      document.getElementById('previewImage').src = '../assets/images/noimg.png';
+      
+      // Đảm bảo không có data-product-code cũ
+      document.getElementById('saveProduct').dataset.editCode = ''; 
+      productModal.show();
+    });
+    
+    /* ========== MODAL CHỈNH SỬA SẢN PHẨM (ĐÃ CẬP NHẬT) ========== */
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.edit-btn');
+      if (!btn) return;
+
+      const code = btn.dataset.productCode;
+      // Tìm sản phẩm chính xác dựa trên mã
+      const p = fullStaticProducts.find(item => item.code === code);
+      if (!p) return; // Không tìm thấy sản phẩm
+
+      modalTitle.textContent = `Chỉnh sửa: ${p.name}`;
+      
+      // Điền thông tin chính xác của sản phẩm
+      document.getElementById('p_code').value = p.code;
+      document.getElementById('p_code').readOnly = true; 
+      document.getElementById('p_name').value = p.name;
+      document.getElementById('p_category').value = p.category;
+      document.getElementById('p_cost').value = p.cost;
+      document.getElementById('p_price').value = p.price;
+      document.getElementById('p_qty').value = p.qty;
+      document.getElementById('p_desc').value = p.desc || '';
+      document.getElementById('previewImage').src = p.image;
+      
+      // Lưu mã sản phẩm đang sửa vào nút Lưu
+      document.getElementById('saveProduct').dataset.editCode = p.code;
+
+      productModal.show();
+    });
+
+    /* ========== MÔ PHỎNG LƯU / CẬP NHẬT ========== */
+    document.getElementById('saveProduct').addEventListener('click', (e) => {
+        e.preventDefault();
+        productModal.hide();
+        const productName = document.getElementById('p_name').value;
+        const code = document.getElementById('p_code').value;
+        if (code.startsWith('NEW')) {
+            showSimulatedMessage(`Đã thêm thành công "${productName}" vào kho.`, 'success');
+        } else {
+            showSimulatedMessage(`Đã cập nhật thành công sản phẩm "${productName}".`, 'warning');
+        }
+    });
+
+    /* ========== MÔ PHỎNG XÓA ========== */
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.delete-btn');
+        if (!btn) return;
+        
+        const productName = btn.dataset.productName;
+        // Giữ lại confirm() để hiển thị hộp thoại xác nhận
+        if (confirm(`Bạn có chắc chắn muốn xóa sản phẩm "${productName}" không?`)) {
+            showSimulatedMessage(`Sản phẩm "${productName}" đã được xóa khỏi hệ thống.`, 'danger');
+        } else {
+            showSimulatedMessage(`Hủy thao tác xóa sản phẩm.`, 'info');
+        }
+    });
+
+    /* ========== TẢI LẠI, TÌM KIẾM VÀ LỌC (ĐÃ CẬP NHẬT) ========== */
+
+    // Logic tìm kiếm mới: chỉ hiển thị kết quả Donut mặc định
+    document.getElementById('searchProduct').addEventListener('input', (e) => {
+        const keyword = e.target.value.trim();
+        if (keyword.length > 0) {
+            // Luôn hiển thị tất cả sản phẩm Donut nếu có từ khóa
+            renderTable(defaultSearchResults);
+            showSimulatedMessage(`Tìm thấy ${defaultSearchResults.length} kết quả cho "${keyword}".`, 'success');
+        } else {
+            // Hiển thị lại toàn bộ bảng nếu ô tìm kiếm rỗng
+            renderTable(fullStaticProducts);
+        }
+        document.getElementById('filterCategory').value = ''; // Reset lọc
+    });
+
+    // Logic LỌC MỚI: chỉ hiển thị kết quả Donut mặc định
+    document.getElementById('filterCategory').addEventListener('change', (e) => {
+        const category = e.target.value;
+        if (category === '') {
+            renderTable(fullStaticProducts); // Hiển thị tất cả
+        } else {
+            // Luôn hiển thị tất cả sản phẩm Donut khi lọc
+            renderTable(defaultSearchResults);
+            showSimulatedMessage(`Đã lọc, tìm thấy ${defaultSearchResults.length} kết quả trong danh mục "${category}".`, 'success');
+        }
+        document.getElementById('searchProduct').value = ''; // Reset tìm kiếm
+    });
+
+
+    // MÔ PHỎNG TẢI LẠI
+    document.getElementById('refreshProducts').addEventListener('click', () => {
+        renderTable(fullStaticProducts); // Đảm bảo bảng hiển thị đầy đủ
+        document.getElementById('searchProduct').value = ''; // Reset tìm kiếm
+        document.getElementById('filterCategory').value = ''; // Reset lọc
+        showSimulatedMessage('Đã tải lại danh sách sản phẩm từ kho dữ liệu.', 'success');
+    });
+    
     /* ========== DARK MODE ========== */
     const themeBtn = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme');
@@ -165,158 +368,6 @@
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 
-    /* ========== DỮ LIỆU DEMO BAN ĐẦU ========== */
-    const defaultProducts = [
-      { code: 'P001', name: 'Bông lan phô mai', category: 'Bông lan', cost: 12000, price: 25000, qty: 15, image: '../assets/images/bonglan.jpg', desc: 'Ngon, mềm mịn, phô mai thơm béo' },
-      { code: 'P002', name: 'Cookies chocolate', category: 'Cookies', cost: 8000, price: 20000, qty: 30, image: '../assets/images/cookies.jpg', desc: 'Cookies giòn tan, vị chocolate' },
-      { code: 'P003', name: 'Donut socola', category: 'Donut', cost: 7000, price: 25000, qty: 20, image: '../assets/images/donut1.jpg', desc: 'Donut mềm xốp, phủ socola' },
-      { code: 'P004', name: 'Macaron mix', category: 'Macaron', cost: 9000, price: 30000, qty: 12, image: '../assets/images/macaron.jpg', desc: 'Macaron 5 vị đặc trưng' },
-      { code: 'P005', name: 'Tiramisu mini', category: 'Tiramisu', cost: 15000, price: 45000, qty: 8, image: '../assets/images/tiramisu.jpg', desc: 'Tiramisu mini thơm cà phê Ý' }
-    ];
-    let products = JSON.parse(localStorage.getItem('products')) || defaultProducts;
-
-    /* ========== HÀM HIỂN THỊ BẢNG ========== */
-    const tbody = document.getElementById('productTableBody');
-    function renderTable(data) {
-      tbody.innerHTML = '';
-      data.forEach((p, i) => {
-        tbody.innerHTML += `
-      <tr>
-        <td>${p.code}</td>
-        <td><img src="${p.image}" width="60" height="60" class="rounded-2" style="object-fit:cover"></td>
-        <td>${p.name}</td>
-        <td>${p.category}</td>
-        <td>${p.price.toLocaleString()} ₫</td>
-        <td>${p.qty}</td>
-        <td>
-          <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-index="${i}"><i class="fa-solid fa-pen"></i></button>
-          <button class="btn btn-sm btn-outline-danger delete-btn" data-index="${i}"><i class="fa-solid fa-trash"></i></button>
-        </td>
-      </tr>`;
-      });
-    }
-    renderTable(products);
-
-    /* ========== LƯU DỮ LIỆU ========== */
-    function saveData() {
-      localStorage.setItem('products', JSON.stringify(products));
-    }
-
-    /* ========== MỞ MODAL ========== */
-    const productModal = new bootstrap.Modal(document.getElementById('productModal'));
-    const openAddModalBtn = document.getElementById('openAddModal');
-    const modalTitle = document.getElementById('productModalTitle');
-    const saveBtn = document.getElementById('saveProduct');
-    let editIndex = null;
-
-    /* ========== UPLOAD ẢNH + PREVIEW ========== */
-    const imageInput = document.getElementById('p_image');
-    const previewImg = document.getElementById('previewImage');
-
-    imageInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          previewImg.src = event.target.result;
-          previewImg.dataset.uploaded = event.target.result; // lưu tạm base64
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    openAddModalBtn.addEventListener('click', () => {
-      modalTitle.textContent = 'Thêm sản phẩm';
-      document.getElementById('productForm').reset();
-      editIndex = null;
-      productModal.show();
-    });
-
-    /* ========== THÊM / CẬP NHẬT SẢN PHẨM ========== */
-    saveBtn.addEventListener('click', () => {
-      const p = {
-        code: document.getElementById('p_code').value.trim(),
-        name: document.getElementById('p_name').value.trim(),
-        category: document.getElementById('p_category').value,
-        cost: parseFloat(document.getElementById('p_cost').value) || 0,
-        price: parseFloat(document.getElementById('p_price').value) || 0,
-        qty: parseInt(document.getElementById('p_qty').value) || 0,
-        image: previewImg.dataset.uploaded || '../assets/images/noimg.png',
-        desc: document.getElementById('p_desc').value.trim()
-      };
-
-      if (!p.code || !p.name) {
-        alert('Vui lòng nhập mã và tên sản phẩm.');
-        return;
-      }
-
-      if (editIndex !== null) {
-        products[editIndex] = p;
-      } else {
-        products.push(p);
-      }
-      saveData();
-      renderTable(products);
-      productModal.hide();
-    });
-
-    /* ========== NÚT CHỈNH SỬA (FIXED) ========== */
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.edit-btn');
-      if (!btn) return; // không bấm vào nút edit thì bỏ qua
-      const index = parseInt(btn.dataset.index);
-      const p = products[index];
-      if (!p) return;
-
-      modalTitle.textContent = 'Chỉnh sửa sản phẩm';
-      document.getElementById('p_code').value = p.code;
-      document.getElementById('p_name').value = p.name;
-      document.getElementById('p_category').value = p.category;
-      document.getElementById('p_cost').value = p.cost;
-      document.getElementById('p_price').value = p.price;
-      document.getElementById('p_qty').value = p.qty;
-      document.getElementById('p_desc').value = p.desc || '';
-
-      // reset file input
-      document.getElementById('p_image').value = '';
-      previewImg.src = p.image || '../assets/images/noimg.png';
-      previewImg.dataset.uploaded = p.image;
-
-      editIndex = index;
-      productModal.show();
-    });
-
-    /* ========== NÚT XÓA ========== */
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('.delete-btn')) {
-        const index = e.target.closest('.delete-btn').dataset.index;
-        const p = products[index];
-        if (confirm(`Bạn có chắc muốn xóa "${p.name}"?`)) {
-          products.splice(index, 1);
-          saveData();
-          renderTable(products);
-        }
-      }
-    });
-
-    /* ========== TÌM KIẾM & LỌC ========== */
-    document.getElementById('searchProduct').addEventListener('input', filterProducts);
-    document.getElementById('filterCategory').addEventListener('change', filterProducts);
-
-    function filterProducts() {
-      const keyword = document.getElementById('searchProduct').value.toLowerCase();
-      const category = document.getElementById('filterCategory').value;
-      const filtered = products.filter(p =>
-        (p.name.toLowerCase().includes(keyword) || p.code.toLowerCase().includes(keyword)) &&
-        (category === '' || p.category === category)
-      );
-      renderTable(filtered);
-    }
-
-    /* ========== NÚT TẢI LẠI ========== */
-    document.getElementById('refreshProducts').addEventListener('click', () => {
-      localStorage.removeItem('products');
-      products = [...defaultProducts];
-      renderTable(products);
-    });
   </script>
+</body>
+</html>
