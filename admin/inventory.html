@@ -297,7 +297,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('.delete-btn')){
     const itemName = e.target.closest('.delete-btn').dataset.name;
     if(confirm('Xóa sản phẩm '+itemName+'?')){
-        showSimulatedMessage(`Đã xóa sản phẩm ${itemName}. (Dữ liệu tĩnh không thay đổi)`, 'danger');
+        showSimulatedMessage(`Đã xóa sản phẩm ${itemName}.`, 'danger');
     }
   }
 });
