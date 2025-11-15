@@ -20,7 +20,11 @@
       z-index: 1060;
       min-width: 300px;
       text-align: center;
+      transition: opacity 0.3s ease; /* Thêm transition cho thông báo */
     }
+    /* CSS ĐỒNG BỘ CƠ BẢN */
+    body.dark .modal-content { background: #2b2b3a; color: #f5f5f5; }
+    body.dark .form-control, body.dark .form-select { background-color: #1e1e2d; color: #f5f5f5; border-color: #444; }
   </style>
 </head>
 
@@ -93,6 +97,10 @@
               </tbody>
             </table>
           </div>
+          <!-- PHÂN TRANG -->
+          <nav class="mt-3">
+            <ul class="pagination justify-content-center" id="pagination"></ul>
+          </nav>
         </div>
       </div>
     </div>
@@ -172,10 +180,10 @@
     
     // Dữ liệu sản phẩm đầy đủ (Đã thêm đầy đủ cost và desc)
     const fullStaticProducts = [
-        { code: 'BL1', name: 'Bông lan Trứng Muối', category: 'Bông lan', cost: 75000, price: 150000, qty: 18, image: '../images/BongLan/bonglan2.png', desc: 'Bánh bông lan mềm xốp kèm trứng muối béo ngậy' },
+        { code: 'BL1', name: 'Bông lan Trứng Muối', category: 'Bông lan', cost: 75000, price: 150000, qty: 18, image: '../images/BongLan/bonglan1.png', desc: 'Bánh bông lan mềm xốp kèm trứng muối béo ngậy' },
         { code: 'BL2', name: 'Bông lan Phô Mai Tươi', category: 'Bông lan', cost: 85000, price: 170000, qty: 15, image: '../images/BongLan/bonglan2.png', desc: 'Hương vị phô mai tươi mát, tan chảy' },
         { code: 'BL3', name: 'Bông lan Socola Chip', category: 'Bông lan', cost: 60000, price: 120000, qty: 22, image: '../images/BongLan/bonglan3.png', desc: 'Bông lan truyền thống rắc hạt socola' },
-        { code: 'BL4', name: 'Bông lan Dâu Kem', category: 'Bông lan', cost: 80000, price: 160000, qty: 11, image: '../images/BongLan/bonglan1.png', desc: 'Sự kết hợp hoàn hảo của dâu tươi và lớp kem mượt mà' },
+        { code: 'BL4', name: 'Bông lan Dâu Kem', category: 'Bông lan', cost: 80000, price: 160000, qty: 11, image: '../images/BongLan/bonglan4.png', desc: 'Sự kết hợp hoàn hảo của dâu tươi và lớp kem mượt mà' },
         { code: 'BL5', name: 'Bông lan Trà Xanh', category: 'Bông lan', cost: 65000, price: 130000, qty: 14, image: '../images/BongLan/bonglan5.png', desc: 'Hương trà xanh thơm nhẹ, không gây ngán' },
         { code: 'CK1', name: 'Cookies Bơ Truyền Thống', category: 'Cookies', cost: 45000, price: 90000, qty: 25, image: '../images/Cookies/cookie1.png', desc: 'Cookies giòn rụm với hương bơ thơm lừng' },
         { code: 'CK2', name: 'Cookies Socola Chip', category: 'Cookies', cost: 40000, price: 80000, qty: 30, image: '../images/Cookies/cookie2.png', desc: 'Món ăn vặt kinh điển với socola chip hảo hạng' },
@@ -207,26 +215,39 @@
     const modalTitle = document.getElementById('productModalTitle');
     const simMessage = document.getElementById('simulatedMessage');
     const tbody = document.getElementById('productTableBody');
+    const pagination = document.getElementById('pagination'); // Lấy element phân trang
+    
+    let currentPage = 1;
+    const perPage = 5; // Đặt số lượng mục trên mỗi trang
 
     /* ========== HÀM MÔ PHỎNG THÔNG BÁO ========== */
     function showSimulatedMessage(message, type = 'success') {
       simMessage.textContent = message;
-      simMessage.className = `sim-alert alert alert-${type}`;
+      const colorClass = type === 'success' ? 'alert-success' : type === 'warning' ? 'alert-warning' : type === 'info' ? 'alert-info' : 'alert-danger';
+      const textColor = type === 'warning' || type === 'info' ? 'text-dark' : ''; 
+      
+      simMessage.className = `sim-alert alert ${colorClass} ${textColor} show`;
       simMessage.style.display = 'block';
       setTimeout(() => {
         simMessage.style.display = 'none';
       }, 3000);
     }
-
-    /* ========== HÀM RENDER BẢNG (MỚI) ========== */
+    
+    /* ========== HÀM RENDER BẢNG & PHÂN TRANG ========== */
     function renderTable(data) {
         tbody.innerHTML = '';
+        
+        // PHÂN TRANG DỮ LIỆU
+        const start = (currentPage - 1) * perPage;
+        const pageData = data.slice(start, start + perPage);
+
         if (data.length === 0) {
             tbody.innerHTML = '<tr><td colspan="7" class="text-muted">Không tìm thấy sản phẩm nào.</td></tr>';
+            renderPagination(data); // Render phân trang rỗng
             return;
         }
-        data.forEach((p) => {
-            // Đảm bảo nút Sửa/Xóa có data-product-code/name chính xác
+        
+        pageData.forEach((p) => {
             tbody.innerHTML += `
             <tr>
                 <td>${p.code}</td>
@@ -241,11 +262,23 @@
                 </td>
             </tr>`;
         });
+        
+        renderPagination(data);
+    }
+    
+    function renderPagination(list){
+      const totalPages=Math.max(1,Math.ceil(list.length/perPage));
+      pagination.innerHTML='';
+      for(let i=1;i<=totalPages;i++){
+        pagination.innerHTML+=`<li class="page-item ${i===currentPage?'active':''}"><button class="page-link">${i}</button></li>`;
+      }
+      pagination.querySelectorAll('button').forEach((b,idx)=>b.onclick=()=>{
+          currentPage=idx+1;
+          // Gọi lại hàm filterAndRender để lấy lại danh sách đã lọc (nếu có) và render lại trang hiện tại
+          filterAndRender(true); 
+      });
     }
 
-    // Hiển thị toàn bộ sản phẩm khi tải trang
-    renderTable(fullStaticProducts);
-    
 
     /* ========== MODAL THÊM SẢN PHẨM ========== */
     document.getElementById('openAddModal').addEventListener('click', () => {
@@ -255,7 +288,6 @@
       document.getElementById('p_code').readOnly = false;
       document.getElementById('previewImage').src = '../assets/images/noimg.png';
       
-      // Đảm bảo không có data-product-code cũ
       document.getElementById('saveProduct').dataset.editCode = ''; 
       productModal.show();
     });
@@ -266,13 +298,11 @@
       if (!btn) return;
 
       const code = btn.dataset.productCode;
-      // Tìm sản phẩm chính xác dựa trên mã
       const p = fullStaticProducts.find(item => item.code === code);
-      if (!p) return; // Không tìm thấy sản phẩm
+      if (!p) return; 
 
       modalTitle.textContent = `Chỉnh sửa: ${p.name}`;
       
-      // Điền thông tin chính xác của sản phẩm
       document.getElementById('p_code').value = p.code;
       document.getElementById('p_code').readOnly = true; 
       document.getElementById('p_name').value = p.name;
@@ -283,7 +313,6 @@
       document.getElementById('p_desc').value = p.desc || '';
       document.getElementById('previewImage').src = p.image;
       
-      // Lưu mã sản phẩm đang sửa vào nút Lưu
       document.getElementById('saveProduct').dataset.editCode = p.code;
 
       productModal.show();
@@ -308,7 +337,6 @@
         if (!btn) return;
         
         const productName = btn.dataset.productName;
-        // Giữ lại confirm() để hiển thị hộp thoại xác nhận
         if (confirm(`Bạn có chắc chắn muốn xóa sản phẩm "${productName}" không?`)) {
             showSimulatedMessage(`Sản phẩm "${productName}" đã được xóa khỏi hệ thống.`, 'danger');
         } else {
@@ -317,40 +345,46 @@
     });
 
     /* ========== TẢI LẠI, TÌM KIẾM VÀ LỌC (ĐÃ CẬP NHẬT) ========== */
+    // Biến tạm để lưu trữ danh sách đã lọc/tìm kiếm
+    let currentFilteredList = fullStaticProducts; 
 
-    // Logic tìm kiếm mới: chỉ hiển thị kết quả Donut mặc định
-    document.getElementById('searchProduct').addEventListener('input', (e) => {
-        const keyword = e.target.value.trim();
-        if (keyword.length > 0) {
-            // Luôn hiển thị tất cả sản phẩm Donut nếu có từ khóa
-            renderTable(defaultSearchResults);
-            showSimulatedMessage(`Tìm thấy ${defaultSearchResults.length} kết quả cho "${keyword}".`, 'success');
-        } else {
-            // Hiển thị lại toàn bộ bảng nếu ô tìm kiếm rỗng
-            renderTable(fullStaticProducts);
-        }
-        document.getElementById('filterCategory').value = ''; // Reset lọc
-    });
+    // Hàm tìm kiếm/lọc chính (mô phỏng)
+    function filterAndRender(isPaging = false){
+        const keyword = document.getElementById('searchProduct').value.trim();
+        const category = document.getElementById('filterCategory').value;
+        
+        if (!isPaging) {
+            currentPage = 1; // Reset về trang 1 khi thay đổi bộ lọc/tìm kiếm
+            
+            if (keyword === '' && category === '') {
+                currentFilteredList = fullStaticProducts;
+                showSimulatedMessage('Hiển thị toàn bộ sản phẩm.', 'success');
+            } else {
+                // Luôn hiển thị kết quả giả lập (Donut) khi có bộ lọc/tìm kiếm
+                currentFilteredList = defaultSearchResults;
+                let msg = '';
+                if (keyword) msg += 'Đã tìm kiếm theo từ khóa. ';
+                if (category) msg += 'Đã lọc theo danh mục. ';
 
-    // Logic LỌC MỚI: chỉ hiển thị kết quả Donut mặc định
-    document.getElementById('filterCategory').addEventListener('change', (e) => {
-        const category = e.target.value;
-        if (category === '') {
-            renderTable(fullStaticProducts); // Hiển thị tất cả
-        } else {
-            // Luôn hiển thị tất cả sản phẩm Donut khi lọc
-            renderTable(defaultSearchResults);
-            showSimulatedMessage(`Đã lọc, tìm thấy ${defaultSearchResults.length} kết quả trong danh mục "${category}".`, 'success');
+                showSimulatedMessage(`${msg.trim()} Hiển thị ${defaultSearchResults.length} kết quả.`, 'info');
+            }
         }
-        document.getElementById('searchProduct').value = ''; // Reset tìm kiếm
-    });
+        
+        // Render bảng và phân trang dựa trên danh sách đã lọc
+        renderTable(currentFilteredList);
+    }
+
+    // Gắn sự kiện cho Tìm kiếm và Lọc
+    document.getElementById('searchProduct').addEventListener('input', () => filterAndRender(false));
+    document.getElementById('filterCategory').addEventListener('change', () => filterAndRender(false));
 
 
     // MÔ PHỎNG TẢI LẠI
     document.getElementById('refreshProducts').addEventListener('click', () => {
-        renderTable(fullStaticProducts); // Đảm bảo bảng hiển thị đầy đủ
+        currentPage = 1;
         document.getElementById('searchProduct').value = ''; // Reset tìm kiếm
         document.getElementById('filterCategory').value = ''; // Reset lọc
+        filterAndRender(false); // Render lại toàn bộ
         showSimulatedMessage('Đã tải lại danh sách sản phẩm từ kho dữ liệu.', 'success');
     });
     
@@ -368,6 +402,8 @@
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 
+    // Khởi tạo hiển thị ban đầu
+    renderTable(fullStaticProducts);
   </script>
 </body>
 </html>
