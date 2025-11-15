@@ -1,22 +1,60 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Quản lý tồn kho - Đăng Đại Bakery</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<link rel="stylesheet" href="../css/admin_style.css">
-<style>
-  body.dark .modal-content { background: #2b2b3a; color: #f5f5f5; }
-  body.dark .form-control, body.dark .form-select { background-color: #1e1e2d; color: #f5f5f5; border-color: #444; }
-  #toastContainer { position: fixed; top: 1rem; right: 1rem; z-index: 9999; }
-  #loadingSpinner { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; display: none; }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quản lý tồn kho - Đăng Đại Bakery</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin_style.css">
+  <style>
+    /* CSS ĐỒNG BỘ CƠ BẢN (TỪ QUẢN LÝ ĐƠN HÀNG/KHÁCH HÀNG) */
+    body.dark .modal-content { background: #2b2b3a; color: #f5f5f5; }
+    body.dark .form-control, body.dark .form-select { background-color: #1e1e2d; color: #f5f5f5; border-color: #444; }
+    body.dark .list-group-item { background: transparent; color: #fff; border-color: #444; }
+    
+    /* STYLE CHO SIMULATED ALERT (ĐỒNG BỘ) */
+    .sim-alert {
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: fit-content;
+      z-index: 1060;
+      min-width: 300px;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+
+    /* STYLE CHO LOADING SPINNER */
+    #loadingSpinner {
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 2000;
+      display: none;
+      background-color: rgba(0, 0, 0, 0.1);
+      width: 100%; height: 100%;
+    }
+    #loadingSpinner .spinner-border {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    /* CSS ĐỒNG BỘ DARK MODE */
+    body.dark #loadingSpinner {
+        background-color: rgba(255, 255, 255, 0.05); /* Nền mờ cho Dark Mode */
+    }
+  </style>
 </head>
 
 <body>
+<!-- Thông báo mô phỏng -->
+<div id="simulatedMessage" class="sim-alert alert" style="display: none;"></div>
+<div id="loadingSpinner"><div class="spinner-border text-danger" style="width:3rem;height:3rem;"></div></div>
+
 <!-- Sidebar -->
 <div class="sidebar">
   <div class="brand"><i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Admin</div>
@@ -100,9 +138,6 @@
   <footer class="mt-5 small text-center">© 2025 Đăng Đại Bakery Admin</footer>
 </div>
 
-<div id="toastContainer"></div>
-<div id="loadingSpinner"><div class="spinner-border text-danger" style="width:3rem;height:3rem;"></div></div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
@@ -115,18 +150,26 @@ if(localStorage.getItem('theme')==='dark'){document.body.classList.add('dark');t
 themeBtn.onclick=()=>{document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');themeBtn.innerHTML=dark?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>';localStorage.setItem('theme',dark?'dark':'light');};
 
 const showLoading=(s=true)=>{document.getElementById('loadingSpinner').style.display=s?'flex':'none';};
-function showToast(msg,type='success'){
-  const c=document.getElementById('toastContainer');
-  const color=type==='success'?'bg-success':'bg-danger';
-  const t=document.createElement('div');
-  t.className=`toast align-items-center text-white ${color} border-0 show mb-2`;
-  t.innerHTML=`<div class="d-flex"><div class="toast-body">${msg}</div><button type="button" class="btn-close btn-close-white me-2 m-auto"></button></div>`;
-  c.appendChild(t); setTimeout(()=>t.remove(),3000);
+
+/* 🔔 Alert Message (ĐỒNG BỘ) */
+function showSimulatedMessage(msg, type = 'success') {
+    const simMessage = document.getElementById('simulatedMessage');
+    // Xác định lớp màu và màu chữ dựa trên type
+    const colorClass = type === 'success' ? 'alert-success' : type === 'warning' ? 'alert-warning' : type === 'info' ? 'alert-info' : 'alert-danger';
+    const textColor = type === 'warning' || type === 'info' ? 'text-dark' : ''; 
+
+    simMessage.textContent = msg;
+    simMessage.className = `sim-alert alert ${colorClass} ${textColor} show`;
+    simMessage.style.display = 'block';
+    
+    setTimeout(() => {
+        simMessage.style.display = 'none';
+    }, 3000);
 }
 
-// Sinh 40 sản phẩm mẫu
-let inventory = [];
+// Sinh 40 sản phẩm mẫu (HARDCODE)
 const categories=['Bông lan','Donut','Tiramisu','Cookie','Macaron'];
+let inventory = [];
 for(let i=1;i<=40;i++){
   const cat=categories[i%categories.length];
   inventory.push({
@@ -138,7 +181,10 @@ for(let i=1;i<=40;i++){
     date: '2025-10-'+(i%28+1).toString().padStart(2,'0')
   });
 }
-localStorage.setItem('inventory',JSON.stringify(inventory));
+
+// Dữ liệu giả lập kết quả tìm kiếm/lọc: hiển thị 3 sản phẩm đầu tiên
+const simulatedSearchResults = inventory.slice(0, 3);
+
 
 const tbody=document.getElementById('inventoryBody');
 const pagination=document.getElementById('pagination');
@@ -150,18 +196,35 @@ function getStatus(qty){
   return {text:'Còn hàng',cls:'success'};
 }
 
+// HÀM LỌC CHÍNH (BỊ THAY THẾ BẰNG MÔ PHỎNG)
 function filterItems(){
-  const k=document.getElementById('searchItem').value.toLowerCase();
+  const k=document.getElementById('searchItem').value.toLowerCase().trim();
   const st=document.getElementById('filterStatus').value;
-  return inventory.filter(i=>{
-    return (i.name+i.id+i.category).toLowerCase().includes(k)
-      &&(st===''||(st==='ok'&&i.qty>5)||(st==='low'&&i.qty>0&&i.qty<=5)||(st==='out'&&i.qty<=0));
-  });
+  
+  if (k === '' && st === '') {
+      // Không có tìm kiếm/lọc, hiển thị toàn bộ
+      showSimulatedMessage('Hiển thị toàn bộ dữ liệu tồn kho.', 'success');
+      return inventory;
+  } else {
+      // Có tìm kiếm/lọc, hiển thị kết quả giả lập
+      let msg = '';
+      if (k) msg += 'Đã tìm kiếm theo từ khóa. ';
+      if (st) msg += 'Đã lọc theo trạng thái. ';
+      
+      showSimulatedMessage(`${msg.trim()} Hiển thị ${simulatedSearchResults.length} kết quả.`, 'info');
+      return simulatedSearchResults;
+  }
 }
 
 function renderItems(list){
   tbody.innerHTML='';
   const start=(currentPage-1)*perPage, data=list.slice(start,start+perPage);
+  if (data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" class="text-muted">Không tìm thấy sản phẩm nào.</td></tr>';
+      renderPagination([]);
+      return;
+  }
+  
   data.forEach(i=>{
     const s=getStatus(i.qty);
     tbody.innerHTML+=`
@@ -171,7 +234,7 @@ function renderItems(list){
         <td><span class="badge bg-${s.cls}">${s.text}</span></td>
         <td>
           <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${i.id}"><i class="fa-solid fa-pen"></i></button>
-          <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${i.id}"><i class="fa-solid fa-trash"></i></button>
+          <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${i.id}" data-name="${i.name}"><i class="fa-solid fa-trash"></i></button>
         </td>
       </tr>`;
   });
@@ -184,18 +247,42 @@ function renderPagination(list){
   for(let i=1;i<=total;i++){
     pagination.innerHTML+=`<li class="page-item ${i===currentPage?'active':''}"><button class="page-link">${i}</button></li>`;
   }
-  pagination.querySelectorAll('button').forEach((b,idx)=>b.onclick=()=>{currentPage=idx+1;renderItems(filterItems());});
+  // Gắn lại sự kiện cho các nút phân trang
+  pagination.querySelectorAll('button').forEach((b,idx)=>b.onclick=()=>{
+      currentPage=idx+1;
+      const filteredList = filterItems(); // Lấy danh sách đã lọc (hoặc toàn bộ)
+      renderItems(filteredList);
+  });
 }
 
-document.getElementById('searchItem').addEventListener('input',()=>renderItems(filterItems()));
-document.getElementById('filterStatus').onchange=()=>renderItems(filterItems());
-document.getElementById('refreshData').onclick=()=>{localStorage.removeItem('inventory');location.reload();};
+// CÁC SỰ KIỆN MÔ PHỎNG
+document.getElementById('searchItem').addEventListener('input',()=>{currentPage = 1; renderItems(filterItems());});
+document.getElementById('filterStatus').onchange=()=>{currentPage = 1; renderItems(filterItems());};
 
-// Chỉnh sửa & xóa
+document.getElementById('refreshData').onclick=()=>{
+    showLoading();
+    setTimeout(() => {
+        // Mô phỏng tải lại dữ liệu tĩnh
+        inventory = [...inventory]; 
+        document.getElementById('searchItem').value = '';
+        document.getElementById('filterStatus').value = '';
+        currentPage = 1;
+        renderItems(inventory);
+        showSimulatedMessage('Đã tải lại dữ liệu tồn kho.', 'success');
+        showLoading(false);
+    }, 500);
+};
+
+// Chỉnh sửa & xóa (MÔ PHỎNG)
 const modal=new bootstrap.Modal('#itemModal');
 document.addEventListener('click',e=>{
-  const id=e.target.closest('[data-id]')?.dataset.id; if(!id)return;
-  const idx=inventory.findIndex(i=>i.id===id), it=inventory[idx];
+  const id=e.target.closest('[data-id]')?.dataset.id; 
+  if(!id)return;
+  
+  const it=inventory.find(i=>i.id===id);
+  if(!it) return;
+
+  // Mô phỏng chỉnh sửa
   if(e.target.closest('.edit-btn')){
     document.getElementById('itemId').value=it.id;
     document.getElementById('itemName').value=it.name;
@@ -205,32 +292,29 @@ document.addEventListener('click',e=>{
     document.getElementById('itemDate').value=it.date;
     modal.show();
   }
+  
+  // Mô phỏng xóa
   if(e.target.closest('.delete-btn')){
-    if(confirm('Xóa sản phẩm '+it.name+'?')){
-      inventory.splice(idx,1);
-      localStorage.setItem('inventory',JSON.stringify(inventory));
-      renderItems(filterItems());
-      showToast('Đã xóa sản phẩm','error');
+    const itemName = e.target.closest('.delete-btn').dataset.name;
+    if(confirm('Xóa sản phẩm '+itemName+'?')){
+        showSimulatedMessage(`Đã xóa sản phẩm ${itemName}. (Dữ liệu tĩnh không thay đổi)`, 'danger');
     }
   }
 });
 
-// Lưu chỉnh sửa
+// Lưu chỉnh sửa (MÔ PHỎNG)
 document.getElementById('saveItem').onclick=()=>{
-  const id=document.getElementById('itemId').value;
   const name=document.getElementById('itemName').value.trim();
-  const cat=document.getElementById('itemCategory').value.trim();
-  const price=parseInt(document.getElementById('itemPrice').value)||0;
-  const qty=parseInt(document.getElementById('itemQuantity').value)||0;
-  const date=document.getElementById('itemDate').value;
-  if(!name||!cat||!date){showToast('Vui lòng nhập đủ thông tin!','error');return;}
-  const idx=inventory.findIndex(i=>i.id===id);
-  if(idx>-1){inventory[idx]={id,name,category:cat,price,qty,date}; showToast('Đã cập nhật sản phẩm');}
-  localStorage.setItem('inventory',JSON.stringify(inventory));
-  modal.hide(); renderItems(filterItems());
+  const id=document.getElementById('itemId').value;
+
+  if(!name){showSimulatedMessage('Vui lòng nhập đủ thông tin!','danger');return;}
+
+  modal.hide();
+  showSimulatedMessage(`Đã cập nhật sản phẩm ${id}: ${name}`, 'success');
+  // Không cần render lại vì dữ liệu tĩnh không thay đổi
 }
 
-renderItems(filterItems());
+renderItems(inventory);
 </script>
 </body>
 </html>
