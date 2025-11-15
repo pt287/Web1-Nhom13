@@ -200,3 +200,30 @@ document.addEventListener("DOMContentLoaded", function () {
   // --- Load mặc định ---
   loadCategory("all");
 });
+
+// --- PAGINATION HIGHLIGHT ---
+  // Lấy tên file hiện tại
+  const currentPage = location.pathname.split("/").pop();
+
+  // Danh sách các trang phân trang
+  const pages = {
+    "orderhistory.html": 1,
+    "orderhistory2.html": 2,
+    "orderhistory3.html": 3,
+  };
+
+  const activePageNumber = pages[currentPage];
+
+  // Highlight trang hiện tại
+  const paginationLinks = document.querySelectorAll(".pagination .page-link");
+
+  paginationLinks.forEach((link) => {
+    const file = link.getAttribute("href");
+
+    if (pages[file] === activePageNumber) {
+      link.parentElement.classList.add("active");
+    } else {
+      link.parentElement.classList.remove("active");
+    }
+  });
+

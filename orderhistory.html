@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch sử đơn hàng - Đăng Đại Bakery</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- ===== HEADER ===== -->
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top"
+    >
+      <div class="container">
+        <a class="navbar-brand fw-bold text-danger fs-3" href="index.html">
+          <i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Bakery
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav align-items-center">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Trang chủ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="product.html">Sản phẩm</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Liên hệ</a>
+            </li>
+
+            <!-- USER MENU -->
+            <li class="nav-item dropdown user-menu ms-3">
+              <a
+                class="nav-link dropdown-toggle d-flex align-items-center"
+                href="#"
+                id="userDropdown"
+              >
+                <i class="fa-solid fa-user-circle fa-lg me-1 text-danger"></i>
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3"
+              >
+                <li>
+                  <a class="dropdown-item" href="account.html"
+                    ><i class="fa-solid fa-id-card me-2 text-danger"></i>Thông
+                    tin tài khoản</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="index.html"
+                    ><i
+                      class="fa-solid fa-right-from-bracket me-2 text-danger"
+                    ></i
+                    >Đăng xuất</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item ms-3">
+              <a class="btn btn-danger rounded-pill px-3" href="cart.html"
+                >🛒 Giỏ hàng</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== ORDER HISTORY ===== -->
+    <div class="content pt-5 mt-5">
+      <div class="container">
+        <h2 class="text-center my-4 fw-bold text-danger">LỊCH SỬ ĐƠN HÀNG</h2>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead class="table-danger text-center">
+              <tr>
+                <th>Mã đơn</th>
+                <th>Ngày đặt</th>
+                <th>Sản phẩm</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Chi tiết</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#BKE001</td>
+                <td>15/12/2023</td>
+                <td>Bông Lan Dâu Tươi</td>
+                <td>150.000₫</td>
+                <td><span class="badge bg-success">Đã giao hàng</span></td>
+                <td>
+                  <button
+                    class="btn btn-sm btn-info"
+                    data-bs-toggle="modal"
+                    data-bs-target="#orderModal1"
+                  >
+                    Xem
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>#BKE002</td>
+                <td>10/12/2023</td>
+                <td>Bông Lan Phô Mai Trứng Muối</td>
+                <td>120.000₫</td>
+                <td>
+                  <span class="badge bg-warning text-dark">Đang giao</span>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-sm btn-info"
+                    data-bs-toggle="modal"
+                    data-bs-target="#orderModal2"
+                  >
+                    Xem
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>#BKE003</td>
+                <td>05/12/2023</td>
+                <td>Tiramisu Trà Xanh</td>
+                <td>160.000₫</td>
+                <td><span class="badge bg-success">Đã giao hàng</span></td>
+                <td>
+                  <button
+                    class="btn btn-sm btn-info"
+                    data-bs-toggle="modal"
+                    data-bs-target="#orderModal3"
+                  >
+                    Xem
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== -->
+    <!--      MODAL 1          -->
+    <!-- ===================== -->
+    <div class="modal fade" id="orderModal1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Chi tiết đơn #BKE001</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <h6 class="fw-bold">Thông tin đơn hàng</h6>
+                <p>Ngày đặt: 15/12/2023</p>
+                <p>
+                  Trạng thái: <span class="badge bg-success">Đã giao hàng</span>
+                </p>
+                <p>Thanh toán: Khi nhận hàng</p>
+              </div>
+
+              <div class="col-md-6">
+                <h6 class="fw-bold">Thông tin giao hàng</h6>
+                <p>Người nhận: Nguyễn Văn A</p>
+                <p>Địa chỉ: 123 Nguyễn Văn Cừ, Quận 5, TP.HCM</p>
+                <p>Số điện thoại: 0909 109 343</p>
+              </div>
+            </div>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th>Hình ảnh</th>
+                  <th>Số lượng</th>
+                  <th>Giá</th>
+                  <th>Tổng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Bông Lan Dâu Tươi</td>
+                  <td><img src="images/BongLan/bonglan1.png" width="80" /></td>
+                  <td>1</td>
+                  <td>150.000₫</td>
+                  <td>150.000₫</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== -->
+    <!--      MODAL 2          -->
+    <!-- ===================== -->
+    <div class="modal fade" id="orderModal2">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Chi tiết đơn #BKE002</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <h6 class="fw-bold">Thông tin đơn hàng</h6>
+                <p>Ngày đặt: 10/12/2023</p>
+                <p>
+                  Trạng thái:
+                  <span class="badge bg-warning text-dark">Đang giao</span>
+                </p>
+                <p>Thanh toán: Chuyển khoản</p>
+              </div>
+
+              <div class="col-md-6">
+                <h6 class="fw-bold">Thông tin giao hàng</h6>
+                <p>Người nhận: Nguyễn Văn A</p>
+                <p>Địa chỉ: 123 Nguyễn Văn Cừ, Quận 5, TP.HCM</p>
+                <p>Số điện thoại: 0909 109 343</p>
+              </div>
+            </div>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th>Hình ảnh</th>
+                  <th>Số lượng</th>
+                  <th>Giá</th>
+                  <th>Tổng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Bông Lan Phô Mai Trứng Muối</td>
+                  <td><img src="images/BongLan/bonglan2.png" width="80" /></td>
+                  <td>1</td>
+                  <td>120.000₫</td>
+                  <td>120.000₫</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== -->
+    <!--      MODAL 3          -->
+    <!-- ===================== -->
+    <div class="modal fade" id="orderModal3">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Chi tiết đơn #BKE003</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <h6 class="fw-bold">Thông tin đơn hàng</h6>
+                <p>Ngày đặt: 05/12/2023</p>
+                <p>
+                  Trạng thái: <span class="badge bg-success">Đã giao hàng</span>
+                </p>
+                <p>Thanh toán: Khi nhận hàng</p>
+              </div>
+
+              <div class="col-md-6">
+                <h6 class="fw-bold">Thông tin giao hàng</h6>
+                <p>Người nhận: Nguyễn Văn A</p>
+                <p>Địa chỉ: 123 Nguyễn Văn Cừ, Quận 5, TP.HCM</p>
+                <p>Số điện thoại: 0909 109 343</p>
+              </div>
+            </div>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th>Hình ảnh</th>
+                  <th>Số lượng</th>
+                  <th>Giá</th>
+                  <th>Tổng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tiramisu Trà Xanh</td>
+                  <td>
+                    <img src="images/Tiramisu/tiramisu3.png" width="80" />
+                  </td>
+                  <td>1</td>
+                  <td>160.000₫</td>
+                  <td>160.000₫</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- Pagination -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <nav aria-label="Page navigation" class="d-flex justify-content-center" style="margin: 20px 0;">
+          <ul class="pagination">
+            <li class="page-item">
+              <!-- <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a> -->
+            </li>
+            <li class="page-item active"><a class="page-link" href="orderhistory.html">1</a></li>
+            <li class="page-item"><a class="page-link" href="orderhistory2.html">2</a></li>
+            <li class="page-item"><a class="page-link" href="orderhistory3.html">3</a></li>
+            <li class="page-item">
+              <!-- <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a> -->
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="mt-5 pt-5 pb-3">
+      <div class="container text-center">
+        <h5 class="fw-bold text-uppercase mb-3">Đăng Đại Bakery</h5>
+        <p>
+          Ngọt ngào mỗi ngày — nơi những chiếc bánh được làm từ tình yêu & niềm
+          đam mê 🍰
+        </p>
+
+        <div class="footer-social mb-3">
+          <a target="_blank" href="https://facebook.com"
+            ><i class="fa-brands fa-facebook"></i
+          ></a>
+          <a target="_blank" href="https://instagram.com"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a target="_blank" href="https://tiktok.com"
+            ><i class="fa-brands fa-tiktok"></i
+          ></a>
+        </div>
+
+        <p class="small mb-0">
+          📍 123 Nguyễn Văn Cừ, Quận 5, TP.HCM | 📞 0909 109 343 | ✉️
+          lienhe@dangdaibakery.vn
+        </p>
+        <hr class="my-3" style="opacity: 0.2" />
+        <p class="mb-0 small">© 2025 Đăng Đại Bakery - All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- ===== Back to top ===== -->
+    <button id="backToTop" class="btn btn-danger rounded-circle">↑</button>
+
+    <!-- ===== Hotline ===== -->
+    <div class="hotline-fixed">
+      <i class="fa fa-phone"></i>
+      <span>Gọi 0909 109 343</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+    <script src="js/script.js"></script>
+    
+  </body>
+</html>

@@ -210,6 +210,73 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-bold">Tóm tắt đơn hàng</h5>
+                <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Sản phẩm</th>
+                                    <th scope="col" class="text-center">Đơn giá</th>
+                                    <th scope="col" class="text-center">Số lượng</th>
+                                    <th scope="col" class="text-center">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cart-list">
+                                <!-- === SẢN PHẨM MẪU (CÓ THỂ XOÁ KHI DÙNG DỮ LIỆU THẬT) === -->
+                                <tr data-id="BL1">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="../images/BongLan/bonglan1.png" class="rounded me-3" width="70"
+                                                alt="Bông lan">
+                                            <div>
+                                                <h6 class="fw-semibold mb-1">Bông Lan Phô Mai</h6>
+                                                <small class="text-muted">Mã: BL1</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">120.000₫</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center text-danger fw-bold">120.000₫</td>
+                                    
+                                </tr>
+
+                                <tr data-id="CK2">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="../images/Tiramisu/tiramisu1.png" class="rounded me-3" width="70"
+                                                alt="Tiramisu">
+                                            <div>
+                                                <h6 class="fw-semibold mb-1">Tiramisu Kem Socola</h6>
+                                                <small class="text-muted">Mã: CK2</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">180.000₫</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center text-danger fw-bold">360.000₫</td>
+                                    
+                                </tr>
+
+                                <tr data-id="MC1">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="../images/Macaron/macaron1.png" class="rounded me-3" width="70"
+                                                alt="Macaron">
+                                            <div>
+                                                <h6 class="fw-semibold mb-1">Set Macaron Pháp 6 vị</h6>
+                                                <small class="text-muted">Mã: MC1</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">90.000₫</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center text-danger fw-bold">90.000₫</td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 <p class="mb-1">Tạm tính: <span class="fw-bold text-danger">570.000₫</span></p>
                 <p class="mb-3">Phí vận chuyển: <span class="fw-bold text-danger">30.000₫</span></p>
                 <h5 class="fw-bold">Tổng cộng: <span class="text-danger">600.000₫</span></h5>
@@ -258,7 +325,7 @@
         document.getElementById("closeModal").addEventListener("click", function () {
             const modal = document.getElementById("paymentModal");
             modal.style.display = "none";
-            window.location.href = "index.html";
+            window.location.href = "index2.html";
         });
     </script>
 </body>
