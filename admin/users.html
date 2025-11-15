@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -9,20 +10,56 @@
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/admin_style.css">
   <style>
+    /* CSS ĐỒNG BỘ CƠ BẢN (TỪ QUẢN LÝ ĐƠN HÀNG) */
     body.dark .modal-content { background: #2b2b3a; color: #f5f5f5; }
     body.dark .form-control, body.dark .form-select { background-color: #1e1e2d; color: #f5f5f5; border-color: #444; }
-    #toastContainer { position: fixed; top: 1rem; right: 1rem; z-index: 9999; }
+    body.dark .list-group-item { background: transparent; color: #fff; border-color: #444; }
+    
+    /* STYLE CHO SIMULATED ALERT (ĐỒNG BỘ) */
+    .sim-alert {
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: fit-content;
+      z-index: 1060;
+      min-width: 300px;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+
+    /* STYLE CHO LOADING SPINNER */
     #loadingSpinner {
       position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
+      top: 0; left: 0;
       z-index: 2000;
       display: none;
+      background-color: rgba(0, 0, 0, 0.1);
+      width: 100%; height: 100%;
+    }
+    #loadingSpinner .spinner-border {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    /* CSS ĐỒNG BỘ DARK MODE */
+    body.dark #loadingSpinner {
+        background-color: rgba(255, 255, 255, 0.05); /* Nền mờ cho Dark Mode */
     }
   </style>
 </head>
 
 <body>
+  <!-- Thông báo mô phỏng (Đã thay thế Toast Container) -->
+  <div id="simulatedMessage" class="sim-alert alert" style="display: none;"></div>
+  
+  <!-- Loading Spinner -->
+  <div id="loadingSpinner">
+    <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;"></div>
+  </div>
+
   <!-- Sidebar -->
   <div class="sidebar">
     <div class="brand"><i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Admin</div>
@@ -49,7 +86,7 @@
     <div class="container-fluid" data-aos="fade-up">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-          <button class="btn btn-outline-danger" id="addUserBtn"><i class="fa-solid fa-user-plus"></i> Thêm khách hàng</button>
+          <!-- Nút "Thêm khách hàng" đã bị xóa -->
           <button class="btn btn-outline-secondary" id="refreshUsers"><i class="fa-solid fa-rotate"></i> Tải lại</button>
         </div>
         <div class="d-flex gap-2">
@@ -67,7 +104,8 @@
           <div class="table-responsive">
             <table class="table table-hover align-middle text-center">
               <thead class="table-light">
-                <tr><th>ID</th><th>Họ tên</th><th>Email</th><th>Điện thoại</th><th>Trạng thái</th><th>Hành động</th></tr>
+                <!-- CỘT MẬT KHẨU ĐÃ THÊM -->
+                <tr><th>ID</th><th>Họ tên</th><th>Email</th><th>Điện thoại</th><th>Mật khẩu</th><th>Trạng thái</th><th>Hành động</th></tr>
               </thead>
               <tbody id="userTableBody"></tbody>
             </table>
@@ -101,12 +139,6 @@
     <footer class="mt-5 small text-center">© 2025 Đăng Đại Bakery Admin</footer>
   </div>
 
-  <!-- Toast + Loading -->
-  <div id="toastContainer"></div>
-  <div id="loadingSpinner">
-    <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;"></div>
-  </div>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
@@ -117,16 +149,26 @@
   if(localStorage.getItem('theme')==='dark'){document.body.classList.add('dark');themeBtn.innerHTML='<i class="fa-solid fa-sun"></i>';}
   themeBtn.onclick=()=>{document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');themeBtn.innerHTML=dark?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>';localStorage.setItem('theme',dark?'dark':'light');};
 
-  /* 👥 Dữ liệu mẫu */
-  const defaultUsers=[
-    {id:'KH001',name:'Nguyễn Văn A',email:'a@example.com',phone:'0123456789',locked:false},
-    {id:'KH002',name:'Trần Thị B',email:'b@example.com',phone:'0912345678',locked:true},
-    {id:'KH003',name:'Lê Văn C',email:'c@example.com',phone:'0987654321',locked:false},
-    {id:'KH004',name:'Phạm Thị D',email:'d@example.com',phone:'0909888777',locked:false},
-    {id:'KH005',name:'Hoàng Văn E',email:'e@example.com',phone:'0977666555',locked:true}
+  /* 👥 Dữ liệu mẫu (Hardcode) */
+  const fullStaticUsers=[
+    {id:'KH001',name:'Nguyễn Văn A',email:'a@example.com',phone:'0123456789',locked:false, password:'********'},
+    {id:'KH002',name:'Trần Thị B',email:'b@example.com',phone:'0912345678',locked:true, password:'********'},
+    {id:'KH003',name:'Lê Văn C',email:'c@example.com',phone:'0987654321',locked:false, password:'********'},
+    {id:'KH004',name:'Phạm Thị D',email:'d@example.com',phone:'0909888777',locked:false, password:'********'},
+    {id:'KH005',name:'Hoàng Văn E',email:'e@example.com',phone:'0977666555',locked:true, password:'********'},
+    {id:'KH006',name:'Đinh Công F',email:'f@example.com',phone:'0912333444',locked:false, password:'********'},
+    {id:'KH007',name:'Vũ Thị G',email:'g@example.com',phone:'0888999000',locked:false, password:'********'},
+    // KHÁCH HÀNG MỚI
+    {id:'KH008',name:'Ngô Thanh H',email:'h@example.com',phone:'0933444555',locked:false, password:'********'},
+    {id:'KH009',name:'Bùi Minh K',email:'k@example.com',phone:'0966777888',locked:true, password:'********'},
+    {id:'KH010',name:'Trịnh Văn L',email:'l@example.com',phone:'0944555666',locked:false, password:'********'},
+    {id:'KH011',name:'Đỗ Thị M',email:'m@example.com',phone:'0922111333',locked:false, password:'********'},
+    {id:'KH012',name:'Phan Anh N',email:'n@example.com',phone:'0955777999',locked:true, password:'********'}
   ];
-  let users = JSON.parse(localStorage.getItem('users')) || defaultUsers;
-  const saveUsers = ()=>localStorage.setItem('users',JSON.stringify(users));
+  let users = [...fullStaticUsers]; // Khởi tạo mảng hiển thị bằng dữ liệu tĩnh
+
+  // Dữ liệu giả lập kết quả tìm kiếm/lọc: hiển thị 4 khách hàng đầu tiên
+  const simulatedSearchResult = fullStaticUsers.slice(0, 4); 
 
   const tbody=document.getElementById('userTableBody');
   const pagination=document.getElementById('pagination');
@@ -134,38 +176,41 @@
 
   const showLoading=(s=true)=>{document.getElementById('loadingSpinner').style.display=s?'flex':'none';};
 
-  /* 🔔 Toast */
-  function showToast(msg, type='success'){
-    const container=document.getElementById('toastContainer');
-    const color=type==='success'?'bg-success':'bg-danger';
-    const toast=document.createElement('div');
-    toast.className=`toast align-items-center text-white ${color} border-0 show mb-2`;
-    toast.innerHTML=`<div class="d-flex"><div class="toast-body">${msg}</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>`;
-    container.appendChild(toast);
-    setTimeout(()=>toast.remove(),3000);
+  /* 🔔 Alert Message (ĐỒNG BỘ) */
+  function showSimulatedMessage(message, type = 'success') {
+    const simMessage = document.getElementById('simulatedMessage');
+    // Xác định lớp màu và màu chữ dựa trên type
+    const colorClass = type === 'success' ? 'alert-success' : type === 'warning' ? 'alert-warning' : type === 'info' ? 'alert-info' : 'alert-danger';
+    const textColor = type === 'warning' || type === 'info' ? 'text-dark' : ''; 
+
+    simMessage.textContent = message;
+    simMessage.className = `sim-alert alert ${colorClass} ${textColor} show`;
+    simMessage.style.display = 'block';
+    
+    setTimeout(() => {
+        simMessage.style.display = 'none';
+    }, 3000);
   }
 
-  function filterUsers(){
-    const key=document.getElementById('searchUser').value.trim().toLowerCase();
-    const st=document.getElementById('filterStatus').value;
-    return users.filter(u=>{
-      const target=(u.name+u.email+u.id+u.phone).toLowerCase();
-      return target.includes(key) && (st===''||(st==='active'&&!u.locked)||(st==='locked'&&u.locked));
-    });
-  }
-
+  /* ⚙️ HÀM RENDER CHÍNH */
   function renderUsers(list){
     tbody.innerHTML='';
     const start=(currentPage-1)*perPage, pageData=list.slice(start,start+perPage);
     pageData.forEach(u=>{
       tbody.innerHTML+=`
       <tr>
-        <td>${u.id}</td><td>${u.name}</td><td>${u.email}</td><td>${u.phone}</td>
+        <td>${u.id}</td>
+        <td>${u.name}</td>
+        <td>${u.email}</td>
+        <td>${u.phone}</td>
+        <!-- CỘT MẬT KHẨU -->
+        <td>********</td>
         <td><span class="badge ${u.locked?'bg-secondary':'bg-success'}">${u.locked?'Đã khóa':'Hoạt động'}</span></td>
         <td>
           <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${u.id}"><i class="fa-solid fa-pen"></i></button>
           <button class="btn btn-sm btn-outline-warning me-1 lock-btn" data-id="${u.id}" title="${u.locked?'Mở khóa':'Khóa'}"><i class="fa-solid ${u.locked?'fa-lock-open':'fa-lock'}"></i></button>
-          <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${u.id}"><i class="fa-solid fa-trash"></i></button>
+          <!-- NÚT ĐẶT LẠI MẬT KHẨU MỚI -->
+          <button class="btn btn-sm btn-outline-info reset-password-btn" data-id="${u.id}" data-name="${u.name}" title="Đặt lại mật khẩu"><i class="fa-solid fa-key"></i></button>
         </td></tr>`;
     });
     renderPagination(list);
@@ -177,28 +222,58 @@
     for(let i=1;i<=totalPages;i++){
       pagination.innerHTML+=`<li class="page-item ${i===currentPage?'active':''}"><button class="page-link">${i}</button></li>`;
     }
-    pagination.querySelectorAll('button').forEach((btn,idx)=>btn.onclick=()=>{currentPage=idx+1;renderUsers(filterUsers());});
+    pagination.querySelectorAll('button').forEach((btn,idx)=>btn.onclick=()=>{currentPage=idx+1;renderUsers(users);});
   }
 
-  /* 🔍 realtime search */
-  document.getElementById('searchUser').addEventListener('input',()=>{renderUsers(filterUsers());});
-  document.getElementById('filterStatus').onchange=()=>{renderUsers(filterUsers());};
-  document.getElementById('refreshUsers').onclick=()=>{localStorage.removeItem('users');location.reload();};
+  /* 🔍 TÌM KIẾM & LỌC (MÔ PHỎNG) */
+  document.getElementById('searchUser').addEventListener('input', filterAndRender);
+  document.getElementById('filterStatus').onchange = filterAndRender;
 
-  /* CRUD */
-  const userModal=new bootstrap.Modal('#userModal');
-  document.getElementById('addUserBtn').onclick=()=>{
-    document.querySelector('#userModal .modal-title').textContent='Thêm khách hàng';
-    document.getElementById('userForm').reset();
-    document.getElementById('userId').value='';
-    userModal.show();
+  function filterAndRender(){
+    const key=document.getElementById('searchUser').value.trim();
+    const st=document.getElementById('filterStatus').value;
+    
+    if (key === '' && st === '') {
+        users = [...fullStaticUsers];
+        showSimulatedMessage('Hiển thị tất cả khách hàng.', 'success');
+    } else {
+        // Luôn hiển thị kết quả giả lập
+        users = [...simulatedSearchResult];
+        let msg = '';
+        if (key) msg += 'Đã tìm kiếm theo từ khóa. ';
+        if (st) msg += 'Đã lọc theo trạng thái. ';
+
+        // Cập nhật số lượng kết quả hiển thị
+        showSimulatedMessage(`${msg.trim()} Hiển thị ${simulatedSearchResult.length} kết quả.`, 'info');
+    }
+    currentPage = 1;
+    renderUsers(users);
+  }
+  
+  document.getElementById('refreshUsers').onclick=()=>{
+      showLoading();
+      setTimeout(()=>{
+          users = [...fullStaticUsers]; // Đặt lại về dữ liệu tĩnh đầy đủ
+          document.getElementById('searchUser').value = '';
+          document.getElementById('filterStatus').value = '';
+          currentPage = 1;
+          renderUsers(users);
+          showSimulatedMessage('Đã tải lại danh sách khách hàng.');
+          showLoading(false);
+      }, 500);
   };
 
+  /* 🟢 THÊM KHÁCH HÀNG (MÔ PHỎNG) - Giữ lại Modal cho chức năng Sửa */
+  const userModal=new bootstrap.Modal('#userModal');
+  /* Logic thêm khách hàng đã bị loại bỏ */
+  
+  /* ✏️ SỬA KHÁCH HÀNG (MÔ PHỎNG) */
   document.addEventListener('click',async e=>{
     const id=e.target.closest('[data-id]')?.dataset.id;
     if(!id)return;
-    const idx=users.findIndex(u=>u.id===id);
-    const u=users[idx];
+    const u=fullStaticUsers.find(user => user.id === id); // Lấy data gốc tĩnh
+    if(!u)return;
+    
     if(e.target.closest('.edit-btn')){
       document.querySelector('#userModal .modal-title').textContent='Chỉnh sửa khách hàng';
       document.getElementById('userId').value=u.id;
@@ -208,47 +283,52 @@
       document.getElementById('userLocked').checked=u.locked;
       userModal.show();
     }
+    
+    /* 🔒 KHÓA/MỞ KHÓA (MÔ PHỎNG) */
     if(e.target.closest('.lock-btn')){
       showLoading();
       setTimeout(()=>{
-        users[idx].locked=!users[idx].locked;
-        saveUsers();renderUsers(filterUsers());
-        showToast(users[idx].locked?'Đã khóa tài khoản':'Đã mở khóa tài khoản');
+        // Không thay đổi dữ liệu tĩnh, chỉ hiển thị thông báo
+        const isLocked = u.locked;
+        showSimulatedMessage(isLocked ? 'Đã mở khóa tài khoản' : 'Đã khóa tài khoản');
+        // Tải lại giao diện để mô phỏng sự thay đổi trạng thái
+        renderUsers(users); 
         showLoading(false);
       },500);
     }
-    if(e.target.closest('.delete-btn')){
-      if(confirm('Xóa khách hàng '+u.name+'?')){
+    
+    /* 🔑 ĐẶT LẠI MẬT KHẨU (MÔ PHỎNG) */
+    if(e.target.closest('.reset-password-btn')){
+      if(confirm('Bạn có chắc muốn đặt lại mật khẩu cho khách hàng '+u.name+'?')){
         showLoading();
         setTimeout(()=>{
-          users.splice(idx,1);
-          saveUsers();renderUsers(filterUsers());
-          showToast('Đã xóa khách hàng','error');
+          showSimulatedMessage(`Đã đặt lại mật khẩu cho ${u.name}. Mật khẩu tạm thời: 123456`, 'warning');
           showLoading(false);
-        },500);
+        },600);
       }
     }
   });
 
+  /* 💾 LƯU (SỬA) (MÔ PHỎNG) */
   document.getElementById('saveUser').onclick=()=>{
     showLoading();
     setTimeout(()=>{
       const id=document.getElementById('userId').value.trim();
       const name=document.getElementById('userName').value.trim();
-      const email=document.getElementById('userEmail').value.trim();
-      const phone=document.getElementById('userPhone').value.trim();
-      const locked=document.getElementById('userLocked').checked;
-      if(!name||!email){showToast('Vui lòng nhập đầy đủ thông tin!','error');showLoading(false);return;}
-      const newUser={id:id||'KH'+Date.now().toString().slice(-4),name,email,phone,locked};
-      const idx=users.findIndex(u=>u.id===newUser.id);
-      if(idx>-1){users[idx]=newUser;showToast('Đã cập nhật khách hàng');}
-      else{users.unshift(newUser);showToast('Đã thêm khách hàng mới');}
-      saveUsers();userModal.hide();renderUsers(filterUsers());
+      
+      if(!name){showSimulatedMessage('Vui lòng nhập đầy đủ thông tin!','danger');showLoading(false);return;}
+      
+      // Nút Lưu chỉ xử lý Cập nhật thông tin
+      showSimulatedMessage(`Đã cập nhật thông tin khách hàng ${id}`);
+      
+      userModal.hide();
+      // Yêu cầu tải lại bảng để thấy kết quả mô phỏng
+      renderUsers(users); 
       showLoading(false);
     },600);
   };
 
-  renderUsers(filterUsers());
+  renderUsers(users);
   </script>
 </body>
 </html>
