@@ -175,55 +175,65 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // --- Gán sự kiện ---
-  document.getElementById("btnSearch").addEventListener("click", applyFilters);
-  document.getElementById("searchName").addEventListener("keydown", e => {
-    if (e.key === "Enter") applyFilters();
-  });
+  // btn.addEventListener("click", e => {
+  //     document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  //     e.target.classList.add("active");
+  //   document.getElementById("btnSearch").addEventListener("click", applyFilters);
+  // document.getElementById("searchName").addEventListener("keydown", e => {
+  //   if (e.key === "Enter") applyFilters();
+  // });
 
-  document.getElementById("btnReset").addEventListener("click", () => {
-    ["searchName", "minPrice", "maxPrice"].forEach(id => (document.getElementById(id).value = ""));
-    document.getElementById("searchCategory").value = "all";
-    sortSelect.value = "default";
-    loadCategory(currentCategory);
-  });
+  // document.getElementById("btnReset").addEventListener("click", () => {
+  //   ["searchName", "minPrice", "maxPrice"].forEach(id => (document.getElementById(id).value = ""));
+  //   document.getElementById("searchCategory").value = "all";
+  //   sortSelect.value = "default";
+  //   loadCategory(currentCategory);
+  // });
 
-  sortSelect.addEventListener("change", applySort);
+  // sortSelect.addEventListener("change", applySort);
 
-  document.querySelectorAll(".filter-btn").forEach(btn => {
-    btn.addEventListener("click", e => {
-      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-      e.target.classList.add("active");
-      loadCategory(e.target.dataset.category);
-    });
-  });
+  // document.querySelectorAll(".filter-btn").forEach(btn => {
+  //     loadCategory(e.target.dataset.category);
+  //   });
+  // });
 
   // --- Load mặc định ---
+  document.getElementById('btnSearch').addEventListener('click', () => {
+    const keyword = document.getElementById('searchName').value.trim();
+    if (keyword.length > 0) {
+      // Có dữ liệu -> đi đến search-result
+      window.location.href = 'search-result.html';
+    } else {
+      // Không có dữ liệu -> quay về trang sản phẩm
+      window.location.href = 'product.html';
+    }
+  });
   loadCategory("all");
 });
 
 // --- PAGINATION HIGHLIGHT ---
-  // Lấy tên file hiện tại
-  const currentPage = location.pathname.split("/").pop();
+// Lấy tên file hiện tại
+const currentPage = location.pathname.split("/").pop();
 
-  // Danh sách các trang phân trang
-  const pages = {
-    "orderhistory.html": 1,
-    "orderhistory2.html": 2,
-    "orderhistory3.html": 3,
-  };
+// Danh sách các trang phân trang
+const pages = {
+  "orderhistory.html": 1,
+  "orderhistory2.html": 2,
+  "orderhistory3.html": 3,
+};
 
-  const activePageNumber = pages[currentPage];
+const activePageNumber = pages[currentPage];
 
-  // Highlight trang hiện tại
-  const paginationLinks = document.querySelectorAll(".pagination .page-link");
+// Highlight trang hiện tại
+const paginationLinks = document.querySelectorAll(".pagination .page-link");
 
-  paginationLinks.forEach((link) => {
-    const file = link.getAttribute("href");
+paginationLinks.forEach((link) => {
+  const file = link.getAttribute("href");
 
-    if (pages[file] === activePageNumber) {
-      link.parentElement.classList.add("active");
-    } else {
-      link.parentElement.classList.remove("active");
-    }
-  });
+  if (pages[file] === activePageNumber) {
+    link.parentElement.classList.add("active");
+  } else {
+    link.parentElement.classList.remove("active");
+  }
+});
 
