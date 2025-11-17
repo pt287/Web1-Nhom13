@@ -13,7 +13,6 @@
 </head>
 
 <body>
-    <!-- ===== HEADER ===== -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand fw-bold text-danger fs-3" href="index.html">
@@ -35,7 +34,6 @@
         </div>
     </nav>
 
-    <!-- MAIN -->
     <main class="pt-5 mt-5">
         <div class="container py-5" id="detail-wrap">
             <p class="text-center text-muted">Đang tải sản phẩm...</p>
@@ -47,7 +45,6 @@
         </div>
     </main>
 
-    <!-- ===== FOOTER ===== -->
     <footer class="mt-5 pt-5 pb-3">
         <div class="container text-center">
             <h5 class="fw-bold text-uppercase mb-3">Đăng Đại Bakery</h5>
@@ -65,111 +62,175 @@
             <p class="mb-0 small">© 2025 Đăng Đại Bakery - All rights reserved.</p>
         </div>
     </footer>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", async () => {
+        // ⚠️ BƯỚC 1: NHÚNG TOÀN BỘ DỮ LIỆU SẢN PHẨM VÀO BIẾN NÀY ⚠️
+        const ALL_PRODUCTS_DATA = [
+            // CHUYỂN TẤT CẢ SẢN PHẨM TỪ product.html SANG CẤU TRÚC NÀY
+            // Dữ liệu từ Bước 1 đã được dán vào đây:
+            { "id": "BL1", "category": "bonglan", "name": "Bông Lan Dâu Tươi", "price": 150000, "date": "2025-10-01", "img": "images/BongLan/bonglan1.png", "desc": "Cốt bánh mềm xốp với kem tươi và dâu tây mọng nước, hương vị tinh tế." },
+            { "id": "BL2", "category": "bonglan", "name": "Bông Lan Phô Mai Trứng Muối", "price": 120000, "date": "2025-09-28", "img": "images/BongLan/bonglan2.png", "desc": "Bánh bông lan trứng muối phô mai đậm đà, kết hợp hoàn hảo giữa vị béo và mặn." },
+            { "id": "BL3", "category": "bonglan", "name": "Bông Lan Cam Mật Ong", "price": 135000, "date": "2025-09-20", "img": "images/BongLan/bonglan3.png", "desc": "Hương cam tươi mát kết hợp mật ong ngọt dịu, thích hợp cho bữa trà chiều." },
+            { "id": "BL4", "category": "bonglan", "name": "Bông Lan Socola Hạnh Nhân", "price": 160000, "date": "2025-09-15", "img": "images/BongLan/bonglan4.png", "desc": "Bánh socola đậm đặc rắc hạnh nhân giòn tan, món quà hoàn hảo cho người yêu socola." },
+            { "id": "BL5", "category": "bonglan", "name": "Bông Lan Matcha Kem Tươi", "price": 145000, "date": "2025-09-10", "img": "images/BongLan/bonglan5.png", "desc": "Vị matcha thanh tao kết hợp với kem tươi béo ngậy, mang lại cảm giác thư thái." },
+            { "id": "BL6", "category": "bonglan", "name": "Bông Lan Sữa Tươi Trân Châu", "price": 110000, "date": "2025-08-29", "img": "images/BongLan/bonglan6.png", "desc": "Bánh sữa tươi truyền thống với topping trân châu dẻo thơm, độc đáo và hấp dẫn." },
+            { "id": "BL7", "category": "bonglan", "name": "Bông Lan Việt Quất", "price": 175000, "date": "2025-08-22", "img": "images/BongLan/bonglan7.png", "desc": "Bánh Việt Quất tươi được nướng thủ công, vị chua ngọt tự nhiên của quả mọng." },
+            { "id": "BL8", "category": "bonglan", "name": "Bông Lan Chuối", "price": 100000, "date": "2025-08-15", "img": "images/BongLan/bonglan8.png", "desc": "Bông lan chuối mềm ẩm, thơm lừng mùi chuối chín, ăn kèm với cà phê là tuyệt nhất." },
+            { "id": "BL9", "category": "bonglan", "name": "Bông Lan Kem Dừa Non", "price": 125000, "date": "2025-08-05", "img": "images/BongLan/bonglan9.png", "desc": "Hương vị dừa non thanh mát, kem béo nhẹ không gây ngán, phù hợp mọi lứa tuổi." },
+            { "id": "BL10", "category": "bonglan", "name": "Bông Lan Trái Cây Tổng Hợp", "price": 170000, "date": "2025-07-28", "img": "images/BongLan/bonglan10.png", "desc": "Bánh nhiều tầng với các loại trái cây tươi theo mùa, đẹp mắt và bổ dưỡng." },
+            { "id": "BL11", "category": "bonglan", "name": "Bông Lan Caramel", "price": 130000, "date": "2025-07-15", "img": "images/BongLan/bonglan11.png", "desc": "Bánh mềm với lớp caramel mặn ngọt độc đáo, kết cấu hoàn hảo." },
+            { "id": "BL12", "category": "bonglan", "name": "Bông Lan Kem Bơ Hạnh Nhân", "price": 180000, "date": "2025-07-07", "img": "images/BongLan/bonglan12.png", "desc": "Kem bơ mịn màng kết hợp với hạnh nhân rang, một lựa chọn sang trọng." },
+            { "id": "BL13", "category": "bonglan", "name": "Bông Lan Phô Mai Dừa", "price": 140000, "date": "2025-06-30", "img": "images/BongLan/bonglan13.png", "desc": "Sự kết hợp giữa vị béo của phô mai và hương thơm của dừa tươi." },
+            { "id": "BL14", "category": "bonglan", "name": "Bông Lan Socola Bạc Hà", "price": 160000, "date": "2025-06-20", "img": "images/BongLan/bonglan14.png", "desc": "Vị socola nồng nàn cùng bạc hà the mát, tạo cảm giác mới lạ." },
+            { "id": "BL15", "category": "bonglan", "name": "Bông Lan Kem Sữa Trứng", "price": 155000, "date": "2025-06-10", "img": "images/BongLan/bonglan15.png", "desc": "Bánh kem sữa trứng truyền thống, vị béo ngọt cân bằng, tuổi thơ quay về." },
+            { "id": "BL16", "category": "bonglan", "name": "Bông Lan Cà Phê Kem Tươi", "price": 175000, "date": "2025-06-05", "img": "images/BongLan/bonglan16.png", "desc": "Hương cà phê thơm lừng trong từng miếng bánh, dành cho tín đồ cafe." },
+            { "id": "BL17", "category": "bonglan", "name": "Bông Lan Sữa Tươi", "price": 115000, "date": "2025-05-28", "img": "images/BongLan/bonglan17.png", "desc": "Bánh bông lan sữa tươi cơ bản, mềm mại, ít ngọt, dễ ăn." },
+            { "id": "BL18", "category": "bonglan", "name": "Bông Lan Kem Phô Mai Dâu", "price": 130000, "date": "2025-05-20", "img": "images/BongLan/bonglan18.png", "desc": "Kem phô mai béo ngậy phủ dâu tươi, chua ngọt hài hòa." },
+            { "id": "CK1", "category": "cookies", "name": "Cookies Bơ Truyền Thống", "price": 90000, "date": "2025-10-02", "img": "images/Cookies/cookie1.png", "desc": "Cookies giòn rụm với hương bơ thơm lừng, công thức cổ điển." },
+            { "id": "CK2", "category": "cookies", "name": "Cookies Socola Chip", "price": 80000, "date": "2025-09-28", "img": "images/Cookies/cookie2.png", "desc": "Bánh quy bơ với socola chip hảo hạng, giòn tan trong miệng." },
+            { "id": "CK3", "category": "cookies", "name": "Cookies Hạnh Nhân", "price": 95000, "date": "2025-09-20", "img": "images/Cookies/cookie3.png", "desc": "Cookies giòn với hạnh nhân lát, bùi và thơm." },
+            { "id": "CK4", "category": "cookies", "name": "Cookies Bơ Đậu Phộng", "price": 100000, "date": "2025-09-15", "img": "images/Cookies/cookie4.png", "desc": "Vị béo ngậy của đậu phộng, món ăn vặt lý tưởng." },
+            { "id": "CK5", "category": "cookies", "name": "Cookies Yến Mạch", "price": 85000, "date": "2025-09-07", "img": "images/Cookies/cookie5.png", "desc": "Giòn và bổ dưỡng với yến mạch, lựa chọn tốt cho sức khỏe." },
+            { "id": "CK6", "category": "cookies", "name": "Cookies Hạt Điều", "price": 120000, "date": "2025-08-30", "img": "images/Cookies/cookie6.png", "desc": "Cookies với hạt điều béo, sang trọng và ngon miệng." },
+            { "id": "CK7", "category": "cookies", "name": "Cookies Dừa", "price": 75000, "date": "2025-08-25", "img": "images/Cookies/cookie7.png", "desc": "Hương vị dừa nhiệt đới thơm lừng, cảm giác như đang nghỉ mát." },
+            { "id": "CK8", "category": "cookies", "name": "Cookies Kem Vanilla", "price": 90000, "date": "2025-08-15", "img": "images/Cookies/cookie8.png", "desc": "Vị vanilla nhẹ nhàng, cookies ngọt thanh." },
+            { "id": "CK9", "category": "cookies", "name": "Cookies Trà Xanh", "price": 115000, "date": "2025-08-07", "img": "images/Cookies/cookie9.png", "desc": "Cookies trà xanh thơm mát, độc đáo." },
+            { "id": "CK10", "category": "cookies", "name": "Cookies Dâu Tây", "price": 105000, "date": "2025-07-30", "img": "images/Cookies/cookie10.png", "desc": "Cookies dâu tây ngọt ngào, màu sắc bắt mắt." },
+            { "id": "CK11", "category": "cookies", "name": "Cookies Phô Mai", "price": 80000, "date": "2025-07-20", "img": "images/Cookies/cookie11.png", "desc": "Cookies phô mai mặn nhẹ, béo thơm." },
+            { "id": "CK12", "category": "cookies", "name": "Cookies Socola Đen", "price": 95000, "date": "2025-07-10", "img": "images/Cookies/cookie12.png", "desc": "Cookies với socola đen nguyên chất, vị đắng nhẹ hấp dẫn." },
+            { "id": "CK13", "category": "cookies", "name": "Cookies Nhân Mứt Cam", "price": 100000, "date": "2025-07-01", "img": "images/Cookies/cookie13.png", "desc": "Nhân mứt cam tự nhiên, chua ngọt kết hợp với cookies bơ." },
+            { "id": "CK14", "category": "cookies", "name": "Cookies Bạc Hà", "price": 70000, "date": "2025-06-25", "img": "images/Cookies/cookie14.png", "desc": "Cookies bạc hà the mát, độc đáo." },
+            { "id": "CK15", "category": "cookies", "name": "Cookies Socola Trắng", "price": 115000, "date": "2025-06-10", "img": "images/Cookies/cookie15.png", "desc": "Cookies socola trắng ngọt ngào, tinh tế." },
+            { "id": "DN1", "category": "donut", "name": "Donut Truyền Thống", "price": 60000, "date": "2025-10-03", "img": "images/Donut/donut1.png", "desc": "Donut mềm xốp, phủ đường bột truyền thống." },
+            { "id": "DN2", "category": "donut", "name": "Donut Socola", "price": 80000, "date": "2025-09-30", "img": "images/Donut/donut2.png", "desc": "Donut phủ socola dày, hương vị quen thuộc." },
+            { "id": "DN3", "category": "donut", "name": "Donut Dâu", "price": 75000, "date": "2025-09-22", "img": "images/Donut/donut3.png", "desc": "Donut phủ kem dâu, ngọt ngào và bắt mắt." },
+            { "id": "DN4", "category": "donut", "name": "Donut Dừa", "price": 70000, "date": "2025-09-18", "img": "images/Donut/donut4.png", "desc": "Donut phủ dừa sấy khô, thơm bùi vị dừa." },
+            { "id": "DN5", "category": "donut", "name": "Donut Phô Mai", "price": 90000, "date": "2025-09-10", "img": "images/Donut/donut5.png", "desc": "Donut nhân phô mai béo ngậy, tan chảy." },
+            { "id": "DN6", "category": "donut", "name": "Donut Trà Xanh", "price": 65000, "date": "2025-09-01", "img": "images/Donut/donut6.png", "desc": "Donut vị trà xanh thanh mát, độc đáo." },
+            { "id": "DN7", "category": "donut", "name": "Donut Caramel", "price": 85000, "date": "2025-08-25", "img": "images/Donut/donut7.png", "desc": "Donut phủ caramel mặn ngọt, hấp dẫn." },
+            { "id": "DN8", "category": "donut", "name": "Donut Bạc Hà", "price": 60000, "date": "2025-08-18", "img": "images/Donut/donut8.png", "desc": "Donut bạc hà mát lạnh, mới lạ." },
+            { "id": "DN9", "category": "donut", "name": "Donut Dâu Kem", "price": 70000, "date": "2025-08-10", "img": "images/Donut/donut9.png", "desc": "Donut nhân kem dâu, béo ngậy vị trái cây." },
+            { "id": "DN10", "category": "donut", "name": "Donut Kem Sữa", "price": 95000, "date": "2025-08-01", "img": "images/Donut/donut10.png", "desc": "Donut nhân kem sữa béo, ngọt thanh." },
+            { "id": "DN11", "category": "donut", "name": "Donut Cam Tươi", "price": 80000, "date": "2025-07-25", "img": "images/Donut/donut11.png", "desc": "Donut hương cam tươi tự nhiên." },
+            { "id": "DN12", "category": "donut", "name": "Donut Dừa Non", "price": 70000, "date": "2025-07-15", "img": "images/Donut/donut12.png", "desc": "Donut nhân dừa non mềm mại." },
+            { "id": "DN13", "category": "donut", "name": "Donut Kem Phô Mai", "price": 100000, "date": "2025-07-05", "img": "images/Donut/donut13.png", "desc": "Donut kem phô mai béo ngậy, hấp dẫn." },
+            { "id": "DN14", "category": "donut", "name": "Donut Socola Trắng", "price": 85000, "date": "2025-06-25", "img": "images/Donut/donut14.png", "desc": "Donut phủ socola trắng ngọt ngào." },
+            { "id": "DN15", "category": "donut", "name": "Donut Nhân Mứt Việt Quất", "price": 65000, "date": "2025-06-10", "img": "images/Donut/donut15.png", "desc": "Donut nhân mứt việt quất chua ngọt, cân bằng." },
+            { "id": "MC1", "category": "macaron", "name": "Macaron Dâu Tây", "price": 120000, "date": "2025-10-04", "img": "images/Macaron/macaron1.png", "desc": "Macaron vỏ giòn tan, nhân dâu tây chua ngọt." },
+            { "id": "MC2", "category": "macaron", "name": "Macaron Socola Đen", "price": 140000, "date": "2025-09-28", "img": "images/Macaron/macaron2.png", "desc": "Macaron socola đen đắng nhẹ, tinh tế." },
+            { "id": "MC3", "category": "macaron", "name": "Macaron Chanh Leo", "price": 130000, "date": "2025-09-20", "img": "images/Macaron/macaron3.png", "desc": "Macaron nhân chanh leo chua thanh, độc đáo." },
+            { "id": "MC4", "category": "macaron", "name": "Macaron Vani Kem Sữa", "price": 125000, "date": "2025-09-10", "img": "images/Macaron/macaron4.png", "desc": "Vị vani cổ điển kết hợp kem sữa béo ngậy." },
+            { "id": "MC5", "category": "macaron", "name": "Macaron Việt Quất", "price": 145000, "date": "2025-09-01", "img": "images/Macaron/macaron5.png", "desc": "Macaron nhân việt quất, màu sắc bắt mắt." },
+            { "id": "MC6", "category": "macaron", "name": "Macaron Chanh Vàng", "price": 110000, "date": "2025-08-27", "img": "images/Macaron/macaron6.png", "desc": "Macaron chanh vàng chua dịu, sảng khoái." },
+            { "id": "MC7", "category": "macaron", "name": "Macaron Dừa Non", "price": 90000, "date": "2025-08-15", "img": "images/Macaron/macaron7.png", "desc": "Macaron nhân dừa non thơm bùi." },
+            { "id": "MC8", "category": "macaron", "name": "Macaron Dâu Kem", "price": 135000, "date": "2025-08-10", "img": "images/Macaron/macaron8.png", "desc": "Macaron nhân kem dâu, ngọt ngào." },
+            { "id": "MC9", "category": "macaron", "name": "Macaron Hạt Dẻ", "price": 150000, "date": "2025-08-01", "img": "images/Macaron/macaron9.png", "desc": "Macaron nhân hạt dẻ rang, bùi béo." },
+            { "id": "MC10", "category": "macaron", "name": "Macaron Trà Xanh", "price": 95000, "date": "2025-07-25", "img": "images/Macaron/macaron10.png", "desc": "Macaron nhân trà xanh thanh mát." },
+            { "id": "MC11", "category": "macaron", "name": "Macaron Cam Kem Bơ", "price": 125000, "date": "2025-07-15", "img": "images/Macaron/macaron11.png", "desc": "Macaron nhân cam và kem bơ độc đáo." },
+            { "id": "MC12", "category": "macaron", "name": "Macaron Dâu Phô Mai", "price": 140000, "date": "2025-07-05", "img": "images/Macaron/macaron12.png", "desc": "Macaron dâu phô mai, vị béo chua cân bằng." },
+            { "id": "MC13", "category": "macaron", "name": "Macaron Hồng Dâu Kem", "price": 135000, "date": "2025-06-25", "img": "images/Macaron/macaron13.png", "desc": "Macaron màu hồng xinh xắn, nhân kem dâu." },
+            { "id": "MC14", "category": "macaron", "name": "Macaron Kem Bạc Hà", "price": 100000, "date": "2025-06-15", "img": "images/Macaron/macaron14.png", "desc": "Macaron nhân kem bạc hà the mát." },
+            { "id": "MC15", "category": "macaron", "name": "Macaron Caramel Muối", "price": 115000, "date": "2025-06-01", "img": "images/Macaron/macaron15.png", "desc": "Macaron nhân caramel mặn ngọt hấp dẫn." },
+            { "id": "TM1", "category": "tiramisu", "name": "Tiramisu Cổ Điển", "price": 150000, "date": "2025-10-05", "img": "images/Tiramisu/tiramisu1.png", "desc": "Tiramisu Ý cổ điển với cà phê và phô mai Mascarpone." },
+            { "id": "TM2", "category": "tiramisu", "name": "Tiramisu Socola Đen", "price": 180000, "date": "2025-09-30", "img": "images/Tiramisu/tiramisu2.png", "desc": "Tiramisu với hương socola đen đậm đà." },
+            { "id": "TM3", "category": "tiramisu", "name": "Tiramisu Trà Xanh", "price": 160000, "date": "2025-09-20", "img": "images/Tiramisu/tiramisu3.png", "desc": "Tiramisu vị trà xanh thanh mát, độc đáo." },
+            { "id": "TM4", "category": "tiramisu", "name": "Tiramisu Dâu Tây", "price": 130000, "date": "2025-09-15", "img": "images/Tiramisu/tiramisu4.png", "desc": "Tiramisu vị dâu tây chua ngọt, hấp dẫn." },
+            { "id": "TM5", "category": "tiramisu", "name": "Tiramisu Cà Phê", "price": 200000, "date": "2025-09-07", "img": "images/Tiramisu/tiramisu5.png", "desc": "Tiramisu với hương cà phê nồng nàn." },
+            { "id": "TM6", "category": "tiramisu", "name": "Tiramisu Matcha Kem Tươi", "price": 125000, "date": "2025-08-30", "img": "images/Tiramisu/tiramisu6.png", "desc": "Tiramisu matcha kem tươi, vị thanh mát." },
+            { "id": "TM7", "category": "tiramisu", "name": "Tiramisu Caramel Muối", "price": 175000, "date": "2025-08-25", "img": "images/Tiramisu/tiramisu7.png", "desc": "Tiramisu caramel mặn ngọt, độc đáo." },
+            { "id": "TM8", "category": "tiramisu", "name": "Tiramisu Phô Mai", "price": 150000, "date": "2025-08-15", "img": "images/Tiramisu/tiramisu8.png", "desc": "Tiramisu phô mai béo ngậy." },
+            { "id": "TM9", "category": "tiramisu", "name": "Tiramisu Cam Vàng", "price": 185000, "date": "2025-08-05", "img": "images/Tiramisu/tiramisu9.png", "desc": "Tiramisu hương cam vàng tươi mát." },
+            { "id": "TM10", "category": "tiramisu", "name": "Tiramisu Socola Trắng", "price": 140000, "date": "2025-07-30", "img": "images/Tiramisu/tiramisu10.png", "desc": "Tiramisu với lớp socola trắng ngọt ngào." },
+            { "id": "TM11", "category": "tiramisu", "name": "Tiramisu Việt Quất", "price": 160000, "date": "2025-07-20", "img": "images/Tiramisu/tiramisu11.png", "desc": "Tiramisu vị việt quất chua ngọt." },
+            { "id": "TM12", "category": "tiramisu", "name": "Tiramisu Dâu Kem Tươi", "price": 170000, "date": "2025-07-10", "img": "images/Tiramisu/tiramisu12.png", "desc": "Tiramisu dâu kem tươi béo ngậy." },
+            { "id": "TM13", "category": "tiramisu", "name": "Tiramisu Bạc Hà", "price": 125000, "date": "2025-07-01", "img": "images/Tiramisu/tiramisu13.png", "desc": "Tiramisu bạc hà the mát, độc đáo." },
+            { "id": "TM14", "category": "tiramisu", "name": "Tiramisu Kem Bơ", "price": 150000, "date": "2025-06-25", "img": "images/Tiramisu/tiramisu14.png", "desc": "Tiramisu kem bơ béo ngậy, truyền thống." },
+            { "id": "TM15", "category": "tiramisu", "name": "Tiramisu Cacao Đậm Vị", "price": 195000, "date": "2025-06-10", "img": "images/Tiramisu/tiramisu15.png", "desc": "Tiramisu cacao đậm đặc, vị đắng ngọt sâu lắng." }
+        ];
+
+        document.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams(window.location.search);
             const productId = params.get("id");
             const detailWrap = document.getElementById("detail-wrap");
             const relatedWrap = document.getElementById("related-products");
+            const allProducts = ALL_PRODUCTS_DATA; // Dùng biến toàn cục
 
             if (!productId) {
                 detailWrap.innerHTML = "<p class='text-center text-danger'>Không tìm thấy sản phẩm.</p>";
                 return;
             }
 
-            // --- Lấy prefix để biết danh mục (VD: MC -> macaron, BL -> bonglan)
-            const prefix = productId.slice(0, 2).toUpperCase();
-            const categoryMap = {
-                BL: "bonglan",
-                CK: "cookies",
-                DN: "donut",
-                MC: "macaron",
-                TM: "tiramisu"
-            };
-            const category = categoryMap[prefix] || "unknown";
+            const productData = allProducts.find(p => p.id === productId);
 
-            try {
-                const res = await fetch(`cakes/${category}.html`);
-                if (!res.ok) throw new Error("Không tìm thấy file danh mục");
+            if (!productData) {
+                detailWrap.innerHTML = "<p class='text-center text-muted'>Không tìm thấy sản phẩm này 😢</p>";
+                return;
+            }
 
-                const html = await res.text();
-                const temp = document.createElement("div");
-                temp.innerHTML = html;
-                const product = temp.querySelector(`.product-item[data-id="${productId}"]`);
+            // Lấy thông tin
+            const { name, price, img, category, desc } = productData;
+            const formattedPrice = new Intl.NumberFormat('vi-VN').format(price);
 
-                if (!product) {
-                    detailWrap.innerHTML = "<p class='text-center text-muted'>Không tìm thấy sản phẩm này 😢</p>";
-                    return;
-                }
+            // Render chi tiết
+            detailWrap.innerHTML = `
+                <div class="row g-4 align-items-start">
+                    <div class="col-md-6">
+                        <img src="${img}" alt="${name}" class="img-fluid shadow-sm">
+                    </div>
+                    <div class="col-md-6">
+                        <h2>${name}</h2>
+                        <p class="text-muted mb-1">Danh mục: <span class="fw-semibold text-capitalize">${category}</span></p>
+                        <p class="fs-3 fw-bold text-danger mb-3">${formattedPrice}₫</p>
+                        <p class="text-secondary mb-4">${desc}</p>
+                        <div class="d-flex align-items-center mb-4">
+                            <label for="qty" class="me-2 fw-semibold">Số lượng:</label>
+                            <input type="number" id="qty" value="1" min="1" class="form-control text-center" style="width: 80px;">
+                        </div>
+                        <div class="d-flex gap-3">
+                            <button id="addToCart" class="btn btn-danger">🛒 Thêm vào giỏ</button>
+                            <a href="cart.html" class="btn btn-outline-dark">Mua ngay</a>
+                        </div>
+                    </div>
+                </div>
+            `;
 
-                // Lấy thông tin
-                const img = product.querySelector("img").getAttribute("src");
-                const name = product.querySelector(".card-title").textContent;
-                const price = product.dataset.price;
-                const desc = product.dataset.desc || "Mô tả sản phẩm đang được cập nhật.";
-                const date = product.dataset.date || "2025-10-15";
+            // Thêm sự kiện thêm giỏ hàng
+            document.getElementById("addToCart").addEventListener("click", () => {
+                const qty = parseInt(document.getElementById("qty").value) || 1;
+                const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+                const existing = cart.find(p => p.id === productId);
+                if (existing) existing.qty += qty;
+                else cart.push({ id: productId, name, price, img, category, qty });
+                localStorage.setItem("cart", JSON.stringify(cart));
+                alert("🧁 Đã thêm vào giỏ hàng!");
+            });
 
-                // Render chi tiết
-                detailWrap.innerHTML = `
-        <div class="row g-4 align-items-start">
-          <div class="col-md-6">
-            <img src="${img}" alt="${name}" class="img-fluid shadow-sm">
-          </div>
-          <div class="col-md-6">
-            <h2>${name}</h2>
-            <p class="text-muted mb-1">Danh mục: <span class="fw-semibold text-capitalize">${category}</span></p>
-            <p class="price mb-3">${new Intl.NumberFormat('vi-VN').format(price)}₫</p>
-            <p class="text-secondary mb-4">${desc}</p>
-            <div class="d-flex align-items-center mb-4">
-              <label for="qty" class="me-2 fw-semibold">Số lượng:</label>
-              <input type="number" id="qty" value="1" min="1" class="form-control text-center" style="width: 80px;">
-            </div>
-            <div class="d-flex gap-3">
-              <button id="addToCart" class="btn btn-danger">🛒 Thêm vào giỏ</button>
-              <a href="cart.html" class="btn btn-outline-dark">Mua ngay</a>
-            </div>
-          </div>
-        </div>
-      `;
+            // --- Sản phẩm liên quan (cùng danh mục) ---
+            const related = allProducts
+                .filter(p => p.category === category && p.id !== productId)
+                .slice(0, 4);
 
-                // Thêm sự kiện thêm giỏ hàng
-                document.getElementById("addToCart").addEventListener("click", () => {
-                    const qty = parseInt(document.getElementById("qty").value) || 1;
-                    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-                    const existing = cart.find(p => p.id === productId);
-                    if (existing) existing.qty += qty;
-                    else cart.push({ id: productId, name, price, img, category, qty });
-                    localStorage.setItem("cart", JSON.stringify(cart));
-                    alert("🧁 Đã thêm vào giỏ hàng!");
-                });
-
-                // --- Sản phẩm liên quan ---
-                const related = Array.from(temp.querySelectorAll(".product-item"))
-                    .filter(p => p.dataset.id !== productId)
-                    .slice(0, 4);
-
-                if (related.length === 0) {
-                    relatedWrap.innerHTML = "<p class='text-muted'>Không có sản phẩm liên quan.</p>";
-                } else {
-                    relatedWrap.innerHTML = related.map(r => `
-          <div class="col-md-3 col-6">
-            <div class="card border-0 shadow-sm h-100">
-              <img src="${r.querySelector("img").src}" class="card-img-top" alt="">
-              <div class="card-body text-center">
-                <h6 class="card-title">${r.querySelector(".card-title").textContent}</h6>
-                <p class="text-danger mb-2 fw-semibold">${new Intl.NumberFormat('vi-VN').format(r.dataset.price)}₫</p>
-                <a href="product-detail.html?id=${r.dataset.id}" class="btn btn-outline-danger btn-sm">Xem chi tiết</a>
-              </div>
-            </div>
-          </div>
-        `).join("");
-                }
-
-            } catch (err) {
-                console.error(err);
-                detailWrap.innerHTML = "<p class='text-center text-danger'>Không thể tải thông tin sản phẩm.</p>";
+            if (related.length === 0) {
+                relatedWrap.innerHTML = "<p class='text-muted'>Không có sản phẩm liên quan.</p>";
+            } else {
+                relatedWrap.innerHTML = related.map(r => {
+                    const relatedFormattedPrice = new Intl.NumberFormat('vi-VN').format(r.price);
+                    return `
+                        <div class="col-md-3 col-6">
+                            <div class="card border-0 shadow-sm h-100 related-card">
+                                <img src="${r.img}" class="card-img-top related-img" alt="${r.name}">
+                                <div class="card-body text-center d-flex flex-column">
+                                    <h6 class="card-title fw-bold flex-grow-1">${r.name}</h6>
+                                    <p class="text-danger mb-2 fw-semibold">${relatedFormattedPrice}₫</p>
+                                    <a href="product-detail.html?id=${r.id}" class="btn btn-outline-danger btn-sm mt-auto">Xem chi tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
             }
         });
     </script>
