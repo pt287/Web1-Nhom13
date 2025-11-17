@@ -358,3 +358,33 @@ body {
     .content{
       margin-top: 50px;
     }
+
+    /* ===== CHỈNH SỬA CHO PHẦN SẢN PHẨM LIÊN QUAN TRONG product-detail.html ===== */
+
+/* Đảm bảo hình ảnh đồng đều */
+.related-card .related-img {
+    width: 100%;
+    height: 180px; /* Chiều cao cố định */
+    object-fit: cover; /* Cắt ảnh để vừa khung mà không bị méo */
+    object-position: center;
+    border-bottom: 1px solid #eee;
+}
+
+/* Đảm bảo nội dung card cân bằng */
+.related-card .card-body {
+    padding: 1rem;
+}
+
+/* Đảm bảo chiều cao tiêu đề đồng nhất để các nút căn hàng */
+.related-card .card-title {
+    min-height: 48px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+/* Đảm bảo card có cùng chiều cao */
+#related-products .col-md-3 {
+    display: flex;
+}
