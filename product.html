@@ -1,377 +1,1039 @@
 <!DOCTYPE html>
 <html lang="vi">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sản phẩm - Đăng Đại Bakery</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-</head>
-
-<body class="product-page">
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-danger fs-3" href="index.html">
-                <i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Bakery
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav align-items-center">
-                    <li class="nav-item"><a class="nav-link active" href="index.html">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="product.html">Sản phẩm</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
-                    <li class="nav-item ms-3">
-                        <a class="btn btn-danger rounded-pill px-3" href="cart.html">🛒 Giỏ hàng</a>
-                    </li>
-                </ul>
-            </div>
+  <body class="product-page">
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top"
+    >
+      <div class="container">
+        <a class="navbar-brand fw-bold text-danger fs-3" href="index.html">
+          <i class="fa-solid fa-cake-candles me-2"></i>Đăng Đại Bakery
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav align-items-center">
+            <li class="nav-item">
+              <a class="nav-link active" href="index.html">Trang chủ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="product.html">Sản phẩm</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Liên hệ</a>
+            </li>
+            <li class="nav-item ms-3">
+              <a class="btn btn-danger rounded-pill px-3" href="cart.html"
+                >🛒 Giỏ hàng</a
+              >
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
 
     <section class="pt-5 mt-5">
-        <div class="container">
-            <div class="row">
-                <aside class="col-md-3 mb-4">
-                    <div class="card p-3 sidebar-card shadow-sm">
-                        <h5 class="fw-bold mb-3">🔍 Tìm kiếm </h5>
-                        <input type="text" id="searchName" class="form-control mb-3" placeholder="Nhập tên sản phẩm...">
+      <div class="container">
+        <div class="row">
+          <aside class="col-md-3 mb-4">
+            <div class="card p-3 sidebar-card shadow-sm">
+              <h5 class="fw-bold mb-3">🔍 Tìm kiếm</h5>
+              <input
+                type="text"
+                id="searchName"
+                class="form-control mb-3"
+                placeholder="Nhập tên sản phẩm..."
+              />
 
-                        <label class="fw-bold mb-2">Khoảng giá</label>
-                        <div class="d-flex align-items-center mb-3">
-                            <input type="number" id="minPrice" class="form-control me-2" placeholder="Từ (₫)">
-                            <input type="number" id="maxPrice" class="form-control" placeholder="Đến (₫)">
-                        </div>
+              <label class="fw-bold mb-2">Khoảng giá</label>
+              <div class="d-flex align-items-center mb-3">
+                <input
+                  type="number"
+                  id="minPrice"
+                  class="form-control me-2"
+                  placeholder="Từ (₫)"
+                />
+                <input
+                  type="number"
+                  id="maxPrice"
+                  class="form-control"
+                  placeholder="Đến (₫)"
+                />
+              </div>
 
-                        <label class="fw-bold mb-2">Phân loại</label>
-                        <select id="searchCategory" class="form-select mb-3">
-                            <option value="all">Tất cả</option>
-                            <option value="bonglan">Bông lan</option>
-                            <option value="cookies">Cookies</option>
-                            <option value="donut">Donut</option>
-                            <option value="macaron">Macaron</option>
-                            <option value="tiramisu">Tiramisu</option>
-                        </select>
+              <label class="fw-bold mb-2">Phân loại</label>
+              <select id="searchCategory" class="form-select mb-3">
+                <option value="all">Tất cả</option>
+                <option value="bonglan">Bông lan</option>
+                <option value="cookies">Cookies</option>
+                <option value="donut">Donut</option>
+                <option value="macaron">Macaron</option>
+                <option value="tiramisu">Tiramisu</option>
+              </select>
 
-                        <button id="btnSearch" class="btn btn-danger w-100 mb-2">Tìm kiếm</button>
-                        <button id="btnReset" class="btn btn-outline-secondary w-100">Đặt lại</button>
-                    </div>
-                </aside>
-
-                <div class="col-md-9">
-                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
-                        <div>
-                            <h2 class="fw-bold mb-0">Sản phẩm</h2>
-                            <div class="mt-2">
-                                <button class="btn btn-outline-danger filter-btn active" data-category="all">Tất cả</button>
-                                <button class="btn btn-outline-danger filter-btn" data-category="bonglan">Bông lan</button>
-                                <button class="btn btn-outline-danger filter-btn" data-category="cookies">Cookies</button>
-                                <button class="btn btn-outline-danger filter-btn" data-category="donut">Donut</button>
-                                <button class="btn btn-outline-danger filter-btn" data-category="macaron">Macaron</button>
-                                <button class="btn btn-outline-danger filter-btn" data-category="tiramisu">Tiramisu</button>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center gap-2">
-                            <label for="sort" class="fw-bold me-2 mb-0">Sắp xếp:</label>
-                            <select id="sort" class="form-select">
-                                <option value="default">Mặc định</option>
-                                <option value="new">Mới nhất</option>
-                                <option value="asc">Giá tăng dần</option>
-                                <option value="desc">Giá giảm dần</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row g-4" id="product-list">
-                        </div>
-
-                    <nav class="mt-4">
-                        <ul class="pagination justify-content-center" id="pagination"></ul>
-                    </nav>
-                </div>
+              <button id="btnSearch" class="btn btn-danger w-100 mb-2">
+                Tìm kiếm
+              </button>
+              <button id="btnReset" class="btn btn-outline-secondary w-100">
+                Đặt lại
+              </button>
             </div>
+          </aside>
+
+          <div class="col-md-9">
+            <div
+              class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2"
+            >
+              <div>
+                <h2 class="fw-bold mb-0">Sản phẩm</h2>
+                <div class="mt-2">
+                  <button
+                    class="btn btn-outline-danger filter-btn active"
+                    data-category="all"
+                  >
+                    Tất cả
+                  </button>
+                  <button
+                    class="btn btn-outline-danger filter-btn"
+                    data-category="bonglan"
+                  >
+                    Bông lan
+                  </button>
+                  <button
+                    class="btn btn-outline-danger filter-btn"
+                    data-category="cookies"
+                  >
+                    Cookies
+                  </button>
+                  <button
+                    class="btn btn-outline-danger filter-btn"
+                    data-category="donut"
+                  >
+                    Donut
+                  </button>
+                  <button
+                    class="btn btn-outline-danger filter-btn"
+                    data-category="macaron"
+                  >
+                    Macaron
+                  </button>
+                  <button
+                    class="btn btn-outline-danger filter-btn"
+                    data-category="tiramisu"
+                  >
+                    Tiramisu
+                  </button>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center gap-2">
+                <label for="sort" class="fw-bold me-2 mb-0">Sắp xếp:</label>
+                <select id="sort" class="form-select">
+                  <option value="default">Mặc định</option>
+                  <option value="new">Mới nhất</option>
+                  <option value="asc">Giá tăng dần</option>
+                  <option value="desc">Giá giảm dần</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row g-4" id="product-list"></div>
+
+            <nav class="mt-4">
+              <ul
+                class="pagination justify-content-center"
+                id="pagination"
+              ></ul>
+            </nav>
+          </div>
         </div>
+      </div>
     </section>
 
     <footer class="mt-5 pt-5 pb-3">
-        <div class="container text-center">
-            <h5 class="fw-bold text-uppercase mb-3">Đăng Đại Bakery</h5>
-            <p>Ngọt ngào mỗi ngày — nơi những chiếc bánh được làm từ tình yêu & niềm đam mê 🍰</p>
+      <div class="container text-center">
+        <h5 class="fw-bold text-uppercase mb-3">Đăng Đại Bakery</h5>
+        <p>
+          Ngọt ngào mỗi ngày — nơi những chiếc bánh được làm từ tình yêu & niềm
+          đam mê 🍰
+        </p>
 
-            <div class="footer-social mb-3">
-                <a target="_blank" href="https://facebook.com"><i class="fa-brands fa-facebook"></i></a>
-                <a target="_blank" href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
-                <a target="_blank" href="https://tiktok.com"><i class="fa-brands fa-tiktok"></i></a>
-            </div>
-
-            <p class="small mb-0">📍 123 Nguyễn Văn Cừ, Quận 5, TP.HCM | 📞 0909 109 343 | ✉️ lienhe@dangdaibakery.vn</p>
-            <hr class="my-3" style="opacity:0.2;">
-            <p class="mb-0 small">© 2025 Đăng Đại Bakery - All rights reserved.</p>
+        <div class="footer-social mb-3">
+          <a target="_blank" href="https://facebook.com"
+            ><i class="fa-brands fa-facebook"></i
+          ></a>
+          <a target="_blank" href="https://instagram.com"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a target="_blank" href="https://tiktok.com"
+            ><i class="fa-brands fa-tiktok"></i
+          ></a>
         </div>
+
+        <p class="small mb-0">
+          📍 123 Nguyễn Văn Cừ, Quận 5, TP.HCM | 📞 0909 109 343 | ✉️
+          lienhe@dangdaibakery.vn
+        </p>
+        <hr class="my-3" style="opacity: 0.2" />
+        <p class="mb-0 small">© 2025 Đăng Đại Bakery - All rights reserved.</p>
+      </div>
     </footer>
     <button id="backToTop" class="btn btn-danger rounded-circle">↑</button>
 
     <div class="hotline-fixed">
-        <i class="fa fa-phone"></i>
-        <span>Gọi 0909 109 343</span>
+      <i class="fa fa-phone"></i>
+      <span>Gọi 0909 109 343</span>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script>
-        AOS.init();
+      AOS.init();
     </script>
 
     <script>
-        // Dữ liệu sản phẩm (Dùng cho Lọc trên trang và Chuyển hướng Tìm kiếm)
-        const ALL_PRODUCTS_DATA = [
-            { "id": "BL1", "category": "bonglan", "name": "Bông Lan Dâu Tươi", "price": 150000, "date": "2025-10-01", "img": "images/BongLan/bonglan1.png" },
-            { "id": "BL2", "category": "bonglan", "name": "Bông Lan Phô Mai Trứng Muối", "price": 120000, "date": "2025-09-28", "img": "images/BongLan/bonglan2.png" },
-            { "id": "BL3", "category": "bonglan", "name": "Bông Lan Cam Mật Ong", "price": 135000, "date": "2025-09-20", "img": "images/BongLan/bonglan3.png" },
-            { "id": "BL4", "category": "bonglan", "name": "Bông Lan Socola Hạnh Nhân", "price": 160000, "date": "2025-09-15", "img": "images/BongLan/bonglan4.png" },
-            { "id": "BL5", "category": "bonglan", "name": "Bông Lan Matcha Kem Tươi", "price": 145000, "date": "2025-09-10", "img": "images/BongLan/bonglan5.png" },
-            { "id": "BL6", "category": "bonglan", "name": "Bông Lan Sữa Tươi Trân Châu", "price": 110000, "date": "2025-08-29", "img": "images/BongLan/bonglan6.png" },
-            { "id": "BL7", "category": "bonglan", "name": "Bông Lan Việt Quất", "price": 175000, "date": "2025-08-22", "img": "images/BongLan/bonglan7.png" },
-            { "id": "BL8", "category": "bonglan", "name": "Bông Lan Chuối", "price": 100000, "date": "2025-08-15", "img": "images/BongLan/bonglan8.png" },
-            { "id": "BL9", "category": "bonglan", "name": "Bông Lan Kem Dừa Non", "price": 125000, "date": "2025-08-05", "img": "images/BongLan/bonglan9.png" },
-            { "id": "BL10", "category": "bonglan", "name": "Bông Lan Trái Cây Tổng Hợp", "price": 170000, "date": "2025-07-28", "img": "images/BongLan/bonglan10.png" },
-            { "id": "BL11", "category": "bonglan", "name": "Bông Lan Caramel", "price": 130000, "date": "2025-07-15", "img": "images/BongLan/bonglan11.png" },
-            { "id": "BL12", "category": "bonglan", "name": "Bông Lan Kem Bơ Hạnh Nhân", "price": 180000, "date": "2025-07-07", "img": "images/BongLan/bonglan12.png" },
-            { "id": "BL13", "category": "bonglan", "name": "Bông Lan Phô Mai Dừa", "price": 140000, "date": "2025-06-30", "img": "images/BongLan/bonglan13.png" },
-            { "id": "BL14", "category": "bonglan", "name": "Bông Lan Socola Bạc Hà", "price": 160000, "date": "2025-06-20", "img": "images/BongLan/bonglan14.png" },
-            { "id": "BL15", "category": "bonglan", "name": "Bông Lan Kem Sữa Trứng", "price": 155000, "date": "2025-06-10", "img": "images/BongLan/bonglan15.png" },
-            { "id": "BL16", "category": "bonglan", "name": "Bông Lan Cà Phê Kem Tươi", "price": 175000, "date": "2025-06-05", "img": "images/BongLan/bonglan16.png" },
-            { "id": "BL17", "category": "bonglan", "name": "Bông Lan Sữa Tươi", "price": 115000, "date": "2025-05-28", "img": "images/BongLan/bonglan17.png" },
-            { "id": "BL18", "category": "bonglan", "name": "Bông Lan Kem Phô Mai Dâu", "price": 130000, "date": "2025-05-20", "img": "images/BongLan/bonglan18.png" },
-            { "id": "CK1", "category": "cookies", "name": "Cookies Bơ Truyền Thống", "price": 90000, "date": "2025-10-02", "img": "images/Cookies/cookie1.png" },
-            { "id": "CK2", "category": "cookies", "name": "Cookies Socola Chip", "price": 80000, "date": "2025-09-28", "img": "images/Cookies/cookie2.png" },
-            { "id": "CK3", "category": "cookies", "name": "Cookies Hạnh Nhân", "price": 95000, "date": "2025-09-20", "img": "images/Cookies/cookie3.png" },
-            { "id": "CK4", "category": "cookies", "name": "Cookies Bơ Đậu Phộng", "price": 100000, "date": "2025-09-15", "img": "images/Cookies/cookie4.png" },
-            { "id": "CK5", "category": "cookies", "name": "Cookies Yến Mạch", "price": 85000, "date": "2025-09-07", "img": "images/Cookies/cookie5.png" },
-            { "id": "CK6", "category": "cookies", "name": "Cookies Hạt Điều", "price": 120000, "date": "2025-08-30", "img": "images/Cookies/cookie6.png" },
-            { "id": "CK7", "category": "cookies", "name": "Cookies Dừa", "price": 75000, "date": "2025-08-25", "img": "images/Cookies/cookie7.png" },
-            { "id": "CK8", "category": "cookies", "name": "Cookies Kem Vanilla", "price": 90000, "date": "2025-08-15", "img": "images/Cookies/cookie8.png" },
-            { "id": "CK9", "category": "cookies", "name": "Cookies Trà Xanh", "price": 115000, "date": "2025-08-07", "img": "images/Cookies/cookie9.png" },
-            { "id": "CK10", "category": "cookies", "name": "Cookies Dâu Tây", "price": 105000, "date": "2025-07-30", "img": "images/Cookies/cookie10.png" },
-            { "id": "CK11", "category": "cookies", "name": "Cookies Phô Mai", "price": 80000, "date": "2025-07-20", "img": "images/Cookies/cookie11.png" },
-            { "id": "CK12", "category": "cookies", "name": "Cookies Socola Đen", "price": 95000, "date": "2025-07-10", "img": "images/Cookies/cookie12.png" },
-            { "id": "CK13", "category": "cookies", "name": "Cookies Nhân Mứt Cam", "price": 100000, "date": "2025-07-01", "img": "images/Cookies/cookie13.png" },
-            { "id": "CK14", "category": "cookies", "name": "Cookies Bạc Hà", "price": 70000, "date": "2025-06-25", "img": "images/Cookies/cookie14.png" },
-            { "id": "CK15", "category": "cookies", "name": "Cookies Socola Trắng", "price": 115000, "date": "2025-06-10", "img": "images/Cookies/cookie15.png" },
-            { "id": "DN1", "category": "donut", "name": "Donut Truyền Thống", "price": 60000, "date": "2025-10-03", "img": "images/Donut/donut1.png" },
-            { "id": "DN2", "category": "donut", "name": "Donut Socola", "price": 80000, "date": "2025-09-30", "img": "images/Donut/donut2.png" },
-            { "id": "DN3", "category": "donut", "name": "Donut Dâu", "price": 75000, "date": "2025-09-22", "img": "images/Donut/donut3.png" },
-            { "id": "DN4", "category": "donut", "name": "Donut Dừa", "price": 70000, "date": "2025-09-18", "img": "images/Donut/donut4.png" },
-            { "id": "DN5", "category": "donut", "name": "Donut Phô Mai", "price": 90000, "date": "2025-09-10", "img": "images/Donut/donut5.png" },
-            { "id": "DN6", "category": "donut", "name": "Donut Trà Xanh", "price": 65000, "date": "2025-09-01", "img": "images/Donut/donut6.png" },
-            { "id": "DN7", "category": "donut", "name": "Donut Caramel", "price": 85000, "date": "2025-08-25", "img": "images/Donut/donut7.png" },
-            { "id": "DN8", "category": "donut", "name": "Donut Bạc Hà", "price": 60000, "date": "2025-08-18", "img": "images/Donut/donut8.png" },
-            { "id": "DN9", "category": "donut", "name": "Donut Dâu Kem", "price": 70000, "date": "2025-08-10", "img": "images/Donut/donut9.png" },
-            { "id": "DN10", "category": "donut", "name": "Donut Kem Sữa", "price": 95000, "date": "2025-08-01", "img": "images/Donut/donut10.png" },
-            { "id": "DN11", "category": "donut", "name": "Donut Cam Tươi", "price": 80000, "date": "2025-07-25", "img": "images/Donut/donut11.png" },
-            { "id": "DN12", "category": "donut", "name": "Donut Dừa Non", "price": 70000, "date": "2025-07-15", "img": "images/Donut/donut12.png" },
-            { "id": "DN13", "category": "donut", "name": "Donut Kem Phô Mai", "price": 100000, "date": "2025-07-05", "img": "images/Donut/donut13.png" },
-            { "id": "DN14", "category": "donut", "name": "Donut Socola Trắng", "price": 85000, "date": "2025-06-25", "img": "images/Donut/donut14.png" },
-            { "id": "DN15", "category": "donut", "name": "Donut Nhân Mứt Việt Quất", "price": 65000, "date": "2025-06-10", "img": "images/Donut/donut15.png" },
-            { "id": "MC1", "category": "macaron", "name": "Macaron Dâu Tây", "price": 120000, "date": "2025-10-04", "img": "images/Macaron/macaron1.png" },
-            { "id": "MC2", "category": "macaron", "name": "Macaron Socola Đen", "price": 140000, "date": "2025-09-28", "img": "images/Macaron/macaron2.png" },
-            { "id": "MC3", "category": "macaron", "name": "Macaron Chanh Leo", "price": 130000, "date": "2025-09-20", "img": "images/Macaron/macaron3.png" },
-            { "id": "MC4", "category": "macaron", "name": "Macaron Vani Kem Sữa", "price": 125000, "date": "2025-09-10", "img": "images/Macaron/macaron4.png" },
-            { "id": "MC5", "category": "macaron", "name": "Macaron Việt Quất", "price": 145000, "date": "2025-09-01", "img": "images/Macaron/macaron5.png" },
-            { "id": "MC6", "category": "macaron", "name": "Macaron Chanh Vàng", "price": 110000, "date": "2025-08-27", "img": "images/Macaron/macaron6.png" },
-            { "id": "MC7", "category": "macaron", "name": "Macaron Dừa Non", "price": 90000, "date": "2025-08-15", "img": "images/Macaron/macaron7.png" },
-            { "id": "MC8", "category": "macaron", "name": "Macaron Dâu Kem", "price": 135000, "date": "2025-08-10", "img": "images/Macaron/macaron8.png" },
-            { "id": "MC9", "category": "macaron", "name": "Macaron Hạt Dẻ", "price": 150000, "date": "2025-08-01", "img": "images/Macaron/macaron9.png" },
-            { "id": "MC10", "category": "macaron", "name": "Macaron Trà Xanh", "price": 95000, "date": "2025-07-25", "img": "images/Macaron/macaron10.png" },
-            { "id": "MC11", "category": "macaron", "name": "Macaron Cam Kem Bơ", "price": 125000, "date": "2025-07-15", "img": "images/Macaron/macaron11.png" },
-            { "id": "MC12", "category": "macaron", "name": "Macaron Dâu Phô Mai", "price": 140000, "date": "2025-07-05", "img": "images/Macaron/macaron12.png" },
-            { "id": "MC13", "category": "macaron", "name": "Macaron Hồng Dâu Kem", "price": 135000, "date": "2025-06-25", "img": "images/Macaron/macaron13.png" },
-            { "id": "MC14", "category": "macaron", "name": "Macaron Kem Bạc Hà", "price": 100000, "date": "2025-06-15", "img": "images/Macaron/macaron14.png" },
-            { "id": "MC15", "category": "macaron", "name": "Macaron Caramel Muối", "price": 115000, "date": "2025-06-01", "img": "images/Macaron/macaron15.png" },
-            { "id": "TM1", "category": "tiramisu", "name": "Tiramisu Cổ Điển", "price": 150000, "date": "2025-10-05", "img": "images/Tiramisu/tiramisu1.png" },
-            { "id": "TM2", "category": "tiramisu", "name": "Tiramisu Socola Đen", "price": 180000, "date": "2025-09-30", "img": "images/Tiramisu/tiramisu2.png" },
-            { "id": "TM3", "category": "tiramisu", "name": "Tiramisu Trà Xanh", "price": 160000, "date": "2025-09-20", "img": "images/Tiramisu/tiramisu3.png" },
-            { "id": "TM4", "category": "tiramisu", "name": "Tiramisu Dâu Tây", "price": 130000, "date": "2025-09-15", "img": "images/Tiramisu/tiramisu4.png" },
-            { "id": "TM5", "category": "tiramisu", "name": "Tiramisu Cà Phê", "price": 200000, "date": "2025-09-07", "img": "images/Tiramisu/tiramisu5.png" },
-            { "id": "TM6", "category": "tiramisu", "name": "Tiramisu Matcha Kem Tươi", "price": 125000, "date": "2025-08-30", "img": "images/Tiramisu/tiramisu6.png" },
-            { "id": "TM7", "category": "tiramisu", "name": "Tiramisu Caramel Muối", "price": 175000, "date": "2025-08-25", "img": "images/Tiramisu/tiramisu7.png" },
-            { "id": "TM8", "category": "tiramisu", "name": "Tiramisu Phô Mai", "price": 150000, "date": "2025-08-15", "img": "images/Tiramisu/tiramisu8.png" },
-            { "id": "TM9", "category": "tiramisu", "name": "Tiramisu Cam Vàng", "price": 185000, "date": "2025-08-05", "img": "images/Tiramisu/tiramisu9.png" },
-            { "id": "TM10", "category": "tiramisu", "name": "Tiramisu Socola Trắng", "price": 140000, "date": "2025-07-30", "img": "images/Tiramisu/tiramisu10.png" },
-            { "id": "TM11", "category": "tiramisu", "name": "Tiramisu Việt Quất", "price": 160000, "date": "2025-07-20", "img": "images/Tiramisu/tiramisu11.png" },
-            { "id": "TM12", "category": "tiramisu", "name": "Tiramisu Dâu Kem Tươi", "price": 170000, "date": "2025-07-10", "img": "images/Tiramisu/tiramisu12.png" },
-            { "id": "TM13", "category": "tiramisu", "name": "Tiramisu Bạc Hà", "price": 125000, "date": "2025-07-01", "img": "images/Tiramisu/tiramisu13.png" },
-            { "id": "TM14", "category": "tiramisu", "name": "Tiramisu Kem Bơ", "price": 150000, "date": "2025-06-25", "img": "images/Tiramisu/tiramisu14.png" },
-            { "id": "TM15", "category": "tiramisu", "name": "Tiramisu Cacao Đậm Vị", "price": 195000, "date": "2025-06-10", "img": "images/Tiramisu/tiramisu15.png" }
-        ];
+      // Dữ liệu sản phẩm (Dùng cho Lọc trên trang và Chuyển hướng Tìm kiếm)
+      const ALL_PRODUCTS_DATA = [
+        {
+          id: "BL1",
+          category: "bonglan",
+          name: "Bông Lan Dâu Tươi",
+          price: 150000,
+          date: "2025-10-01",
+          img: "images/BongLan/bonglan1.png",
+        },
+        {
+          id: "BL2",
+          category: "bonglan",
+          name: "Bông Lan Phô Mai Trứng Muối",
+          price: 120000,
+          date: "2025-09-28",
+          img: "images/BongLan/bonglan2.png",
+        },
+        {
+          id: "BL3",
+          category: "bonglan",
+          name: "Bông Lan Cam Mật Ong",
+          price: 135000,
+          date: "2025-09-20",
+          img: "images/BongLan/bonglan3.png",
+        },
+        {
+          id: "BL4",
+          category: "bonglan",
+          name: "Bông Lan Socola Hạnh Nhân",
+          price: 160000,
+          date: "2025-09-15",
+          img: "images/BongLan/bonglan4.png",
+        },
+        {
+          id: "BL5",
+          category: "bonglan",
+          name: "Bông Lan Matcha Kem Tươi",
+          price: 145000,
+          date: "2025-09-10",
+          img: "images/BongLan/bonglan5.png",
+        },
+        {
+          id: "BL6",
+          category: "bonglan",
+          name: "Bông Lan Sữa Tươi Trân Châu",
+          price: 110000,
+          date: "2025-08-29",
+          img: "images/BongLan/bonglan6.png",
+        },
+        {
+          id: "BL7",
+          category: "bonglan",
+          name: "Bông Lan Việt Quất",
+          price: 175000,
+          date: "2025-08-22",
+          img: "images/BongLan/bonglan7.png",
+        },
+        {
+          id: "BL8",
+          category: "bonglan",
+          name: "Bông Lan Chuối",
+          price: 100000,
+          date: "2025-08-15",
+          img: "images/BongLan/bonglan8.png",
+        },
+        {
+          id: "BL9",
+          category: "bonglan",
+          name: "Bông Lan Kem Dừa Non",
+          price: 125000,
+          date: "2025-08-05",
+          img: "images/BongLan/bonglan9.png",
+        },
+        {
+          id: "BL10",
+          category: "bonglan",
+          name: "Bông Lan Trái Cây Tổng Hợp",
+          price: 170000,
+          date: "2025-07-28",
+          img: "images/BongLan/bonglan10.png",
+        },
+        {
+          id: "BL11",
+          category: "bonglan",
+          name: "Bông Lan Caramel",
+          price: 130000,
+          date: "2025-07-15",
+          img: "images/BongLan/bonglan11.png",
+        },
+        {
+          id: "BL12",
+          category: "bonglan",
+          name: "Bông Lan Kem Bơ Hạnh Nhân",
+          price: 180000,
+          date: "2025-07-07",
+          img: "images/BongLan/bonglan12.png",
+        },
+        {
+          id: "BL13",
+          category: "bonglan",
+          name: "Bông Lan Phô Mai Dừa",
+          price: 140000,
+          date: "2025-06-30",
+          img: "images/BongLan/bonglan13.png",
+        },
+        {
+          id: "BL14",
+          category: "bonglan",
+          name: "Bông Lan Socola Bạc Hà",
+          price: 160000,
+          date: "2025-06-20",
+          img: "images/BongLan/bonglan14.png",
+        },
+        {
+          id: "BL15",
+          category: "bonglan",
+          name: "Bông Lan Kem Sữa Trứng",
+          price: 155000,
+          date: "2025-06-10",
+          img: "images/BongLan/bonglan15.png",
+        },
+        {
+          id: "BL16",
+          category: "bonglan",
+          name: "Bông Lan Cà Phê Kem Tươi",
+          price: 175000,
+          date: "2025-06-05",
+          img: "images/BongLan/bonglan16.png",
+        },
+        {
+          id: "BL17",
+          category: "bonglan",
+          name: "Bông Lan Sữa Tươi",
+          price: 115000,
+          date: "2025-05-28",
+          img: "images/BongLan/bonglan17.png",
+        },
+        {
+          id: "BL18",
+          category: "bonglan",
+          name: "Bông Lan Kem Phô Mai Dâu",
+          price: 130000,
+          date: "2025-05-20",
+          img: "images/BongLan/bonglan18.png",
+        },
+        {
+          id: "CK1",
+          category: "cookies",
+          name: "Cookies Bơ Truyền Thống",
+          price: 90000,
+          date: "2025-10-02",
+          img: "images/Cookies/cookie1.png",
+        },
+        {
+          id: "CK2",
+          category: "cookies",
+          name: "Cookies Socola Chip",
+          price: 80000,
+          date: "2025-09-28",
+          img: "images/Cookies/cookie2.png",
+        },
+        {
+          id: "CK3",
+          category: "cookies",
+          name: "Cookies Hạnh Nhân",
+          price: 95000,
+          date: "2025-09-20",
+          img: "images/Cookies/cookie3.png",
+        },
+        {
+          id: "CK4",
+          category: "cookies",
+          name: "Cookies Bơ Đậu Phộng",
+          price: 100000,
+          date: "2025-09-15",
+          img: "images/Cookies/cookie4.png",
+        },
+        {
+          id: "CK5",
+          category: "cookies",
+          name: "Cookies Yến Mạch",
+          price: 85000,
+          date: "2025-09-07",
+          img: "images/Cookies/cookie5.png",
+        },
+        {
+          id: "CK6",
+          category: "cookies",
+          name: "Cookies Hạt Điều",
+          price: 120000,
+          date: "2025-08-30",
+          img: "images/Cookies/cookie6.png",
+        },
+        {
+          id: "CK7",
+          category: "cookies",
+          name: "Cookies Dừa",
+          price: 75000,
+          date: "2025-08-25",
+          img: "images/Cookies/cookie7.png",
+        },
+        {
+          id: "CK8",
+          category: "cookies",
+          name: "Cookies Kem Vanilla",
+          price: 90000,
+          date: "2025-08-15",
+          img: "images/Cookies/cookie8.png",
+        },
+        {
+          id: "CK9",
+          category: "cookies",
+          name: "Cookies Trà Xanh",
+          price: 115000,
+          date: "2025-08-07",
+          img: "images/Cookies/cookie9.png",
+        },
+        {
+          id: "CK10",
+          category: "cookies",
+          name: "Cookies Dâu Tây",
+          price: 105000,
+          date: "2025-07-30",
+          img: "images/Cookies/cookie10.png",
+        },
+        {
+          id: "CK11",
+          category: "cookies",
+          name: "Cookies Phô Mai",
+          price: 80000,
+          date: "2025-07-20",
+          img: "images/Cookies/cookie11.png",
+        },
+        {
+          id: "CK12",
+          category: "cookies",
+          name: "Cookies Socola Đen",
+          price: 95000,
+          date: "2025-07-10",
+          img: "images/Cookies/cookie12.png",
+        },
+        {
+          id: "CK13",
+          category: "cookies",
+          name: "Cookies Nhân Mứt Cam",
+          price: 100000,
+          date: "2025-07-01",
+          img: "images/Cookies/cookie13.png",
+        },
+        {
+          id: "CK14",
+          category: "cookies",
+          name: "Cookies Bạc Hà",
+          price: 70000,
+          date: "2025-06-25",
+          img: "images/Cookies/cookie14.png",
+        },
+        {
+          id: "CK15",
+          category: "cookies",
+          name: "Cookies Socola Trắng",
+          price: 115000,
+          date: "2025-06-10",
+          img: "images/Cookies/cookie15.png",
+        },
+        {
+          id: "DN1",
+          category: "donut",
+          name: "Donut Truyền Thống",
+          price: 60000,
+          date: "2025-10-03",
+          img: "images/Donut/donut1.png",
+        },
+        {
+          id: "DN2",
+          category: "donut",
+          name: "Donut Socola",
+          price: 80000,
+          date: "2025-09-30",
+          img: "images/Donut/donut2.png",
+        },
+        {
+          id: "DN3",
+          category: "donut",
+          name: "Donut Dâu",
+          price: 75000,
+          date: "2025-09-22",
+          img: "images/Donut/donut3.png",
+        },
+        {
+          id: "DN4",
+          category: "donut",
+          name: "Donut Dừa",
+          price: 70000,
+          date: "2025-09-18",
+          img: "images/Donut/donut4.png",
+        },
+        {
+          id: "DN5",
+          category: "donut",
+          name: "Donut Phô Mai",
+          price: 90000,
+          date: "2025-09-10",
+          img: "images/Donut/donut5.png",
+        },
+        {
+          id: "DN6",
+          category: "donut",
+          name: "Donut Trà Xanh",
+          price: 65000,
+          date: "2025-09-01",
+          img: "images/Donut/donut6.png",
+        },
+        {
+          id: "DN7",
+          category: "donut",
+          name: "Donut Caramel",
+          price: 85000,
+          date: "2025-08-25",
+          img: "images/Donut/donut7.png",
+        },
+        {
+          id: "DN8",
+          category: "donut",
+          name: "Donut Bạc Hà",
+          price: 60000,
+          date: "2025-08-18",
+          img: "images/Donut/donut8.png",
+        },
+        {
+          id: "DN9",
+          category: "donut",
+          name: "Donut Dâu Kem",
+          price: 70000,
+          date: "2025-08-10",
+          img: "images/Donut/donut9.png",
+        },
+        {
+          id: "DN10",
+          category: "donut",
+          name: "Donut Kem Sữa",
+          price: 95000,
+          date: "2025-08-01",
+          img: "images/Donut/donut10.png",
+        },
+        {
+          id: "DN11",
+          category: "donut",
+          name: "Donut Cam Tươi",
+          price: 80000,
+          date: "2025-07-25",
+          img: "images/Donut/donut11.png",
+        },
+        {
+          id: "DN12",
+          category: "donut",
+          name: "Donut Dừa Non",
+          price: 70000,
+          date: "2025-07-15",
+          img: "images/Donut/donut12.png",
+        },
+        {
+          id: "DN13",
+          category: "donut",
+          name: "Donut Kem Phô Mai",
+          price: 100000,
+          date: "2025-07-05",
+          img: "images/Donut/donut13.png",
+        },
+        {
+          id: "DN14",
+          category: "donut",
+          name: "Donut Socola Trắng",
+          price: 85000,
+          date: "2025-06-25",
+          img: "images/Donut/donut14.png",
+        },
+        {
+          id: "DN15",
+          category: "donut",
+          name: "Donut Nhân Mứt Việt Quất",
+          price: 65000,
+          date: "2025-06-10",
+          img: "images/Donut/donut15.png",
+        },
+        {
+          id: "MC1",
+          category: "macaron",
+          name: "Macaron Dâu Tây",
+          price: 120000,
+          date: "2025-10-04",
+          img: "images/Macaron/macaron1.png",
+        },
+        {
+          id: "MC2",
+          category: "macaron",
+          name: "Macaron Socola Đen",
+          price: 140000,
+          date: "2025-09-28",
+          img: "images/Macaron/macaron2.png",
+        },
+        {
+          id: "MC3",
+          category: "macaron",
+          name: "Macaron Chanh Leo",
+          price: 130000,
+          date: "2025-09-20",
+          img: "images/Macaron/macaron3.png",
+        },
+        {
+          id: "MC4",
+          category: "macaron",
+          name: "Macaron Vani Kem Sữa",
+          price: 125000,
+          date: "2025-09-10",
+          img: "images/Macaron/macaron4.png",
+        },
+        {
+          id: "MC5",
+          category: "macaron",
+          name: "Macaron Việt Quất",
+          price: 145000,
+          date: "2025-09-01",
+          img: "images/Macaron/macaron5.png",
+        },
+        {
+          id: "MC6",
+          category: "macaron",
+          name: "Macaron Chanh Vàng",
+          price: 110000,
+          date: "2025-08-27",
+          img: "images/Macaron/macaron6.png",
+        },
+        {
+          id: "MC7",
+          category: "macaron",
+          name: "Macaron Dừa Non",
+          price: 90000,
+          date: "2025-08-15",
+          img: "images/Macaron/macaron7.png",
+        },
+        {
+          id: "MC8",
+          category: "macaron",
+          name: "Macaron Dâu Kem",
+          price: 135000,
+          date: "2025-08-10",
+          img: "images/Macaron/macaron8.png",
+        },
+        {
+          id: "MC9",
+          category: "macaron",
+          name: "Macaron Hạt Dẻ",
+          price: 150000,
+          date: "2025-08-01",
+          img: "images/Macaron/macaron9.png",
+        },
+        {
+          id: "MC10",
+          category: "macaron",
+          name: "Macaron Trà Xanh",
+          price: 95000,
+          date: "2025-07-25",
+          img: "images/Macaron/macaron10.png",
+        },
+        {
+          id: "MC11",
+          category: "macaron",
+          name: "Macaron Cam Kem Bơ",
+          price: 125000,
+          date: "2025-07-15",
+          img: "images/Macaron/macaron11.png",
+        },
+        {
+          id: "MC12",
+          category: "macaron",
+          name: "Macaron Dâu Phô Mai",
+          price: 140000,
+          date: "2025-07-05",
+          img: "images/Macaron/macaron12.png",
+        },
+        {
+          id: "MC13",
+          category: "macaron",
+          name: "Macaron Hồng Dâu Kem",
+          price: 135000,
+          date: "2025-06-25",
+          img: "images/Macaron/macaron13.png",
+        },
+        {
+          id: "MC14",
+          category: "macaron",
+          name: "Macaron Kem Bạc Hà",
+          price: 100000,
+          date: "2025-06-15",
+          img: "images/Macaron/macaron14.png",
+        },
+        {
+          id: "MC15",
+          category: "macaron",
+          name: "Macaron Caramel Muối",
+          price: 115000,
+          date: "2025-06-01",
+          img: "images/Macaron/macaron15.png",
+        },
+        {
+          id: "TM1",
+          category: "tiramisu",
+          name: "Tiramisu Cổ Điển",
+          price: 150000,
+          date: "2025-10-05",
+          img: "images/Tiramisu/tiramisu1.png",
+        },
+        {
+          id: "TM2",
+          category: "tiramisu",
+          name: "Tiramisu Socola Đen",
+          price: 180000,
+          date: "2025-09-30",
+          img: "images/Tiramisu/tiramisu2.png",
+        },
+        {
+          id: "TM3",
+          category: "tiramisu",
+          name: "Tiramisu Trà Xanh",
+          price: 160000,
+          date: "2025-09-20",
+          img: "images/Tiramisu/tiramisu3.png",
+        },
+        {
+          id: "TM4",
+          category: "tiramisu",
+          name: "Tiramisu Dâu Tây",
+          price: 130000,
+          date: "2025-09-15",
+          img: "images/Tiramisu/tiramisu4.png",
+        },
+        {
+          id: "TM5",
+          category: "tiramisu",
+          name: "Tiramisu Cà Phê",
+          price: 200000,
+          date: "2025-09-07",
+          img: "images/Tiramisu/tiramisu5.png",
+        },
+        {
+          id: "TM6",
+          category: "tiramisu",
+          name: "Tiramisu Matcha Kem Tươi",
+          price: 125000,
+          date: "2025-08-30",
+          img: "images/Tiramisu/tiramisu6.png",
+        },
+        {
+          id: "TM7",
+          category: "tiramisu",
+          name: "Tiramisu Caramel Muối",
+          price: 175000,
+          date: "2025-08-25",
+          img: "images/Tiramisu/tiramisu7.png",
+        },
+        {
+          id: "TM8",
+          category: "tiramisu",
+          name: "Tiramisu Phô Mai",
+          price: 150000,
+          date: "2025-08-15",
+          img: "images/Tiramisu/tiramisu8.png",
+        },
+        {
+          id: "TM9",
+          category: "tiramisu",
+          name: "Tiramisu Cam Vàng",
+          price: 185000,
+          date: "2025-08-05",
+          img: "images/Tiramisu/tiramisu9.png",
+        },
+        {
+          id: "TM10",
+          category: "tiramisu",
+          name: "Tiramisu Socola Trắng",
+          price: 140000,
+          date: "2025-07-30",
+          img: "images/Tiramisu/tiramisu10.png",
+        },
+        {
+          id: "TM11",
+          category: "tiramisu",
+          name: "Tiramisu Việt Quất",
+          price: 160000,
+          date: "2025-07-20",
+          img: "images/Tiramisu/tiramisu11.png",
+        },
+        {
+          id: "TM12",
+          category: "tiramisu",
+          name: "Tiramisu Dâu Kem Tươi",
+          price: 170000,
+          date: "2025-07-10",
+          img: "images/Tiramisu/tiramisu12.png",
+        },
+        {
+          id: "TM13",
+          category: "tiramisu",
+          name: "Tiramisu Bạc Hà",
+          price: 125000,
+          date: "2025-07-01",
+          img: "images/Tiramisu/tiramisu13.png",
+        },
+        {
+          id: "TM14",
+          category: "tiramisu",
+          name: "Tiramisu Kem Bơ",
+          price: 150000,
+          date: "2025-06-25",
+          img: "images/Tiramisu/tiramisu14.png",
+        },
+        {
+          id: "TM15",
+          category: "tiramisu",
+          name: "Tiramisu Cacao Đậm Vị",
+          price: 195000,
+          date: "2025-06-10",
+          img: "images/Tiramisu/tiramisu15.png",
+        },
+      ];
 
-        document.addEventListener("DOMContentLoaded", function () {
-            
-            // --- HÀM CHUYỂN HƯỚNG SANG SEARCH-RESULT ---
-            function redirectToSearch(cat = '', kw = '', min = '', max = '') {
-                cat = cat || document.getElementById("searchCategory").value;
-                kw = kw || document.getElementById("searchName").value.trim();
-                min = min || document.getElementById("minPrice").value;
-                max = max || document.getElementById("maxPrice").value;
+      document.addEventListener("DOMContentLoaded", function () {
+        // --- HÀM CHUYỂN HƯỚNG SANG SEARCH-RESULT ---
+        function redirectToSearch(cat = "", kw = "", min = "", max = "") {
+          cat = cat || document.getElementById("searchCategory").value;
+          kw = kw || document.getElementById("searchName").value.trim();
+          min = min || document.getElementById("minPrice").value;
+          max = max || document.getElementById("maxPrice").value;
 
-                let query = `?q=${encodeURIComponent(kw)}&cat=${cat}&min=${min}&max=${max}`;
-                window.location.href = `search-result.html${query}`;
+          let query = `?q=${encodeURIComponent(
+            kw
+          )}&cat=${cat}&min=${min}&max=${max}`;
+          window.location.href = `search-result.html${query}`;
+        }
+
+        // --- GÁN SỰ KIỆN TÌM KIẾM (CHUYỂN HƯỚNG) ---
+
+        document.getElementById("btnSearch").addEventListener("click", () => {
+          redirectToSearch();
+        });
+        document
+          .getElementById("searchName")
+          .addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+              redirectToSearch();
             }
+          });
 
-            // --- GÁN SỰ KIỆN TÌM KIẾM (CHUYỂN HƯỚNG) ---
-            
-            document.getElementById("btnSearch").addEventListener("click", () => {
-                redirectToSearch();
-            });
-            document.getElementById("searchName").addEventListener("keydown", e => {
-                if (e.key === "Enter") {
-                    redirectToSearch();
-                }
-            });
+        // --- LOGIC LỌC/PHÂN TRANG TRÊN PRODUCT.HTML ---
 
-            // --- LOGIC LỌC/PHÂN TRANG TRÊN PRODUCT.HTML ---
-            
-            const productList = document.getElementById("product-list");
-            const pagination = document.getElementById("pagination");
-            const sortSelect = document.getElementById("sort");
-            const perPage = 8;
-            
-            const parsePrice = item => parseInt(item.price || 0, 10);
-            const parseDate = item => new Date(item.date || 0).getTime();
-            let currentProducts = [...ALL_PRODUCTS_DATA];
-            let currentCategory = 'all';
+        const productList = document.getElementById("product-list");
+        const pagination = document.getElementById("pagination");
+        const sortSelect = document.getElementById("sort");
+        const perPage = 8;
 
-            function renderProductList(items, container, pagination, perPage, currentPage) {
-                const total = items.length;
-                const totalPages = Math.ceil(total / perPage);
-                
-                container.innerHTML = ""; 
-                pagination.innerHTML = "";
+        const parsePrice = (item) => parseInt(item.price || 0, 10);
+        const parseDate = (item) => new Date(item.date || 0).getTime();
+        let currentProducts = [...ALL_PRODUCTS_DATA];
+        let currentCategory = "all";
 
-                if (total === 0) {
-                    container.innerHTML = `<p class="text-center text-muted py-5">Không có sản phẩm nào trong danh mục này.</p>`;
-                    return;
-                }
+        function renderProductList(
+          items,
+          container,
+          pagination,
+          perPage,
+          currentPage
+        ) {
+          const total = items.length;
+          const totalPages = Math.ceil(total / perPage);
 
-                const start = (currentPage - 1) * perPage;
-                const visibleItems = items.slice(start, start + perPage);
+          container.innerHTML = "";
+          pagination.innerHTML = "";
 
-                visibleItems.forEach(r => {
-                    const productCard = document.createElement('div');
-                    productCard.className = 'col-md-3 product-item'; 
-                    productCard.innerHTML = `
+          if (total === 0) {
+            container.innerHTML = `<p class="text-center text-muted py-5">Không có sản phẩm nào trong danh mục này.</p>`;
+            return;
+          }
+
+          const start = (currentPage - 1) * perPage;
+          const visibleItems = items.slice(start, start + perPage);
+
+          visibleItems.forEach((r) => {
+            const productCard = document.createElement("div");
+            productCard.className = "col-md-3 product-item";
+            productCard.innerHTML = `
                         <div class="card product-card h-100">
-                            <img src="${r.img}" class="card-img-top" alt="${r.name}">
+                            <img src="${r.img}" class="card-img-top" alt="${
+              r.name
+            }">
                             <div class="card-body text-center">
                                 <h5 class="card-title fw-bold">${r.name}</h5>
-                                <p class="text-danger fw-bold mb-2">${new Intl.NumberFormat('vi-VN').format(r.price)}₫</p>
-                                <a href="product-detail.html?id=${r.id}" class="btn btn-outline-danger">Xem chi tiết</a>
+                                <p class="text-danger fw-bold mb-2">${new Intl.NumberFormat(
+                                  "vi-VN"
+                                ).format(r.price)}₫</p>
+                                <a href="product-detail.html?id=${
+                                  r.id
+                                }" class="btn btn-outline-danger">Xem chi tiết</a>
                             </div>
                         </div>
                     `;
-                    container.appendChild(productCard);
-                });
+            container.appendChild(productCard);
+          });
 
-                // Render Pagination
-                for (let i = 1; i <= totalPages; i++) {
-                    const li = document.createElement("li");
-                    li.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                    li.innerHTML = `<button class="page-link">${i}</button>`;
-                    li.querySelector("button").addEventListener("click", () => {
-                        renderProductList(items, container, pagination, perPage, i);
-                        window.scrollTo({ top: container.offsetTop - 100, behavior: 'smooth' });
-                    });
-                    pagination.appendChild(li);
-                }
-            }
-
-            function filterByCategory() {
-                let products = ALL_PRODUCTS_DATA;
-                if (currentCategory !== 'all') {
-                    products = ALL_PRODUCTS_DATA.filter(p => p.category === currentCategory);
-                }
-                currentProducts = products;
-                applySort();
-            }
-
-            function applySort() {
-                let products = [...currentProducts];
-                let sortVal = sortSelect.value;
-                
-                if (sortVal !== "default") {
-                    products.sort((a, b) => {
-                        const pa = parsePrice(a);
-                        const pb = parsePrice(b);
-                        const da = parseDate(a);
-                        const db = parseDate(b);
-                        
-                        if (sortVal === "asc") return pa - pb;
-                        if (sortVal === "desc") return pb - pa;
-                        if (sortVal === "new") return db - da;
-                        return 0;
-                    });
-                }
-                renderProductList(products, productList, pagination, perPage, 1);
-            }
-
-            function initializeProductPage() {
-                currentCategory = 'all';
-                sortSelect.value = 'default';
-                
-                // Đặt lại các trường sidebar
-                document.getElementById("searchName").value = "";
-                document.getElementById("minPrice").value = "";
-                document.getElementById("maxPrice").value = "";
-                document.getElementById("searchCategory").value = "all";
-
-                // Đặt lại nút active hàng ngang
-                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-                document.querySelector(".filter-btn[data-category='all']").classList.add("active");
-
-                filterByCategory();
-            }
-
-
-            // Nút Phân loại hàng ngang (LỌC TRÊN TRANG HIỆN TẠI)
-            document.querySelectorAll(".filter-btn").forEach(btn => {
-                btn.addEventListener("click", e => {
-                    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-                    e.currentTarget.classList.add("active");
-                    currentCategory = e.currentTarget.dataset.category;
-                    filterByCategory();
-                    // Đồng bộ sidebar select box
-                    document.getElementById("searchCategory").value = currentCategory;
-                });
+          // Render Pagination
+          for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement("li");
+            li.className = `page-item ${i === currentPage ? "active" : ""}`;
+            li.innerHTML = `<button class="page-link">${i}</button>`;
+            li.querySelector("button").addEventListener("click", () => {
+              renderProductList(items, container, pagination, perPage, i);
+              window.scrollTo({
+                top: container.offsetTop - 100,
+                behavior: "smooth",
+              });
             });
-            
-            // Select Sắp xếp
-            sortSelect.addEventListener("change", applySort);
-            
-            initializeProductPage();
+            pagination.appendChild(li);
+          }
+        }
 
-            // Nút Đặt lại trên product.html (ĐẶT LẠI LỌC TRÊN TRANG)
-            document.getElementById("btnReset").addEventListener("click", initializeProductPage);
+        function filterByCategory() {
+          let products = ALL_PRODUCTS_DATA;
+          if (currentCategory !== "all") {
+            products = ALL_PRODUCTS_DATA.filter(
+              (p) => p.category === currentCategory
+            );
+          }
+          currentProducts = products;
+          applySort();
+        }
 
-            // --- BACK TO TOP (Giữ lại logic cũ) ---
-            const backToTop = document.getElementById('backToTop');
-            if (backToTop) {
-                window.addEventListener('scroll', () => {
-                    backToTop.style.display = window.scrollY > 200 ? 'block' : 'none';
-                });
-                backToTop.addEventListener('click', () => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-            }
+        //function applySort() {
+        //let products = [...currentProducts];
+        //  let sortVal = sortSelect.value;
+        //
+        //      if (sortVal !== "default") {
+        //            products.sort((a, b) => {
+        //                  const pa = parsePrice(a);
+        //                    const pb = parsePrice(b);
+        //                      const da = parseDate(a);
+        //                        const db = parseDate(b);
 
+        //if (sortVal === "asc") return pa - pb;
+        //if (sortVal === "desc") return pb - pa;
+        //  if (sortVal === "new") return db - da;
+        //    return 0;
+        //  });
+        //}
+        //  renderProductList(products, productList, pagination, perPage, 1);
+        //}
+
+        function applySort() {
+          // Không sắp xếp nữa — luôn trả dữ liệu đúng thứ tự ban đầu
+          let products = [...currentProducts];
+
+          // Render lại từ trang 1
+          renderProductList(products, productList, pagination, perPage, 1);
+        }
+
+        function initializeProductPage() {
+          currentCategory = "all";
+          sortSelect.value = "default";
+
+          // Đặt lại các trường sidebar
+          document.getElementById("searchName").value = "";
+          document.getElementById("minPrice").value = "";
+          document.getElementById("maxPrice").value = "";
+          document.getElementById("searchCategory").value = "all";
+
+          // Đặt lại nút active hàng ngang
+          document
+            .querySelectorAll(".filter-btn")
+            .forEach((b) => b.classList.remove("active"));
+          document
+            .querySelector(".filter-btn[data-category='all']")
+            .classList.add("active");
+
+          filterByCategory();
+        }
+
+        // Nút Phân loại hàng ngang (LỌC TRÊN TRANG HIỆN TẠI)
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            document
+              .querySelectorAll(".filter-btn")
+              .forEach((b) => b.classList.remove("active"));
+            e.currentTarget.classList.add("active");
+            currentCategory = e.currentTarget.dataset.category;
+            filterByCategory();
+            // Đồng bộ sidebar select box
+            document.getElementById("searchCategory").value = currentCategory;
+          });
         });
-    </script>
-</body>
 
+        // Select Sắp xếp
+        sortSelect.addEventListener("change", applySort);
+
+        initializeProductPage();
+
+        // Nút Đặt lại trên product.html (ĐẶT LẠI LỌC TRÊN TRANG)
+        document
+          .getElementById("btnReset")
+          .addEventListener("click", initializeProductPage);
+
+        // --- BACK TO TOP (Giữ lại logic cũ) ---
+        const backToTop = document.getElementById("backToTop");
+        if (backToTop) {
+          window.addEventListener("scroll", () => {
+            backToTop.style.display = window.scrollY > 200 ? "block" : "none";
+          });
+          backToTop.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          });
+        }
+      });
+    </script>
+  </body>
 </html>
